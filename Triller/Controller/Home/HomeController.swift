@@ -16,7 +16,6 @@ class HomeController: UICollectionViewController,UICollectionViewDelegateFlowLay
         setupCollectionView()
         setupNavigationController()
     }
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
