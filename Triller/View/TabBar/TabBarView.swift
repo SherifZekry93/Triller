@@ -8,11 +8,16 @@
 
 import UIKit
 
+protocol TabBarScrollDelegate {
+    func tabBarScrollTo(index:Int)
+}
+
 class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
 {
     let tabBarCellID = "tabBarCellID"
     var images = [#imageLiteral(resourceName: "home_selected"),#imageLiteral(resourceName: "search_selected"),#imageLiteral(resourceName: "microphone"),#imageLiteral(resourceName: "icons8-notification-filled-50"),#imageLiteral(resourceName: "profile_selected")]
     var delegate:TabBarScrollDelegate?
+    var isAnimated = true
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
@@ -27,6 +32,10 @@ class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UIC
             cell.customButton = false
         }
         cell.image = images[indexPath.item]
+        if indexPath.item == 0
+        {
+            cell.tabItemImage.tintColor = .orange
+        }
         return cell
     }
     
@@ -71,6 +80,9 @@ class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UIC
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(TabBarCell.self, forCellWithReuseIdentifier: tabBarCellID)
+    }
+    override func awakeFromNib() {
+        super.awakeFromNib()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

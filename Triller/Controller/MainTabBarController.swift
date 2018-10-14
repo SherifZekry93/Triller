@@ -8,11 +8,9 @@
 
 import UIKit
 import SwipeableTabBarController
-protocol TabBarScrollDelegate {
-    func tabBarScrollTo(index:Int)
-}
 class MainTabBarController: UICollectionViewController,UICollectionViewDelegateFlowLayout,TabBarScrollDelegate {
-    func tabBarScrollTo(index: Int) {
+    func tabBarScrollTo(index: Int)
+    {
         if index >= 3
         {
             let indexPath = IndexPath(item: index - 1, section: 0)
@@ -24,13 +22,9 @@ class MainTabBarController: UICollectionViewController,UICollectionViewDelegateF
             collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         }
     }
-//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        UIView.animate(withDuration: 0.25)
-//        {
-//            self.horizontalLine.frame = CGRect(x: scrollView.contentOffset.x / 2, y: 48, width: self.view.frame.width / 2, height: 2)
-//        }
-//    }
-    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
+    {
         let x = targetContentOffset.pointee.x
         var currentpage = x / view.frame.width
         let index = IndexPath(item: Int(currentpage), section: 0)
@@ -42,13 +36,13 @@ class MainTabBarController: UICollectionViewController,UICollectionViewDelegateF
         tabBarView.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
         self.tabBarView.collectionView(self.tabBarView.collectionView, didSelectItemAt: indexPath)
     }
+    
     let tabCell = "tabCellID"
     lazy var tabBarView:TabBarView = {
        let tabbar = TabBarView()
         tabbar.delegate = self
        return tabbar
     }()
-   
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()

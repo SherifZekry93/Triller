@@ -79,7 +79,6 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         }
     }
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
         //        targetContentOffset.pointee = scrollView.contentOffset
         //        let x = targetContentOffset.pointee.x
         //        UIView.animate(withDuration: 0.25)
