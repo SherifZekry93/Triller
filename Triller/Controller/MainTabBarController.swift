@@ -9,18 +9,26 @@
 import UIKit
 import SwipeableTabBarController
 class MainTabBarController: UICollectionViewController,UICollectionViewDelegateFlowLayout,TabBarScrollDelegate {
+    
+    var isAnimated = false
+    var homeCellFeedID = "homeCellFeedID"
+    var searchFeedCellID = "searchFeedCellID"
+    var notificationCellID = "notificationCellID"
+    var profileCellID = "profileCellID"
+    let allIDS:[String] = ["homeCellFeedID","searchFeedCellID","notificationCellID","profileCellID"]
     func tabBarScrollTo(index: Int)
     {
         if index >= 3
         {
             let indexPath = IndexPath(item: index - 1, section: 0)
-            collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: isAnimated)
         }
         else if index < 2
         {
             let indexPath = IndexPath(item: index , section: 0)
-            collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: isAnimated)
         }
+        isAnimated = false
     }
     
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
@@ -34,26 +42,39 @@ class MainTabBarController: UICollectionViewController,UICollectionViewDelegateF
         }
         let indexPath = IndexPath(item: Int(currentpage),section:0)
         tabBarView.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+        isAnimated = true
         self.tabBarView.collectionView(self.tabBarView.collectionView, didSelectItemAt: indexPath)
     }
-    
     let tabCell = "tabCellID"
     lazy var tabBarView:TabBarView = {
        let tabbar = TabBarView()
         tabbar.delegate = self
        return tabbar
     }()
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+//        if false == false
+//        {
+//            let loginView = UIViewController()
+//            loginView.view.backgroundColor = .red
+//            self.present(loginView, animated: true, completion: nil)
+//        }
         setupCollectionView()
         view.backgroundColor = .white
         setupTabBar()
+        setupNavigationController()
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+    }
+    func setupNavigationController()
+    {
+        navigationController?.navigationBar.isTranslucent = false
+        
     }
     func setupCollectionView()
     {
@@ -62,6 +83,10 @@ class MainTabBarController: UICollectionViewController,UICollectionViewDelegateF
         let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.scrollDirection = .horizontal
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: tabCell)
+        collectionView?.register(MainHomeFeedCell.self, forCellWithReuseIdentifier: homeCellFeedID)
+        collectionView?.register(MainSearchFeedCell.self, forCellWithReuseIdentifier: searchFeedCellID)
+        collectionView?.register(MainNotificationCell.self, forCellWithReuseIdentifier: notificationCellID)
+        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: profileCellID)
     }
     func setupTabBar()
     {
@@ -70,9 +95,9 @@ class MainTabBarController: UICollectionViewController,UICollectionViewDelegateF
         tabBarView.anchorToView(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor,size: .init(width: view.frame.width, height: 50))
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tabCell, for: indexPath)
-        cell.backgroundColor = indexPath.item % 2 == 0 ? .green:.red
-        return cell
+       
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:  allIDS[indexPath.item], for:indexPath)
+            return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0 

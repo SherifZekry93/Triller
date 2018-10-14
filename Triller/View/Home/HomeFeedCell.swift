@@ -103,7 +103,7 @@ class HomeFeedCell: UICollectionViewCell {
         containerView.addSubview(bottomStack)
         containerView.addSubview(controlsStack)
         containerView.addSubview(menuButton)
-        backgroundColor = .gray
+        backgroundColor = .lightGray
         containerView.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, padding: .init(top: 0, left: 8, bottom: 0, right: 8))
         containerView.addSubview(topStackView)
         topStackView.anchorToView(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, padding: .init(top: 12, left: 12, bottom: 0, right: 62), size: .init(width: 0, height: 50))

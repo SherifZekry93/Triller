@@ -13,7 +13,6 @@
 		7ECE81912172768100895EDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE81902172768100895EDA /* Assets.xcassets */; };
 		7ECE81942172768100895EDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE81922172768100895EDA /* LaunchScreen.storyboard */; };
 		7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE819B2172859800895EDA /* MainTabBarController.swift */; };
-		7ECE819E2172862500895EDA /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE819D2172862500895EDA /* HomeController.swift */; };
 		7ECE81A021728C4D00895EDA /* HomeFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE819F21728C4D00895EDA /* HomeFeedCell.swift */; };
 		7ECE81A221728E0900895EDA /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81A121728E0900895EDA /* UIView.swift */; };
 		7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81A32172ACDA00895EDA /* SearchController.swift */; };
@@ -24,6 +23,12 @@
 		7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81BA2173219D00895EDA /* CommentCell.swift */; };
 		7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C0217363E500895EDA /* UIViewController.swift */; };
 		7ECE81C42173685600895EDA /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C32173685600895EDA /* TabBarView.swift */; };
+		7ECE81C62173C24E00895EDA /* MainHomeFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C52173C24E00895EDA /* MainHomeFeedCell.swift */; };
+		7ECE81C82173C74600895EDA /* MainSearchFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C72173C74600895EDA /* MainSearchFeedCell.swift */; };
+		7ECE81CB2173D20600895EDA /* MainNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81CA2173D20600895EDA /* MainNotificationCell.swift */; };
+		7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */; };
+		7ECE81D12173E8FD00895EDA /* MainProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */; };
+		7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D22173EABE00895EDA /* BaseCell.swift */; };
 		B58D8FA68BFDCB56738C9757 /* Pods_Triller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +43,6 @@
 		7ECE81932172768100895EDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7ECE81952172768100895EDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7ECE819B2172859800895EDA /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		7ECE819D2172862500895EDA /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		7ECE819F21728C4D00895EDA /* HomeFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedCell.swift; sourceTree = "<group>"; };
 		7ECE81A121728E0900895EDA /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		7ECE81A32172ACDA00895EDA /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
@@ -49,6 +53,12 @@
 		7ECE81BA2173219D00895EDA /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		7ECE81C0217363E500895EDA /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		7ECE81C32173685600895EDA /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		7ECE81C52173C24E00895EDA /* MainHomeFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeFeedCell.swift; sourceTree = "<group>"; };
+		7ECE81C72173C74600895EDA /* MainSearchFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchFeedCell.swift; sourceTree = "<group>"; };
+		7ECE81CA2173D20600895EDA /* MainNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNotificationCell.swift; sourceTree = "<group>"; };
+		7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHeaderCell.swift; sourceTree = "<group>"; };
+		7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileCell.swift; sourceTree = "<group>"; };
+		7ECE81D22173EABE00895EDA /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,6 +119,8 @@
 		7ECE81AF217320A900895EDA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7ECE81CF2173E8F000895EDA /* Profile */,
+				7ECE81C92173D1C400895EDA /* Notification */,
 				7ECE81B82173210D00895EDA /* Login */,
 				7ECE81B7217320E300895EDA /* Search */,
 				7ECE81B6217320DF00895EDA /* Home */,
@@ -128,6 +140,7 @@
 		7ECE81B3217320C200895EDA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7ECE81CC2173D6D700895EDA /* Notification */,
 				7ECE81C22173684900895EDA /* TabBar */,
 				7ECE81B5217320D600895EDA /* Search */,
 				7ECE81B4217320C900895EDA /* Home */,
@@ -157,7 +170,7 @@
 		7ECE81B6217320DF00895EDA /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				7ECE819D2172862500895EDA /* HomeController.swift */,
+				7ECE81C52173C24E00895EDA /* MainHomeFeedCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -166,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				7ECE81A32172ACDA00895EDA /* SearchController.swift */,
+				7ECE81C72173C74600895EDA /* MainSearchFeedCell.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -183,6 +197,7 @@
 			children = (
 				7ECE81A121728E0900895EDA /* UIView.swift */,
 				7ECE81C0217363E500895EDA /* UIViewController.swift */,
+				7ECE81D22173EABE00895EDA /* BaseCell.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -193,6 +208,30 @@
 				7ECE81C32173685600895EDA /* TabBarView.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		7ECE81C92173D1C400895EDA /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81CA2173D20600895EDA /* MainNotificationCell.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		7ECE81CC2173D6D700895EDA /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		7ECE81CF2173E8F000895EDA /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		A35B595AF54228C3298BF6A6 /* Pods */ = {
@@ -316,19 +355,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */,
 				7ECE81AE2173201B00895EDA /* HashTagCell.swift in Sources */,
+				7ECE81CB2173D20600895EDA /* MainNotificationCell.swift in Sources */,
+				7ECE81D12173E8FD00895EDA /* MainProfileCell.swift in Sources */,
 				7ECE81AC21731FCA00895EDA /* AllHashTags.swift in Sources */,
 				7ECE81A021728C4D00895EDA /* HomeFeedCell.swift in Sources */,
-				7ECE819E2172862500895EDA /* HomeController.swift in Sources */,
 				7ECE81A62172BB3C00895EDA /* LeftPaddedTextField.swift in Sources */,
 				7ECE818C2172768000895EDA /* LoginViewController.swift in Sources */,
 				7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */,
 				7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */,
 				7ECE81AA217314BF00895EDA /* AllCommentsCell.swift in Sources */,
 				7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */,
+				7ECE81C62173C24E00895EDA /* MainHomeFeedCell.swift in Sources */,
 				7ECE81A221728E0900895EDA /* UIView.swift in Sources */,
 				7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */,
+				7ECE81C82173C74600895EDA /* MainSearchFeedCell.swift in Sources */,
 				7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */,
+				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,
 				7ECE81C42173685600895EDA /* TabBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
