@@ -29,6 +29,8 @@
 		7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */; };
 		7ECE81D12173E8FD00895EDA /* MainProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */; };
 		7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D22173EABE00895EDA /* BaseCell.swift */; };
+		7ECE81D62173ED4100895EDA /* ProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D52173ED4100895EDA /* ProfileHeaderCell.swift */; };
+		7ECE81D82173ED6500895EDA /* ProfilePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */; };
 		B58D8FA68BFDCB56738C9757 /* Pods_Triller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +61,8 @@
 		7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHeaderCell.swift; sourceTree = "<group>"; };
 		7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileCell.swift; sourceTree = "<group>"; };
 		7ECE81D22173EABE00895EDA /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		7ECE81D52173ED4100895EDA /* ProfileHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCell.swift; sourceTree = "<group>"; };
+		7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostCell.swift; sourceTree = "<group>"; };
 		9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +144,7 @@
 		7ECE81B3217320C200895EDA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7ECE81D42173ED1D00895EDA /* Profile */,
 				7ECE81CC2173D6D700895EDA /* Notification */,
 				7ECE81C22173684900895EDA /* TabBar */,
 				7ECE81B5217320D600895EDA /* Search */,
@@ -230,6 +235,15 @@
 			isa = PBXGroup;
 			children = (
 				7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		7ECE81D42173ED1D00895EDA /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81D52173ED4100895EDA /* ProfileHeaderCell.swift */,
+				7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -365,12 +379,14 @@
 				7ECE818C2172768000895EDA /* LoginViewController.swift in Sources */,
 				7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */,
 				7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */,
+				7ECE81D82173ED6500895EDA /* ProfilePostCell.swift in Sources */,
 				7ECE81AA217314BF00895EDA /* AllCommentsCell.swift in Sources */,
 				7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */,
 				7ECE81C62173C24E00895EDA /* MainHomeFeedCell.swift in Sources */,
 				7ECE81A221728E0900895EDA /* UIView.swift in Sources */,
 				7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */,
 				7ECE81C82173C74600895EDA /* MainSearchFeedCell.swift in Sources */,
+				7ECE81D62173ED4100895EDA /* ProfileHeaderCell.swift in Sources */,
 				7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */,
 				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,
 				7ECE81C42173685600895EDA /* TabBarView.swift in Sources */,

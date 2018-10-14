@@ -38,6 +38,6 @@ class NotificationHeaderCell: UICollectionViewCell {
     func setupViews()
     {
         addSubview(stackView)
-        stackView.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor,padding: .init(top: 50, left: 0, bottom: 0, right: 0))
+        stackView.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor,padding: .init(top: 25, left: 0, bottom: 0, right: 0))
     }
 }

@@ -25,7 +25,7 @@ class MainSearchFeedCell: BaseCell,UICollectionViewDataSource {
         let menuView = UIView()
         addSubview(menuView)
         
-        menuView.anchorToView(top: collectionView.topAnchor, left: collectionView.leftAnchor, bottom: nil, right: collectionView.rightAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
+        menuView.anchorToView(top: collectionView.topAnchor, left: collectionView.leftAnchor, bottom: nil, right: collectionView.rightAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
         let horizontalGrayLine = UIView()
         horizontalGrayLine.backgroundColor = .lightGray
         menuView.addSubview(horizontalGrayLine)
@@ -80,7 +80,7 @@ class MainSearchFeedCell: BaseCell,UICollectionViewDataSource {
         collectionView.dataSource = self
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 150, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2

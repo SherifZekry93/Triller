@@ -69,7 +69,7 @@ class MainTabBarController: UICollectionViewController,UICollectionViewDelegateF
         return 4
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        return UIEdgeInsets(top: 50, left: 0, bottom: 50, right: 0)
     }
     func setupNavigationController()
     {
@@ -86,7 +86,7 @@ class MainTabBarController: UICollectionViewController,UICollectionViewDelegateF
         collectionView?.register(MainHomeFeedCell.self, forCellWithReuseIdentifier: homeCellFeedID)
         collectionView?.register(MainSearchFeedCell.self, forCellWithReuseIdentifier: searchFeedCellID)
         collectionView?.register(MainNotificationCell.self, forCellWithReuseIdentifier: notificationCellID)
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: profileCellID)
+        collectionView?.register(MainProfileCell.self, forCellWithReuseIdentifier: profileCellID)
     }
     func setupTabBar()
     {

@@ -23,7 +23,7 @@ class MainHomeFeedCell: BaseCell,UICollectionViewDataSource
         return CGSize(width: frame.width, height: 220)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(35, 0, 35, 0)
+        return UIEdgeInsetsMake(15, 0, 65, 0)
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for:indexPath)
