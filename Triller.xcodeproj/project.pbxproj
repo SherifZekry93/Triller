@@ -8,20 +8,42 @@
 
 /* Begin PBXBuildFile section */
 		7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81892172768000895EDA /* AppDelegate.swift */; };
-		7ECE818C2172768000895EDA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE818B2172768000895EDA /* ViewController.swift */; };
+		7ECE818C2172768000895EDA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE818B2172768000895EDA /* LoginViewController.swift */; };
 		7ECE818F2172768000895EDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE818D2172768000895EDA /* Main.storyboard */; };
 		7ECE81912172768100895EDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE81902172768100895EDA /* Assets.xcassets */; };
 		7ECE81942172768100895EDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE81922172768100895EDA /* LaunchScreen.storyboard */; };
+		7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE819B2172859800895EDA /* MainTabBarController.swift */; };
+		7ECE819E2172862500895EDA /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE819D2172862500895EDA /* HomeController.swift */; };
+		7ECE81A021728C4D00895EDA /* HomeFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE819F21728C4D00895EDA /* HomeFeedCell.swift */; };
+		7ECE81A221728E0900895EDA /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81A121728E0900895EDA /* UIView.swift */; };
+		7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81A32172ACDA00895EDA /* SearchController.swift */; };
+		7ECE81A62172BB3C00895EDA /* LeftPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81A52172BB3C00895EDA /* LeftPaddedTextField.swift */; };
+		7ECE81AA217314BF00895EDA /* AllCommentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81A9217314BF00895EDA /* AllCommentsCell.swift */; };
+		7ECE81AC21731FCA00895EDA /* AllHashTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81AB21731FCA00895EDA /* AllHashTags.swift */; };
+		7ECE81AE2173201B00895EDA /* HashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81AD2173201B00895EDA /* HashTagCell.swift */; };
+		7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81BA2173219D00895EDA /* CommentCell.swift */; };
+		7ECE81BD21733EC900895EDA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81BC21733EC900895EDA /* UIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7ECE81862172768000895EDA /* Triller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81892172768000895EDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7ECE818B2172768000895EDA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7ECE818B2172768000895EDA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7ECE818E2172768000895EDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7ECE81902172768100895EDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7ECE81932172768100895EDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7ECE81952172768100895EDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7ECE819B2172859800895EDA /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		7ECE819D2172862500895EDA /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		7ECE819F21728C4D00895EDA /* HomeFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedCell.swift; sourceTree = "<group>"; };
+		7ECE81A121728E0900895EDA /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		7ECE81A32172ACDA00895EDA /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		7ECE81A52172BB3C00895EDA /* LeftPaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPaddedTextField.swift; sourceTree = "<group>"; };
+		7ECE81A9217314BF00895EDA /* AllCommentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCommentsCell.swift; sourceTree = "<group>"; };
+		7ECE81AB21731FCA00895EDA /* AllHashTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHashTags.swift; sourceTree = "<group>"; };
+		7ECE81AD2173201B00895EDA /* HashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagCell.swift; sourceTree = "<group>"; };
+		7ECE81BA2173219D00895EDA /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		7ECE81BC21733EC900895EDA /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +76,97 @@
 		7ECE81882172768000895EDA /* Triller */ = {
 			isa = PBXGroup;
 			children = (
-				7ECE81892172768000895EDA /* AppDelegate.swift */,
-				7ECE818B2172768000895EDA /* ViewController.swift */,
+				7ECE81B92173213000895EDA /* Extensions */,
+				7ECE81B3217320C200895EDA /* View */,
+				7ECE81B2217320BC00895EDA /* Model */,
+				7ECE81AF217320A900895EDA /* Controller */,
 				7ECE818D2172768000895EDA /* Main.storyboard */,
 				7ECE81902172768100895EDA /* Assets.xcassets */,
 				7ECE81922172768100895EDA /* LaunchScreen.storyboard */,
 				7ECE81952172768100895EDA /* Info.plist */,
+				7ECE81A52172BB3C00895EDA /* LeftPaddedTextField.swift */,
 			);
 			path = Triller;
+			sourceTree = "<group>";
+		};
+		7ECE81AF217320A900895EDA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81B82173210D00895EDA /* Login */,
+				7ECE81B7217320E300895EDA /* Search */,
+				7ECE81B6217320DF00895EDA /* Home */,
+				7ECE819B2172859800895EDA /* MainTabBarController.swift */,
+				7ECE81892172768000895EDA /* AppDelegate.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7ECE81B2217320BC00895EDA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7ECE81B3217320C200895EDA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81B5217320D600895EDA /* Search */,
+				7ECE81B4217320C900895EDA /* Home */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7ECE81B4217320C900895EDA /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE819F21728C4D00895EDA /* HomeFeedCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		7ECE81B5217320D600895EDA /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81AB21731FCA00895EDA /* AllHashTags.swift */,
+				7ECE81AD2173201B00895EDA /* HashTagCell.swift */,
+				7ECE81A9217314BF00895EDA /* AllCommentsCell.swift */,
+				7ECE81BA2173219D00895EDA /* CommentCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		7ECE81B6217320DF00895EDA /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE819D2172862500895EDA /* HomeController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		7ECE81B7217320E300895EDA /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81A32172ACDA00895EDA /* SearchController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		7ECE81B82173210D00895EDA /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE818B2172768000895EDA /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		7ECE81B92173213000895EDA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81A121728E0900895EDA /* UIView.swift */,
+				7ECE81BC21733EC900895EDA /* UIViewController.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +240,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7ECE818C2172768000895EDA /* ViewController.swift in Sources */,
+				7ECE81AE2173201B00895EDA /* HashTagCell.swift in Sources */,
+				7ECE81AC21731FCA00895EDA /* AllHashTags.swift in Sources */,
+				7ECE81A021728C4D00895EDA /* HomeFeedCell.swift in Sources */,
+				7ECE819E2172862500895EDA /* HomeController.swift in Sources */,
+				7ECE81A62172BB3C00895EDA /* LeftPaddedTextField.swift in Sources */,
+				7ECE818C2172768000895EDA /* LoginViewController.swift in Sources */,
+				7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */,
+				7ECE81BD21733EC900895EDA /* UIViewController.swift in Sources */,
+				7ECE81AA217314BF00895EDA /* AllCommentsCell.swift in Sources */,
 				7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */,
+				7ECE81A221728E0900895EDA /* UIView.swift in Sources */,
+				7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */,
+				7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
