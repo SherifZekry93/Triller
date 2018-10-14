@@ -9,7 +9,7 @@
 import UIKit
 extension UIViewController
 {
-    func recognizeSwipe()
+    func detectSwiping()
     {
         let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
@@ -20,10 +20,14 @@ extension UIViewController
     }
     @objc func handleSwipes(_ sender:UISwipeGestureRecognizer) {
         if sender.direction == .left {
+            UIView.animate(withDuration: 0.3) {
             self.tabBarController!.selectedIndex += 1
+            }
         }
         if sender.direction == .right {
+            UIView.animate(withDuration: 0.3) {
             self.tabBarController!.selectedIndex -= 1
+            }
         }
     }
 

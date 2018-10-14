@@ -12,7 +12,7 @@ class HomeController: UICollectionViewController,UICollectionViewDelegateFlowLay
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.recognizeSwipe()
+        //self.recognizeSwipe()
         setupCollectionView()
         setupNavigationController()
     }

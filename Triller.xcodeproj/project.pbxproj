@@ -22,10 +22,14 @@
 		7ECE81AC21731FCA00895EDA /* AllHashTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81AB21731FCA00895EDA /* AllHashTags.swift */; };
 		7ECE81AE2173201B00895EDA /* HashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81AD2173201B00895EDA /* HashTagCell.swift */; };
 		7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81BA2173219D00895EDA /* CommentCell.swift */; };
-		7ECE81BD21733EC900895EDA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81BC21733EC900895EDA /* UIViewController.swift */; };
+		7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C0217363E500895EDA /* UIViewController.swift */; };
+		7ECE81C42173685600895EDA /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C32173685600895EDA /* TabBarView.swift */; };
+		B58D8FA68BFDCB56738C9757 /* Pods_Triller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.release.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.release.xcconfig"; sourceTree = "<group>"; };
+		40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Triller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81862172768000895EDA /* Triller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81892172768000895EDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ECE818B2172768000895EDA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -43,7 +47,9 @@
 		7ECE81AB21731FCA00895EDA /* AllHashTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHashTags.swift; sourceTree = "<group>"; };
 		7ECE81AD2173201B00895EDA /* HashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagCell.swift; sourceTree = "<group>"; };
 		7ECE81BA2173219D00895EDA /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
-		7ECE81BC21733EC900895EDA /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		7ECE81C0217363E500895EDA /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		7ECE81C32173685600895EDA /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,17 +57,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B58D8FA68BFDCB56738C9757 /* Pods_Triller.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		407D700D58024AB9E5EBE6BE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7ECE817D2172767F00895EDA = {
 			isa = PBXGroup;
 			children = (
 				7ECE81882172768000895EDA /* Triller */,
 				7ECE81872172768000895EDA /* Products */,
+				A35B595AF54228C3298BF6A6 /* Pods */,
+				407D700D58024AB9E5EBE6BE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,8 +97,8 @@
 				7ECE81B3217320C200895EDA /* View */,
 				7ECE81B2217320BC00895EDA /* Model */,
 				7ECE81AF217320A900895EDA /* Controller */,
-				7ECE818D2172768000895EDA /* Main.storyboard */,
 				7ECE81902172768100895EDA /* Assets.xcassets */,
+				7ECE818D2172768000895EDA /* Main.storyboard */,
 				7ECE81922172768100895EDA /* LaunchScreen.storyboard */,
 				7ECE81952172768100895EDA /* Info.plist */,
 				7ECE81A52172BB3C00895EDA /* LeftPaddedTextField.swift */,
@@ -111,6 +128,7 @@
 		7ECE81B3217320C200895EDA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7ECE81C22173684900895EDA /* TabBar */,
 				7ECE81B5217320D600895EDA /* Search */,
 				7ECE81B4217320C900895EDA /* Home */,
 			);
@@ -164,9 +182,26 @@
 			isa = PBXGroup;
 			children = (
 				7ECE81A121728E0900895EDA /* UIView.swift */,
-				7ECE81BC21733EC900895EDA /* UIViewController.swift */,
+				7ECE81C0217363E500895EDA /* UIViewController.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7ECE81C22173684900895EDA /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81C32173685600895EDA /* TabBarView.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		A35B595AF54228C3298BF6A6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */,
+				34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,9 +211,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7ECE81982172768100895EDA /* Build configuration list for PBXNativeTarget "Triller" */;
 			buildPhases = (
+				B51BE24CB71CD073691CC487 /* [CP] Check Pods Manifest.lock */,
 				7ECE81822172767F00895EDA /* Sources */,
 				7ECE81832172767F00895EDA /* Frameworks */,
 				7ECE81842172767F00895EDA /* Resources */,
+				D34299D820D74FE84B8CDE8C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -235,6 +272,45 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B51BE24CB71CD073691CC487 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Triller-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D34299D820D74FE84B8CDE8C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SwipeableTabBarController/SwipeableTabBarController.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeableTabBarController.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7ECE81822172767F00895EDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -247,12 +323,13 @@
 				7ECE81A62172BB3C00895EDA /* LeftPaddedTextField.swift in Sources */,
 				7ECE818C2172768000895EDA /* LoginViewController.swift in Sources */,
 				7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */,
-				7ECE81BD21733EC900895EDA /* UIViewController.swift in Sources */,
+				7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */,
 				7ECE81AA217314BF00895EDA /* AllCommentsCell.swift in Sources */,
 				7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */,
 				7ECE81A221728E0900895EDA /* UIView.swift in Sources */,
 				7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */,
 				7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */,
+				7ECE81C42173685600895EDA /* TabBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +471,7 @@
 		};
 		7ECE81992172768100895EDA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -412,6 +490,7 @@
 		};
 		7ECE819A2172768100895EDA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

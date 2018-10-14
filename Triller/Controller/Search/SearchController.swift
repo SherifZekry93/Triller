@@ -14,7 +14,6 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.recognizeSwipe()
         setupNavigationController()
         setupCollectionView()
         setupMenuBar()
@@ -38,6 +37,8 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         collectionView?.register(AllCommentsCell.self, forCellWithReuseIdentifier: commentCellID)
         collectionView?.register(AllHashTags.self, forCellWithReuseIdentifier: hashTagCellID)
         cellIDS = [commentCellID,hashTagCellID]
+        collectionView?.alwaysBounceVertical = false;
+        collectionView?.alwaysBounceHorizontal = false;
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 150, left: 0, bottom: 0, right: 0)
@@ -70,30 +71,33 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         horizontalLine.frame = CGRect(x: 0, y: 48, width: view.frame.width / 2, height: 2)
         menuView.addSubview(horizontalLine)
     }
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView)
+    {
         UIView.animate(withDuration: 0.25)
         {
             self.horizontalLine.frame = CGRect(x: scrollView.contentOffset.x / 2, y: 48, width: self.view.frame.width / 2, height: 2)
         }
     }
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let x = targetContentOffset.pointee.x
-        UIView.animate(withDuration: 0.25)
-        {
-            self.horizontalLine.frame = CGRect(x: x / 2, y: 48, width: self.view.frame.width / 2, height: 2)
-        }
+        
+        //        targetContentOffset.pointee = scrollView.contentOffset
+        //        let x = targetContentOffset.pointee.x
+        //        UIView.animate(withDuration: 0.25)
+        //        {
+        //            self.horizontalLine.frame = CGRect(x: x / 2, y: 48, width: self.view.frame.width / 2, height: 2)
+        //        }
     }
     @objc func scrollToIndex(_ sender:UIButton)
     {
-        UIView.animate(withDuration: 0.1, animations:
-        {
-            sender.backgroundColor = UIColor(white: 0.7, alpha: 0.3)
+        UIView.animate(withDuration: 0.32, animations:
+            {
+                let indexPath = IndexPath(item: sender.tag, section: 0)
+                sender.backgroundColor = UIColor(white: 0.7, alpha: 0.3)
+                self.collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         }
         ) { (completed) in
-            let indexPath = IndexPath(item: sender.tag, section: 0)
-            UIView.animate(withDuration: 0.25, animations: {
+            UIView.animate(withDuration: 0.32, animations: {
                 sender.backgroundColor = nil
-                self.collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }, completion: nil)
         }
     }
