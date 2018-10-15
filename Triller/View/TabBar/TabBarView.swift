@@ -35,6 +35,8 @@ class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UIC
         if indexPath.item == 0
         {
             cell.tabItemImage.tintColor = .orange
+            cell.topConstant?.constant = 10
+            cell.bottomConstant?.constant = -20
         }
         return cell
     }
@@ -67,8 +69,20 @@ class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UIC
         {
             collectionView.indexPathsForVisibleItems.forEach({ (indexPath) in
              let toRemoveSelectionCell =  collectionView.cellForItem(at: indexPath) as! TabBarCell
-                toRemoveSelectionCell.tabItemImage.tintColor = .gray
+            toRemoveSelectionCell.tabItemImage.tintColor = .gray
+                toRemoveSelectionCell.topConstant?.constant = 15
+                toRemoveSelectionCell.bottomConstant?.constant = -15
             })
+            cell.topConstant?.constant = 13
+            cell.bottomConstant?.constant = -18
+            UIView.animate(withDuration: 0.22, animations: {
+                cell.backgroundColor = UIColor(white: 0.7, alpha: 0.3)
+                self.layoutIfNeeded()
+            }) { (_) in
+                UIView.animate(withDuration: 0.3, animations: {
+                    cell.backgroundColor = nil
+                }, completion: nil)
+            }
             cell.tabItemImage.tintColor = .orange
         }
     }
@@ -89,11 +103,14 @@ class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UIC
     }
 }
 class TabBarCell: UICollectionViewCell {
+    var topConstant:NSLayoutConstraint?
+    var bottomConstant:NSLayoutConstraint?
     let tabItemImage:UIImageView = {
        let image = UIImageView()
         image.contentMode = .scaleAspectFit
         return image
     }()
+    
     var image:UIImage?{
         didSet{
             guard let custom = customButton else {return}
@@ -108,6 +125,7 @@ class TabBarCell: UICollectionViewCell {
             }
         }
     }
+
     var customButton:Bool?{
         didSet{
             guard let custom = customButton else {return}
@@ -116,18 +134,22 @@ class TabBarCell: UICollectionViewCell {
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
     }
     func setupViews(custom:Bool)
     {
+        topConstant = tabItemImage.topAnchor.constraint(equalTo: topAnchor,constant:15)
+        bottomConstant = tabItemImage.bottomAnchor.constraint(equalTo: bottomAnchor,constant:-15)
         addSubview(tabItemImage)
         if custom
         {
-            tabItemImage.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, padding:.init(top: 5, left: 5, bottom: 5, right: 5))
-
+            tabItemImage.anchorToView(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, padding:.init(top: 5, left: 5, bottom: 5, right: 5))
         }
         else
         {
-            tabItemImage.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, padding:.init(top: 15, left: 15, bottom: 15, right: 15))
+            topConstant?.isActive = true
+            bottomConstant?.isActive = true
+            tabItemImage.anchorToView(left: leftAnchor,right: rightAnchor,padding:.init(top: 15, left: 15, bottom: 15, right: 15))
         }
             
     }
