@@ -24,7 +24,7 @@ class CommentCell: UICollectionViewCell {
     
     let userNameHashTagLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "Sherif Zekry", attributes: [NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: 18)])
+        let attributedText = NSMutableAttributedString(string: "Sherif Zekry", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 18)])
         label.numberOfLines = -1
         label.attributedText = attributedText
         return label

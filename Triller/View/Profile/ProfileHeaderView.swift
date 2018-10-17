@@ -18,8 +18,8 @@ class ProfileHeaderCell: BaseCell{
     }()
     let userNameStatusLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "Sherif Wagih \n", attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 20)])
-        attributedText.append(NSAttributedString(string: "happy", attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 14),NSAttributedStringKey.foregroundColor:UIColor.gray]))
+        let attributedText = NSMutableAttributedString(string: "Sherif Wagih \n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
+        attributedText.append(NSAttributedString(string: "happy", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
@@ -30,8 +30,8 @@ class ProfileHeaderCell: BaseCell{
     }()
     let trillsLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedStringKey.foregroundColor:UIColor.darkGray])
-        attributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 14),NSAttributedStringKey.foregroundColor:UIColor.gray]))
+        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+        attributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
@@ -42,8 +42,8 @@ class ProfileHeaderCell: BaseCell{
     }()
     let speakerLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedStringKey.foregroundColor:UIColor.darkGray])
-        attributedText.append(NSAttributedString(string: "Speaker", attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 14),NSAttributedStringKey.foregroundColor:UIColor.gray]))
+        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+        attributedText.append(NSAttributedString(string: "Speaker", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
@@ -56,8 +56,8 @@ class ProfileHeaderCell: BaseCell{
     
     let listenersLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedStringKey.foregroundColor:UIColor.darkGray])
-        attributedText.append(NSAttributedString(string: "Listeners", attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 14),NSAttributedStringKey.foregroundColor:UIColor.gray]))
+        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+        attributedText.append(NSAttributedString(string: "Listeners", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4

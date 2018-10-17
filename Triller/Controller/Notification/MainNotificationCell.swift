@@ -30,7 +30,7 @@ class MainNotificationCell: UICollectionViewCell,UICollectionViewDelegate,UIColl
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
-        collectionView.register(NotificationHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: notificationHeaderID)
+        collectionView.register(NotificationHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: notificationHeaderID)
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: notificationHeaderID, for: indexPath)

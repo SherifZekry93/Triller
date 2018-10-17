@@ -30,9 +30,10 @@ class MainProfileCell: BaseCell,UICollectionViewDataSource{
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ProfilePostCell.self, forCellWithReuseIdentifier: cellID)
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: profileHeaderID)
-        collectionView.register(ProfileHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: profileHeaderID)
+        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: profileHeaderID)
+        collectionView.register(ProfileHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: profileHeaderID)
         collectionView.bounces = false
+        collectionView.showsVerticalScrollIndicator = false
     }
     var animatedHeaderImageView:UIView?
     
@@ -50,7 +51,7 @@ class MainProfileCell: BaseCell,UICollectionViewDataSource{
         return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(10, 0, 80, 0)
+        return UIEdgeInsets.init(top: 10, left: 0, bottom: 80, right: 0)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {

@@ -33,7 +33,7 @@ class MainHomeFeedCell: BaseCell,UICollectionViewDataSource
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let  height = UIApplication.shared.statusBarFrame.height
-        return UIEdgeInsetsMake(10, 0, height + 50 + 10, 0)
+        return UIEdgeInsets.init(top: 10, left: 0, bottom: height + 50 + 10, right: 0)
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for:indexPath)
@@ -50,11 +50,12 @@ class MainHomeFeedCell: BaseCell,UICollectionViewDataSource
         addSubview(collectionView)
         collectionView.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
         collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellID)
-        collectionView.register(HomeNavigationCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: navigationCellID)
+        collectionView.register(HomeNavigationCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: navigationCellID)
         collectionView.delegate = self
         collectionView.dataSource = self
         backgroundColor = .lightGray
         collectionView.backgroundColor = .lightGray
         collectionView.bounces = false
+        collectionView.showsVerticalScrollIndicator = false
     }
 }

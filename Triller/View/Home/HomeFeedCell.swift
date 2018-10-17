@@ -17,8 +17,8 @@ class HomeFeedCell: UICollectionViewCell {
     
     let userNameTimeLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "Sherif Zekry", attributes: [NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: 18)])
-        attributedText.append(NSAttributedString(string: "\n6 days ago", attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 15),NSAttributedStringKey.foregroundColor:UIColor.gray]))
+        let attributedText = NSMutableAttributedString(string: "Sherif Zekry", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 18)])
+        attributedText.append(NSAttributedString(string: "\n6 days ago", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 3
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))

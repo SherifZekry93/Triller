@@ -78,6 +78,7 @@ class MainSearchFeedCell: BaseCell,UICollectionViewDataSource {
         collectionView.alwaysBounceHorizontal = false;
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = false
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

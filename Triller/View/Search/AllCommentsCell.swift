@@ -13,6 +13,7 @@ class AllCommentsCell: UICollectionViewCell,UICollectionViewDelegate,UICollectio
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .white
+        cv.showsVerticalScrollIndicator = false
         return cv
     }()
     

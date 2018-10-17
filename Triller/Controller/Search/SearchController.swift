@@ -138,7 +138,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         searchIcon.isUserInteractionEnabled = true
         searchIcon.tintColor = .black
         searchLabel.text = ""
-        searchLabel.leftViewMode = UITextFieldViewMode.always
+        searchLabel.leftViewMode = UITextField.ViewMode.always
         searchLabel.isEnabled = true
         let imageView = UIImageView(frame: CGRect(x: -20, y: 0, width: 20, height: 20))
         let image = #imageLiteral(resourceName: "search_selected")
@@ -158,15 +158,16 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         stackSearchViewTitle = UIStackView(arrangedSubviews: [searchLabel,searchIcon])
         view.addSubview(stackSearchViewTitle)
         stackSearchViewTitle.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, padding: .init(top: 8, left: 20, bottom: 0, right: 12), size: .init(width: 0, height: 40))
-        searchLabel.leftViewMode = UITextFieldViewMode.never
+        searchLabel.leftViewMode = UITextField.ViewMode.never
         searchIcon.image = #imageLiteral(resourceName: "search_selected")
+        collectionView.showsVerticalScrollIndicator = false
     }
     @objc func startSearching(_ sender:UITextField)
     {
         sender.leftView = nil
         if sender.text == ""
         {
-            searchLabel.leftViewMode = UITextFieldViewMode.always
+            searchLabel.leftViewMode = UITextField.ViewMode.always
             let imageView = UIImageView(frame: CGRect(x: -20, y: 0, width: 20, height: 20))
             let image = #imageLiteral(resourceName: "search_selected")
             imageView.image = image
