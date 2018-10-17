@@ -35,8 +35,9 @@ class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UIC
         if indexPath.item == 0
         {
             cell.tabItemImage.tintColor = .orange
-            cell.topConstant?.constant = 10
-            cell.bottomConstant?.constant = -20
+            cell.topConstant?.constant = 13
+            //cell.topConstant?.constant = 10
+            //cell.bottomConstant?.constant = -20
         }
         return cell
     }
@@ -71,10 +72,9 @@ class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UIC
              let toRemoveSelectionCell =  collectionView.cellForItem(at: indexPath) as! TabBarCell
             toRemoveSelectionCell.tabItemImage.tintColor = .gray
                 toRemoveSelectionCell.topConstant?.constant = 15
-                toRemoveSelectionCell.bottomConstant?.constant = -15
             })
             cell.topConstant?.constant = 13
-            cell.bottomConstant?.constant = -18
+            //cell.bottomConstant?.constant = -18
             UIView.animate(withDuration: 0.22, animations: {
                 cell.backgroundColor = UIColor(white: 0.7, alpha: 0.3)
                 self.layoutIfNeeded()

@@ -10,7 +10,7 @@ import UIKit
 class MainNotificationCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     let cellID = "cellID"
     let notificationHeaderID = "notificationHeaderID"
-    let notifications:Int = 10
+    let notifications:Int = 0
     let collectionView:UICollectionView  = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -36,17 +36,20 @@ class MainNotificationCell: UICollectionViewCell,UICollectionViewDelegate,UIColl
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: notificationHeaderID, for: indexPath)
         return header
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if notifications == 0
         {
-            return CGSize(width: frame.width, height: 200)
+            return CGSize(width: frame.width, height: 244)
         }
         return .zero
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return notifications
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
         cell.backgroundColor = indexPath.item % 2 == 0 ? .red: .green

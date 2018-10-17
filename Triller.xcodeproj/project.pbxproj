@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7EB8E276217722D400903704 /* HomeNavigationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8E275217722D400903704 /* HomeNavigationCell.swift */; };
 		7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81892172768000895EDA /* AppDelegate.swift */; };
 		7ECE818C2172768000895EDA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE818B2172768000895EDA /* LoginViewController.swift */; };
 		7ECE818F2172768000895EDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE818D2172768000895EDA /* Main.storyboard */; };
@@ -29,7 +30,7 @@
 		7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */; };
 		7ECE81D12173E8FD00895EDA /* MainProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */; };
 		7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D22173EABE00895EDA /* BaseCell.swift */; };
-		7ECE81D62173ED4100895EDA /* ProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D52173ED4100895EDA /* ProfileHeaderCell.swift */; };
+		7ECE81D62173ED4100895EDA /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D52173ED4100895EDA /* ProfileHeaderView.swift */; };
 		7ECE81D82173ED6500895EDA /* ProfilePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */; };
 		B58D8FA68BFDCB56738C9757 /* Pods_Triller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */; };
 /* End PBXBuildFile section */
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.release.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.release.xcconfig"; sourceTree = "<group>"; };
 		40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Triller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EB8E275217722D400903704 /* HomeNavigationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationCell.swift; sourceTree = "<group>"; };
 		7ECE81862172768000895EDA /* Triller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81892172768000895EDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ECE818B2172768000895EDA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -61,7 +63,7 @@
 		7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHeaderCell.swift; sourceTree = "<group>"; };
 		7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileCell.swift; sourceTree = "<group>"; };
 		7ECE81D22173EABE00895EDA /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
-		7ECE81D52173ED4100895EDA /* ProfileHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCell.swift; sourceTree = "<group>"; };
+		7ECE81D52173ED4100895EDA /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostCell.swift; sourceTree = "<group>"; };
 		9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				7ECE819F21728C4D00895EDA /* HomeFeedCell.swift */,
+				7EB8E275217722D400903704 /* HomeNavigationCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -242,8 +245,8 @@
 		7ECE81D42173ED1D00895EDA /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				7ECE81D52173ED4100895EDA /* ProfileHeaderCell.swift */,
 				7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */,
+				7ECE81D52173ED4100895EDA /* ProfileHeaderView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -268,7 +271,6 @@
 				7ECE81822172767F00895EDA /* Sources */,
 				7ECE81832172767F00895EDA /* Frameworks */,
 				7ECE81842172767F00895EDA /* Resources */,
-				D34299D820D74FE84B8CDE8C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -344,24 +346,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D34299D820D74FE84B8CDE8C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SwipeableTabBarController/SwipeableTabBarController.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeableTabBarController.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -385,8 +369,9 @@
 				7ECE81C62173C24E00895EDA /* MainHomeFeedCell.swift in Sources */,
 				7ECE81A221728E0900895EDA /* UIView.swift in Sources */,
 				7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */,
+				7EB8E276217722D400903704 /* HomeNavigationCell.swift in Sources */,
 				7ECE81C82173C74600895EDA /* MainSearchFeedCell.swift in Sources */,
-				7ECE81D62173ED4100895EDA /* ProfileHeaderCell.swift in Sources */,
+				7ECE81D62173ED4100895EDA /* ProfileHeaderView.swift in Sources */,
 				7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */,
 				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,
 				7ECE81C42173685600895EDA /* TabBarView.swift in Sources */,
@@ -537,6 +522,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GUS473JQDG;
 				INFOPLIST_FILE = Triller/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -556,6 +542,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GUS473JQDG;
 				INFOPLIST_FILE = Triller/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
