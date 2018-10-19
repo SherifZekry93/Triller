@@ -88,7 +88,7 @@ class LoginController: UIViewController
     lazy var controlsStack:UIStackView = {
         let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,loginButton,spearatorStackView,signUpButton,forgotPasswordLabel,languageLabel])
         stack.axis = .vertical
-        stack.spacing = 30
+        stack.spacing = 40
         return stack
     }()
     

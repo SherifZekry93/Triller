@@ -10,7 +10,6 @@
 		7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */; };
 		7EA4FC26217934A200D481A1 /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC25217934A200D481A1 /* SignupController.swift */; };
 		7EA4FC28217937DD00D481A1 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC27217937DD00D481A1 /* NotificationCell.swift */; };
-		7EB343ED2179C0950037EB19 /* CustomPasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB343EC2179C0950037EB19 /* CustomPasswordTextField.swift */; };
 		7EB8E276217722D400903704 /* HomeNavigationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8E275217722D400903704 /* HomeNavigationCell.swift */; };
 		7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81892172768000895EDA /* AppDelegate.swift */; };
 		7ECE818F2172768000895EDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE818D2172768000895EDA /* Main.storyboard */; };
@@ -44,7 +43,6 @@
 		7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		7EA4FC25217934A200D481A1 /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
 		7EA4FC27217937DD00D481A1 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
-		7EB343EC2179C0950037EB19 /* CustomPasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPasswordTextField.swift; sourceTree = "<group>"; };
 		7EB8E275217722D400903704 /* HomeNavigationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationCell.swift; sourceTree = "<group>"; };
 		7ECE81862172768000895EDA /* Triller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81892172768000895EDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -225,7 +223,6 @@
 				7ECE81C0217363E500895EDA /* UIViewController.swift */,
 				7ECE81D22173EABE00895EDA /* BaseCell.swift */,
 				7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */,
-				7EB343EC2179C0950037EB19 /* CustomPasswordTextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -296,6 +293,7 @@
 				7ECE81822172767F00895EDA /* Sources */,
 				7ECE81832172767F00895EDA /* Frameworks */,
 				7ECE81842172767F00895EDA /* Resources */,
+				8AB68DECC4A9A4CA66212516 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -354,6 +352,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8AB68DECC4A9A4CA66212516 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FlagPhoneNumber/FlagPhoneNumber.framework",
+				"${BUILT_PRODUCTS_DIR}/libPhoneNumber-iOS/libPhoneNumber_iOS.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlagPhoneNumber.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libPhoneNumber_iOS.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B51BE24CB71CD073691CC487 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -395,7 +413,6 @@
 				7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */,
 				7ECE81C62173C24E00895EDA /* MainHomeFeedController.swift in Sources */,
 				7EA4FC28217937DD00D481A1 /* NotificationCell.swift in Sources */,
-				7EB343ED2179C0950037EB19 /* CustomPasswordTextField.swift in Sources */,
 				7ECE81A221728E0900895EDA /* UIView.swift in Sources */,
 				7EA4FC26217934A200D481A1 /* SignupController.swift in Sources */,
 				7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */,

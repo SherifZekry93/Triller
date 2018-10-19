@@ -6,4 +6,6 @@ target 'Triller' do
   use_frameworks!
 
   # Pods for Triller
+
+  pod 'FlagPhoneNumber'
 end
