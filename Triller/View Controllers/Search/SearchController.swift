@@ -41,7 +41,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         collectionView?.alwaysBounceHorizontal = false;
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 150, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 98, left: 0, bottom: 0, right: 0)
     }
     let horizontalLine = UIView()
     func setupMenuBar()

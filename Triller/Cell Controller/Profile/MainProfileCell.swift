@@ -10,59 +10,49 @@ import UIKit
 protocol ProfileViewStartScrolling {
     func didScroll(imageView:UIImageView)
 }
-class MainProfileCell: BaseCell,UICollectionViewDataSource{
+class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout{
     let cellID = "cellID"
     let profileHeaderID = "profileHeaderID"
     var headerImage:UIImageView?
-    let collectionView:UICollectionView  = {
-        let layout = UICollectionViewFlowLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        return cv
-    }()
-    override func setupViews() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupCollectionView()
+        setupNavigationController()
+    }
+    func setupNavigationController()
+    {
+        navigationController?.navigationBar.isHidden = true
     }
     func setupCollectionView()
     {
-        addSubview(collectionView)
-        collectionView.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
         collectionView.backgroundColor = .lightGray
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(ProfilePostCell.self, forCellWithReuseIdentifier: cellID)
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: profileHeaderID)
+        collectionView.register(ProfilePostCell.self, forCellWithReuseIdentifier: cellID);
         collectionView.register(ProfileHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: profileHeaderID)
         collectionView.bounces = false
         collectionView.showsVerticalScrollIndicator = false
     }
     var animatedHeaderImageView:UIView?
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.sectionHeadersPinToVisibleBounds = true
-    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: frame.width, height: 305)
+        return CGSize(width: view.frame.width, height: 305)
     }
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: profileHeaderID, for: indexPath) as! ProfileHeaderCell
         header.backgroundColor = UIColor(red: 254/255, green: 254/255, blue: 254/255, alpha: 1)
         headerImage =  header.profilePicture
         return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.init(top: 10, left: 0, bottom: 80, right: 0)
+        return UIEdgeInsets.init(top: 10, left: 0, bottom: 10, right: 0)
     }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return 10
     }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        // cell.backgroundColor = indexPath.item % 2 == 0 ? .red: .green
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: frame.width, height: 200)
+        return CGSize(width: view.frame.width, height: 200)
     }
 }

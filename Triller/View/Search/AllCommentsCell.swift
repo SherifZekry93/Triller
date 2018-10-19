@@ -30,8 +30,7 @@ class AllCommentsCell: UICollectionViewCell,UICollectionViewDelegate,UICollectio
         collectionView.register(CommentCell.self, forCellWithReuseIdentifier: cellID)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let height = UIApplication.shared.statusBarFrame.height
-        return UIEdgeInsets(top: 50, left: 0, bottom: height + 50, right: 0)
+        return UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20

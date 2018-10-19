@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */; };
+		7EA4FC26217934A200D481A1 /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC25217934A200D481A1 /* SignupController.swift */; };
+		7EA4FC28217937DD00D481A1 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC27217937DD00D481A1 /* NotificationCell.swift */; };
+		7EB343ED2179C0950037EB19 /* CustomPasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB343EC2179C0950037EB19 /* CustomPasswordTextField.swift */; };
 		7EB8E276217722D400903704 /* HomeNavigationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8E275217722D400903704 /* HomeNavigationCell.swift */; };
 		7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81892172768000895EDA /* AppDelegate.swift */; };
-		7ECE818C2172768000895EDA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE818B2172768000895EDA /* LoginViewController.swift */; };
 		7ECE818F2172768000895EDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE818D2172768000895EDA /* Main.storyboard */; };
 		7ECE81912172768100895EDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE81902172768100895EDA /* Assets.xcassets */; };
 		7ECE81942172768100895EDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE81922172768100895EDA /* LaunchScreen.storyboard */; };
@@ -24,24 +27,27 @@
 		7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81BA2173219D00895EDA /* CommentCell.swift */; };
 		7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C0217363E500895EDA /* UIViewController.swift */; };
 		7ECE81C42173685600895EDA /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C32173685600895EDA /* TabBarView.swift */; };
-		7ECE81C62173C24E00895EDA /* MainHomeFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C52173C24E00895EDA /* MainHomeFeedCell.swift */; };
-		7ECE81C82173C74600895EDA /* MainSearchFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C72173C74600895EDA /* MainSearchFeedCell.swift */; };
-		7ECE81CB2173D20600895EDA /* MainNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81CA2173D20600895EDA /* MainNotificationCell.swift */; };
+		7ECE81C62173C24E00895EDA /* MainHomeFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81C52173C24E00895EDA /* MainHomeFeedController.swift */; };
+		7ECE81CB2173D20600895EDA /* MainNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81CA2173D20600895EDA /* MainNotificationController.swift */; };
 		7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */; };
 		7ECE81D12173E8FD00895EDA /* MainProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */; };
 		7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D22173EABE00895EDA /* BaseCell.swift */; };
 		7ECE81D62173ED4100895EDA /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D52173ED4100895EDA /* ProfileHeaderView.swift */; };
 		7ECE81D82173ED6500895EDA /* ProfilePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */; };
+		7EF91DBD21785CED00BD42CA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF91DBC21785CED00BD42CA /* LoginController.swift */; };
 		B58D8FA68BFDCB56738C9757 /* Pods_Triller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.release.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.release.xcconfig"; sourceTree = "<group>"; };
 		40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Triller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		7EA4FC25217934A200D481A1 /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
+		7EA4FC27217937DD00D481A1 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		7EB343EC2179C0950037EB19 /* CustomPasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPasswordTextField.swift; sourceTree = "<group>"; };
 		7EB8E275217722D400903704 /* HomeNavigationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationCell.swift; sourceTree = "<group>"; };
 		7ECE81862172768000895EDA /* Triller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81892172768000895EDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7ECE818B2172768000895EDA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7ECE818E2172768000895EDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7ECE81902172768100895EDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7ECE81932172768100895EDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,14 +63,14 @@
 		7ECE81BA2173219D00895EDA /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		7ECE81C0217363E500895EDA /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		7ECE81C32173685600895EDA /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
-		7ECE81C52173C24E00895EDA /* MainHomeFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeFeedCell.swift; sourceTree = "<group>"; };
-		7ECE81C72173C74600895EDA /* MainSearchFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchFeedCell.swift; sourceTree = "<group>"; };
-		7ECE81CA2173D20600895EDA /* MainNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNotificationCell.swift; sourceTree = "<group>"; };
+		7ECE81C52173C24E00895EDA /* MainHomeFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeFeedController.swift; sourceTree = "<group>"; };
+		7ECE81CA2173D20600895EDA /* MainNotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNotificationController.swift; sourceTree = "<group>"; };
 		7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHeaderCell.swift; sourceTree = "<group>"; };
 		7ECE81D02173E8FD00895EDA /* MainProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileCell.swift; sourceTree = "<group>"; };
 		7ECE81D22173EABE00895EDA /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		7ECE81D52173ED4100895EDA /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostCell.swift; sourceTree = "<group>"; };
+		7EF91DBC21785CED00BD42CA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +94,30 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7EA4FC22217904B200D481A1 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				7ECE81CA2173D20600895EDA /* MainNotificationController.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		7EA4FC2321790CD400D481A1 /* Login Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7EF91DBC21785CED00BD42CA /* LoginController.swift */,
+			);
+			path = "Login Controller";
+			sourceTree = "<group>";
+		};
+		7EA4FC242179349200D481A1 /* Signup */ = {
+			isa = PBXGroup;
+			children = (
+				7EA4FC25217934A200D481A1 /* SignupController.swift */,
+			);
+			path = Signup;
+			sourceTree = "<group>";
+		};
 		7ECE817D2172767F00895EDA = {
 			isa = PBXGroup;
 			children = (
@@ -109,10 +139,11 @@
 		7ECE81882172768000895EDA /* Triller */ = {
 			isa = PBXGroup;
 			children = (
+				7EF91DBB21785CCD00BD42CA /* View Controllers */,
 				7ECE81B92173213000895EDA /* Extensions */,
 				7ECE81B3217320C200895EDA /* View */,
 				7ECE81B2217320BC00895EDA /* Model */,
-				7ECE81AF217320A900895EDA /* Controller */,
+				7ECE81AF217320A900895EDA /* Cell Controller */,
 				7ECE81902172768100895EDA /* Assets.xcassets */,
 				7ECE818D2172768000895EDA /* Main.storyboard */,
 				7ECE81922172768100895EDA /* LaunchScreen.storyboard */,
@@ -122,18 +153,14 @@
 			path = Triller;
 			sourceTree = "<group>";
 		};
-		7ECE81AF217320A900895EDA /* Controller */ = {
+		7ECE81AF217320A900895EDA /* Cell Controller */ = {
 			isa = PBXGroup;
 			children = (
 				7ECE81CF2173E8F000895EDA /* Profile */,
-				7ECE81C92173D1C400895EDA /* Notification */,
-				7ECE81B82173210D00895EDA /* Login */,
-				7ECE81B7217320E300895EDA /* Search */,
-				7ECE81B6217320DF00895EDA /* Home */,
 				7ECE819B2172859800895EDA /* MainTabBarController.swift */,
 				7ECE81892172768000895EDA /* AppDelegate.swift */,
 			);
-			path = Controller;
+			path = "Cell Controller";
 			sourceTree = "<group>";
 		};
 		7ECE81B2217320BC00895EDA /* Model */ = {
@@ -178,7 +205,7 @@
 		7ECE81B6217320DF00895EDA /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				7ECE81C52173C24E00895EDA /* MainHomeFeedCell.swift */,
+				7ECE81C52173C24E00895EDA /* MainHomeFeedController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -187,17 +214,8 @@
 			isa = PBXGroup;
 			children = (
 				7ECE81A32172ACDA00895EDA /* SearchController.swift */,
-				7ECE81C72173C74600895EDA /* MainSearchFeedCell.swift */,
 			);
 			path = Search;
-			sourceTree = "<group>";
-		};
-		7ECE81B82173210D00895EDA /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				7ECE818B2172768000895EDA /* LoginViewController.swift */,
-			);
-			path = Login;
 			sourceTree = "<group>";
 		};
 		7ECE81B92173213000895EDA /* Extensions */ = {
@@ -206,6 +224,8 @@
 				7ECE81A121728E0900895EDA /* UIView.swift */,
 				7ECE81C0217363E500895EDA /* UIViewController.swift */,
 				7ECE81D22173EABE00895EDA /* BaseCell.swift */,
+				7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */,
+				7EB343EC2179C0950037EB19 /* CustomPasswordTextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -218,18 +238,11 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-		7ECE81C92173D1C400895EDA /* Notification */ = {
-			isa = PBXGroup;
-			children = (
-				7ECE81CA2173D20600895EDA /* MainNotificationCell.swift */,
-			);
-			path = Notification;
-			sourceTree = "<group>";
-		};
 		7ECE81CC2173D6D700895EDA /* Notification */ = {
 			isa = PBXGroup;
 			children = (
 				7ECE81CD2173D6E000895EDA /* NotificationHeaderCell.swift */,
+				7EA4FC27217937DD00D481A1 /* NotificationCell.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -249,6 +262,18 @@
 				7ECE81D52173ED4100895EDA /* ProfileHeaderView.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		7EF91DBB21785CCD00BD42CA /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7EA4FC242179349200D481A1 /* Signup */,
+				7EA4FC2321790CD400D481A1 /* Login Controller */,
+				7EA4FC22217904B200D481A1 /* Notification */,
+				7ECE81B6217320DF00895EDA /* Home */,
+				7ECE81B7217320E300895EDA /* Search */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		A35B595AF54228C3298BF6A6 /* Pods */ = {
@@ -356,22 +381,25 @@
 			files = (
 				7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */,
 				7ECE81AE2173201B00895EDA /* HashTagCell.swift in Sources */,
-				7ECE81CB2173D20600895EDA /* MainNotificationCell.swift in Sources */,
+				7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */,
+				7ECE81CB2173D20600895EDA /* MainNotificationController.swift in Sources */,
 				7ECE81D12173E8FD00895EDA /* MainProfileCell.swift in Sources */,
 				7ECE81AC21731FCA00895EDA /* AllHashTags.swift in Sources */,
 				7ECE81A021728C4D00895EDA /* HomeFeedCell.swift in Sources */,
 				7ECE81A62172BB3C00895EDA /* LeftPaddedTextField.swift in Sources */,
-				7ECE818C2172768000895EDA /* LoginViewController.swift in Sources */,
 				7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */,
 				7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */,
 				7ECE81D82173ED6500895EDA /* ProfilePostCell.swift in Sources */,
 				7ECE81AA217314BF00895EDA /* AllCommentsCell.swift in Sources */,
+				7EF91DBD21785CED00BD42CA /* LoginController.swift in Sources */,
 				7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */,
-				7ECE81C62173C24E00895EDA /* MainHomeFeedCell.swift in Sources */,
+				7ECE81C62173C24E00895EDA /* MainHomeFeedController.swift in Sources */,
+				7EA4FC28217937DD00D481A1 /* NotificationCell.swift in Sources */,
+				7EB343ED2179C0950037EB19 /* CustomPasswordTextField.swift in Sources */,
 				7ECE81A221728E0900895EDA /* UIView.swift in Sources */,
+				7EA4FC26217934A200D481A1 /* SignupController.swift in Sources */,
 				7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */,
 				7EB8E276217722D400903704 /* HomeNavigationCell.swift in Sources */,
-				7ECE81C82173C74600895EDA /* MainSearchFeedCell.swift in Sources */,
 				7ECE81D62173ED4100895EDA /* ProfileHeaderView.swift in Sources */,
 				7ECE81BB2173219D00895EDA /* CommentCell.swift in Sources */,
 				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,

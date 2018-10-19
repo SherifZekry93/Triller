@@ -71,4 +71,13 @@ extension UIView
         border.frame = CGRect(x: 0, y: 0, width: width, height: self.frame.size.height)
         self.layer.addSublayer(border)
     }
+    func fixSafeArea(color:UIColor)
+    {
+        guard let window = UIApplication.shared.keyWindow else {return}
+        let height = window.safeAreaInsets.bottom
+        let viewToFix = UIView()
+        viewToFix.backgroundColor = color
+        self.addSubview(viewToFix)
+        viewToFix.anchorToView(left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, padding: .zero, size: .init(width: 0, height: height))
+    }
 }

@@ -20,6 +20,6 @@ class AllHashTags: AllCommentsCell
         return cell
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
 }
