@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>848804332390-6vq697add15n0pip5j1j5thlh56l6ukb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.848804332390-6vq697add15n0pip5j1j5thlh56l6ukb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBvIDfZY3L_TrHZvwkQhezhBnfQhkpXUeI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>848804332390</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.Trill</string>
+	<key>PROJECT_ID</key>
+	<string>trill-8aa7b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>trill-8aa7b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:848804332390:ios:6770617839370f56</string>
+	<key>DATABASE_URL</key>
+	<string>https://trill-8aa7b.firebaseio.com</string>
+</dict>
+</plist>

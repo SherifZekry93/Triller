@@ -7,12 +7,13 @@
 //
 
 import UIKit
-class HashTagCell: CommentCell {
-    var hashTag:String?{
+class HashTagCell: TopUserCell {
+    var hashTag:HashTag?{
         didSet
         {
+            guard let hashTag = hashTag else {return}
+            userNameHashTagLabel.text = hashTag.hashTagName
             profileHashTagImage.image = #imageLiteral(resourceName: "hashtag")
-            userNameHashTagLabel.text = "HashTag"
         }
     }
 }

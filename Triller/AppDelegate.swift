@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,8 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         //let layout = UICollectionViewFlowLayout()
-        let loginController = SignupController()
+        let loginController = MainTabBarController()
         window?.rootViewController = UINavigationController(rootViewController: loginController)
+        FirebaseApp.configure()
         return true
     }
 

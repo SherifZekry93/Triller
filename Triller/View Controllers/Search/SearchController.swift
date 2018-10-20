@@ -12,7 +12,6 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     let commentCellID = "commentCellID"
     let hashTagCellID = "hashTagCellID"
     var cellIDS:[String]!
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -20,7 +19,6 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         setupCollectionView()
         setupMenuBar()
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
@@ -38,7 +36,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.scrollDirection = .horizontal
         collectionView?.showsHorizontalScrollIndicator = false
-        collectionView?.register(AllCommentsCell.self, forCellWithReuseIdentifier: commentCellID)
+        collectionView?.register(AllUsersCell.self, forCellWithReuseIdentifier: commentCellID)
         collectionView?.register(AllHashTags.self, forCellWithReuseIdentifier: hashTagCellID)
         cellIDS = [commentCellID,hashTagCellID]
         collectionView?.alwaysBounceVertical = false;
@@ -82,14 +80,6 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
             self.horizontalLine.frame = CGRect(x: scrollView.contentOffset.x / 2, y: 48, width: self.view.frame.width / 2, height: 2)
         }
     }
-    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        //        targetContentOffset.pointee = scrollView.contentOffset
-        //        let x = targetContentOffset.pointee.x
-        //        UIView.animate(withDuration: 0.25)
-        //        {
-        //            self.horizontalLine.frame = CGRect(x: x / 2, y: 48, width: self.view.frame.width / 2, height: 2)
-        //        }
-    }
     @objc func scrollToIndex(_ sender:UIButton)
     {
         UIView.animate(withDuration: 0.32, animations:
@@ -109,7 +99,14 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDS[indexPath.item], for: indexPath)
-        cell.backgroundColor = indexPath.item % 2 == 0 ? .red :.green
+        if indexPath.item == 0
+        {
+            //(cell as! AllUsersCell).homeController = self
+        }
+        else
+        {
+            //(cell as! AllHashTags).homeController = self
+        }
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
