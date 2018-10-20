@@ -12,4 +12,5 @@ target 'Triller' do
   pod 'Firebase/Storage'
   pod 'Firebase/Auth'
   pod 'SVProgressHUD'
+  pod 'SDWebImage'
 end

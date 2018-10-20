@@ -33,6 +33,9 @@ PODS:
   - GTMSessionFetcher/Core (1.2.0)
   - leveldb-library (1.20)
   - libPhoneNumber-iOS (0.9.13)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
@@ -40,6 +43,7 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Storage
   - FlagPhoneNumber
+  - SDWebImage
   - SVProgressHUD
 
 SPEC REPOS:
@@ -55,6 +59,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - libPhoneNumber-iOS
+    - SDWebImage
     - SVProgressHUD
 
 SPEC CHECKSUMS:
@@ -69,8 +74,9 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   libPhoneNumber-iOS: e444379ac18bbfbdefad571da735b2cd7e096caa
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: c3d0d3079743d38c49b6ea67d3f1a19440a2b69c
+PODFILE CHECKSUM: 5fc19a582ed93c314d8dff3ec7eff179faa42c70
 
 COCOAPODS: 1.5.3
