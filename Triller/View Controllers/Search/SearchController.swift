@@ -8,9 +8,11 @@
 
 import UIKit
 class SearchController: UICollectionViewController,UICollectionViewDelegateFlowLayout{
+    
     let commentCellID = "commentCellID"
     let hashTagCellID = "hashTagCellID"
     var cellIDS:[String]!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -18,9 +20,11 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         setupCollectionView()
         setupMenuBar()
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
     func setupNavigationController()
     {
         view.backgroundColor = .black

@@ -19,10 +19,12 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         setupCollectionView()
         setupNavigationController()
     }
+    
     func setupNavigationController()
     {
         navigationController?.navigationBar.isHidden = true
     }
+    
     func setupCollectionView()
     {
         collectionView.backgroundColor = .lightGray

@@ -9,7 +9,8 @@
 import UIKit
 import FlagPhoneNumber
 class SignupController: UIViewController,FPNTextFieldDelegate {
-    func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool) {
+    func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool)
+    {
         if isValid
         {
             requiredLabel.text = ""
@@ -70,17 +71,47 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         return separator
     }()
     
+    let checkButton:UIButton = {
+        let button = UIButton()
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
+        button.addTarget(self, action: #selector(toggleCheckBox), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var termsAndConditionsLabel:UILabel = {
+        let termsAndConditions = UILabel()
+        termsAndConditions.isUserInteractionEnabled = true
+        //termsAndConditions.text = "Terms and Conditions"
+        let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]
+        let attributedString = NSMutableAttributedString(string: "I accept ", attributes: [:])
+        attributedString.append(NSAttributedString(string: "Terms and Conditions", attributes: underlineAttribute))
+        
+        termsAndConditions.attributedText = attributedString
+        termsAndConditions.textAlignment = .center
+        termsAndConditions.font = UIFont.boldSystemFont(ofSize: 17)
+        termsAndConditions.textColor = .white
+        termsAndConditions.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToTermsAndConditionsURL)))
+        return termsAndConditions
+    }()
+    
+    lazy var termsAndConditionsStack:UIStackView = {
+       let stack = UIStackView(arrangedSubviews: [checkButton,termsAndConditionsLabel])
+        stack.spacing = 4
+        return stack
+    }()
+    
     lazy var phoneNumber:FPNTextField = {
         let phone = FPNTextField()
         phone.parentViewController = self
-        phone.setFlag(for: .DE)
+        phone.setFlag(for: .EG)
         phone.textColor = .white
         phone.isEnabled = true
         phone.isUserInteractionEnabled = true
         phone.hasPhoneNumberExample = false
         phone.attributedPlaceholder =
-        NSAttributedString(string: phone.placeholder ?? "Enter a phone number",
-                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]);
+            NSAttributedString(string: phone.placeholder ?? "Enter a phone number",
+                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]);
         phone.flagPhoneNumberDelegate = self
         return phone
     }()
@@ -122,9 +153,8 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         return stack
     }()
     
-    
     lazy var controlsStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,stackForPasswordStrength,emailTextField,phoneNumber,createAccountButton])
+        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,stackForPasswordStrength,emailTextField,phoneNumber,termsAndConditionsStack,createAccountButton])
         stack.axis = .vertical
         stack.spacing = 40
         return stack
@@ -149,24 +179,46 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         view.addSubview(backGroundImage)
         view.addSubview(logoImage)
         view.addSubview(scrollView)
+        
         scrollView.addSubview(controlsStack)
+        
         backGroundImage.anchorToView(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
+        
         logoImage.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 150, height: 150), centerH: true)
-        scrollView.anchorToView(top: logoImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
+        
+        scrollView.anchorToView(top: logoImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor,padding: .init(top: 0, left: 60, bottom: 0, right: 60),size: .init(width: 0, height:0))
+        
         bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant:0)
+        
         bottomAnchorConstraint!.isActive = true
+        
         controlsStack.anchorToView(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, padding: .init(top: 30, left: 0, bottom:150, right: 0))
-        controlsStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        controlsStack.widthAnchor.constraint(equalTo:
+            scrollView.widthAnchor).isActive = true
+        
         userNameTextField.anchorToView(size: .init(width: 0, height: 35))
+        
         passwordTextField.anchorToView(size: .init(width: 0, height: 35))
+        
         emailTextField.anchorToView(size: .init(width: 0, height: 35))
+        
         createAccountButton.anchorToView(size: .init(width: 0, height: 45))
+        
         passwordPercentageBackground.anchorToView(size: .init(width: 0, height: 4))
+        
         phoneNumber.anchorToView(size:.init(width: 0, height: 35))
+        
         phoneNumber.addSubview(bottomSeparator)
+        
         phoneNumber.addSubview(requiredLabel)
+        
         bottomSeparator.anchorToView(top: nil, left: phoneNumber.leftAnchor, bottom: phoneNumber.bottomAnchor, right: phoneNumber.rightAnchor, padding: .zero, size: .init(width: 0, height: 2))
+        
         requiredLabel.anchorToView(top: phoneNumber.bottomAnchor, left: phoneNumber.leftAnchor)
+        
+        termsAndConditionsStack.anchorToView(size:.init(width: 0, height: 25))
+        checkButton.anchorToView(size:.init(width: 25, height: 0))
     }
     //handlers
     @objc func handlePasswordTextChange()
@@ -203,4 +255,19 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         phoneNumber.attributedPlaceholder = attributedString
     }
+    
+    @objc func goToTermsAndConditionsURL()
+    {
+        if let url = URL(string: "http://trillzapp.com/terms.php?lang=en") {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+    
+    @objc func toggleCheckBox(_ sender:UIButton)
+    {
+        sender.isSelected = !sender.isSelected
+        let isSelected = sender.isSelected
+        checkButton.setImage(isSelected ? #imageLiteral(resourceName: "Checkbox").withRenderingMode(.alwaysOriginal) : nil, for: .normal)
+    }
+    
 }

@@ -8,4 +8,7 @@ target 'Triller' do
   # Pods for Triller
 
   pod 'FlagPhoneNumber'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
 end
