@@ -7,8 +7,19 @@
 //
 
 import UIKit
+import Kingfisher
 class TopUserCell: UICollectionViewCell {
-    
+    var user:User?{
+        didSet{
+            guard let user = user else {return}
+            if let url = URL(string: user.picture_path)
+            {
+                let image = #imageLiteral(resourceName: "profile-imag")
+                profileHashTagImage.kf.setImage(with: url, placeholder: image)
+            }
+            userNameHashTagLabel.text = user.user_name
+        }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -21,6 +32,8 @@ class TopUserCell: UICollectionViewCell {
     let profileHashTagImage:UIImageView = {
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "profile-imag")
+        image.layer.cornerRadius = 20
+        image.clipsToBounds = true
         return image
     }()
     
@@ -52,4 +65,3 @@ class TopUserCell: UICollectionViewCell {
         
     }
 }
-

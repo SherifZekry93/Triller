@@ -7,8 +7,13 @@
 //
 
 import Foundation
-struct HashTag {
+class HashTag:NSObject {
     let hashTagName:String
     let audioPosts:[AudioPost]
+    init(hashTagName:String,audioPosts:[AudioPost])
+    {
+        self.hashTagName = hashTagName
+        self.audioPosts = audioPosts
+    }
 }
 

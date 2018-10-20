@@ -7,8 +7,15 @@
 //
 
 import UIKit
+import SVProgressHUD
 class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     let cellID = "cellID"
+    var allUsers:[User]?{
+        didSet{
+            collectionView.reloadData()
+       }
+    }
+    //var homeController:SearchController?
     var collectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -20,7 +27,9 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCollectionView()
+        //getAllUsers()
     }
+    
     func setupCollectionView()
     {
         addSubview(collectionView)
@@ -28,15 +37,17 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(TopUserCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView.bounces = false
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return allUsers?.count ?? 0
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! TopUserCell
+        cell.user = allUsers?[indexPath.item]
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
