@@ -17,14 +17,18 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     var headerImage:UIImageView?
     var posts = [AudioPost]()
     var uid:String?
-    var user:User?//{
-        //didSet
-        //{
-            //guard let user = user else {return}
-            //self.posts = user.posts
-      //      self.collectionView.reloadData()
-        //}
-    //}
+    var user:User?{
+        didSet
+        {
+            guard let user = user else {return}
+            FirebaseService.shared.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
+            
+            self.user?.posts = allAudios
+            self.posts = allAudios
+            self.collectionView.reloadData()
+            })
+        }
+    }
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -34,14 +38,12 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     }
     func fetchUserUsinguid()
     {
-        guard let uid = uid ?? Auth.auth().currentUser?.uid else {return}
-            FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
-                FirebaseService.shared.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
+         let uid = self.uid ?? Auth.auth().currentUser?.uid ?? "z"
+        print(uid)
+
+        FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
                     self.user = user
-                    self.user?.posts = allAudios
-                    self.posts = allAudios
                     self.collectionView.reloadData()
-                })
             })
     }
     
