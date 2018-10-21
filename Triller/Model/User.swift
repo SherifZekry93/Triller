@@ -22,7 +22,8 @@ struct User {
     let user_name:String
     let user_token:String
     let phone_country:String
-    init(dictionary:[String:Any]) {
+    var posts:[AudioPost]
+    init(posts:[AudioPost] = [AudioPost](),dictionary:[String:Any]) {
         self.email = dictionary["email"] as?  String ?? ""
         self.full_name = dictionary["full_name"] as?  String ?? ""
         self.full_phone = dictionary["full_phone"] as? String ?? ""
@@ -38,7 +39,7 @@ struct User {
         self.phone_country = dictionary["phone_country"] as? String ?? ""
         let PrivateDataDictiionary = dictionary["private_data"] as? [String:Any] ?? [String:Any]()
         self.private_data = PrivateData(dictionary: PrivateDataDictiionary)
-        
+        self.posts = posts
     }
 }
 struct PrivateData {

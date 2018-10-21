@@ -7,8 +7,30 @@
 //
 
 import UIKit
+import Kingfisher
 class HomeFeedCell: UICollectionViewCell {
     
+    var post:AudioPost?{
+        didSet{
+            guard let post = post else {return}
+            guard let url = URL(string: post.user.picture_path) else {return}
+            let image = #imageLiteral(resourceName: "profile-imag")
+            print(url)
+            profileImage.kf.setImage(with: url, placeholder: image)
+            //set username and date
+            let attributedText = NSMutableAttributedString(string: post.user.full_name, attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 18)])
+            
+            attributedText.append(NSAttributedString(string: "\n\(post.creationDate.timeAgoDisplay())", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+            
+            let paragraphStyle = NSMutableParagraphStyle()
+            
+            paragraphStyle.lineSpacing = 2
+            
+            attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+            userNameTimeLabel.attributedText = attributedText
+            
+        }
+    }
     let profileImage:UIImageView = {
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "profile-imag")
@@ -17,13 +39,7 @@ class HomeFeedCell: UICollectionViewCell {
     
     let userNameTimeLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "Sherif Zekry", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 18)])
-        attributedText.append(NSAttributedString(string: "\n6 days ago", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),NSAttributedString.Key.foregroundColor:UIColor.gray]))
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 3
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
         label.numberOfLines = -1
-        label.attributedText = attributedText
         return label
     }()
     let menuButton:UIButton = {

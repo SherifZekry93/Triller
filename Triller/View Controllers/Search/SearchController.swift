@@ -100,7 +100,6 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     
     func setupNavigationController()
     {
-        //navigationItem.title = "Search"
         navigationController?.navigationBar.isTranslucent = false
     }
     func setupCollectionView()
@@ -189,6 +188,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
             if let AllUsersCell = (cell as? AllUsersCell)
             {
                 AllUsersCell.allUsers = filteredUsers
+                AllUsersCell.homeController = self
             }
         }
         else

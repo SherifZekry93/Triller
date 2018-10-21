@@ -7,8 +7,25 @@
 //
 
 import UIKit
+import Kingfisher
 class NotificationCell: UICollectionViewCell
 {
+    var notification:MyNotification?
+    {
+        didSet{
+            guard let notification = notification else {return}
+            let attributedText = NSMutableAttributedString(string: notification.user.user_name, attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 17)])
+            attributedText.append(NSAttributedString(string: "\n\(notification.creationDate)", attributes: [NSAttributedString.Key.foregroundColor:UIColor.lightGray,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14)]))
+            notificationContentDateLabel.attributedText = attributedText
+            
+            if let url = URL(string: notification.user.picture_path)
+            {
+                profileImage.kf.setImage(with: url, placeholder: UIImage(named: "profile-imag"))
+            }
+            
+        }
+    }
+    
     let profileImage:UIImageView = {
         let image = UIImageView()
         image.backgroundColor = .yellow
@@ -20,9 +37,6 @@ class NotificationCell: UICollectionViewCell
     
     let notificationContentDateLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "Sherif Zekry", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 17)])
-        attributedText.append(NSAttributedString(string: "\nDate", attributes: [NSAttributedString.Key.foregroundColor:UIColor.lightGray,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14)]))
-            label.attributedText = attributedText
         label.numberOfLines = -1
         return label
     }()

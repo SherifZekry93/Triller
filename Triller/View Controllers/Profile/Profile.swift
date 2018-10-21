@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 protocol ProfileViewStartScrolling {
     func didScroll(imageView:UIImageView)
 }
@@ -14,15 +15,39 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     let cellID = "cellID"
     let profileHeaderID = "profileHeaderID"
     var headerImage:UIImageView?
-    override func viewDidLoad() {
+    var posts = [AudioPost]()
+    var uid:String?
+    var user:User?//{
+        //didSet
+        //{
+            //guard let user = user else {return}
+            //self.posts = user.posts
+      //      self.collectionView.reloadData()
+        //}
+    //}
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         setupCollectionView()
         setupNavigationController()
+        fetchUserUsinguid()
+    }
+    func fetchUserUsinguid()
+    {
+        guard let uid = uid ?? Auth.auth().currentUser?.uid else {return}
+            FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
+                FirebaseService.shared.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
+                    self.user = user
+                    self.user?.posts = allAudios
+                    self.posts = allAudios
+                    self.collectionView.reloadData()
+                })
+            })
     }
     
     func setupNavigationController()
     {
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
     }
     
     func setupCollectionView()
@@ -40,7 +65,9 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: profileHeaderID, for: indexPath) as! ProfileHeaderCell
         header.backgroundColor = UIColor(red: 254/255, green: 254/255, blue: 254/255, alpha: 1)
-        headerImage =  header.profilePicture
+        
+        header.user = user
+        //headerImage =  header.profilePicture
         return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -48,7 +75,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return 10
+        return posts.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)

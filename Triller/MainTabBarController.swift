@@ -33,6 +33,6 @@ class MainTabBarController: UITabBarController{
 
         let profileNav = UINavigationController(rootViewController: MainProfileController(collectionViewLayout:layout4) )
         profileNav.tabBarItem.image = #imageLiteral(resourceName: "profile_selected").withRenderingMode(.alwaysTemplate)        
-        viewControllers = [homeNav,searchNav,notificationNav,profileNav]
+        viewControllers = [profileNav,searchNav,notificationNav,homeNav]
     }
 }

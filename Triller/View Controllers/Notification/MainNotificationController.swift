@@ -10,15 +10,24 @@ import UIKit
 class MainNotificationController:UICollectionViewController, UICollectionViewDelegateFlowLayout{
     let cellID = "cellID"
     let notificationHeaderID = "notificationHeaderID"
-    let notifications:Int = 10
+    var notifications:[MyNotification] = [MyNotification]()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         setupNavigationController()
+        loadNotificationByuid(uid:"4")
+    }
+    func loadNotificationByuid(uid:String)
+    {
+        FirebaseService.shared.getNotificationByuid(uid: "hdcDPY8gSENKkM0Fw31zDbCLdSQ2") { (allNotifications) in
+            self.notifications = allNotifications
+            self.collectionView.reloadData()
+        }
     }
     func setupNavigationController()
     {
         navigationController?.navigationBar.isTranslucent = false
+        navigationItem.title = "Notification"
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -37,7 +46,7 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if notifications == 0
+        if notifications.count == 0
         {
             return CGSize(width: view.frame.width, height: 244)
         }
@@ -46,11 +55,12 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return notifications
+        return notifications.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NotificationCell
+        cell.notification = notifications[indexPath.item]
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

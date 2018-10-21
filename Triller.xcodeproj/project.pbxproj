@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E15E6E0217CC28A009851BB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6DF217CC28A009851BB /* Date.swift */; };
+		7E2E93CB217C400800B298B5 /* MyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E93CA217C400800B298B5 /* MyNotification.swift */; };
 		7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */; };
 		7EA4FC26217934A200D481A1 /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC25217934A200D481A1 /* SignupController.swift */; };
 		7EA4FC28217937DD00D481A1 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC27217937DD00D481A1 /* NotificationCell.swift */; };
@@ -46,6 +48,8 @@
 /* Begin PBXFileReference section */
 		34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.release.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.release.xcconfig"; sourceTree = "<group>"; };
 		40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Triller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E15E6DF217CC28A009851BB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		7E2E93CA217C400800B298B5 /* MyNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNotification.swift; sourceTree = "<group>"; };
 		7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		7EA4FC25217934A200D481A1 /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
 		7EA4FC27217937DD00D481A1 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 				7EA5BACB217AF46700EFC458 /* User.swift */,
 				7EA5BACD217AF9F100EFC458 /* AudioPost.swift */,
 				7EA5BACF217AFB1600EFC458 /* HashTag.swift */,
+				7E2E93CA217C400800B298B5 /* MyNotification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 				7ECE81C0217363E500895EDA /* UIViewController.swift */,
 				7ECE81D22173EABE00895EDA /* BaseCell.swift */,
 				7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */,
+				7E15E6DF217CC28A009851BB /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -454,6 +460,8 @@
 				7ECE81D62173ED4100895EDA /* ProfileHeaderView.swift in Sources */,
 				7EA5BAD2217B0E5E00EFC458 /* AllUsersCell.swift in Sources */,
 				7ECE81BB2173219D00895EDA /* TopUserCell.swift in Sources */,
+				7E2E93CB217C400800B298B5 /* MyNotification.swift in Sources */,
+				7E15E6E0217CC28A009851BB /* Date.swift in Sources */,
 				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,
 				7EA5BACE217AF9F100EFC458 /* AudioPost.swift in Sources */,
 				7ECE81C42173685600895EDA /* TabBarView.swift in Sources */,

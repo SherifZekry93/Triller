@@ -15,7 +15,7 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
             collectionView.reloadData()
        }
     }
-    //var homeController:SearchController?
+    var homeController:SearchController?
     var collectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -23,7 +23,13 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
         cv.showsVerticalScrollIndicator = false
         return cv
     }()
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let layout = UICollectionViewFlowLayout()
+        let profileController = MainProfileController(collectionViewLayout:layout)
+        profileController.uid = allUsers?[indexPath.item].uid;
+ homeController?.navigationController?.pushViewController(profileController, animated: true)
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCollectionView()

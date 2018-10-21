@@ -8,19 +8,21 @@
 
 import Foundation
 struct AudioPost {
-    let audioDuration:String
+    let audioDuration:Double
     let audioName:String
     let audioURL:String
     let creationDate:Date
     let uid:String
     let audioNote:String
-    init(dictionary:[String:Any]) {
-        self.audioDuration = dictionary["audioDuration"] as? String ?? ""
+    let user:User
+    init(user:User,dictionary:[String:Any]) {
+        self.audioDuration = dictionary["audioDuration"] as? Double ?? 0
         self.audioName = dictionary["audioName"] as? String ?? ""
         self.audioURL = dictionary["audioUri"] as? String ?? ""
         self.audioNote = dictionary["audioNote"] as? String ?? ""
         let date = dictionary["creationDate"] as? Double ?? 0
         self.creationDate = Date(timeIntervalSince1970: date)
         self.uid = dictionary["uid"] as? String ?? ""
+        self.user = user
     }
 }

@@ -7,35 +7,50 @@
 //
 
 import UIKit
+import Kingfisher
 class ProfileHeaderCell: BaseCell{
-    //var parentCollection:ProfileViewStartScrolling?
+    var user : User?{
+        didSet
+        {
+            guard let user = user else {return}
+            guard let picURL = URL(string:user.picture_path) else {return}
+            profilePicture.kf.setImage(with: picURL, placeholder: UIImage(named: "profile-imag"))
+            profilePicture.contentMode = .scaleAspectFill
+            //set full name label and status
+            let attributedText = NSMutableAttributedString(string: "\(user.full_name)\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
+            attributedText.append(NSAttributedString(string: "\(user.status)", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 3
+            attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+            userNameStatusLabel.attributedText = attributedText
+            userNameStatusLabel.textAlignment = .center
+            //
+            let trillsattributedText = NSMutableAttributedString(string: "\(user.posts.count)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+            trillsattributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+            let trillsparagraphStyle = NSMutableParagraphStyle()
+            trillsparagraphStyle.lineSpacing = 4
+            trillsattributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, trillsattributedText.length))
+            trillsLabel.attributedText = trillsattributedText
+            trillsLabel.textAlignment = .center
+        }
+    }
     let profilePicture:UIImageView = {
         let iv = UIImageView()
         iv.image = #imageLiteral(resourceName: "profile-imag")
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 65
+        iv.clipsToBounds = true
+        iv.layer.borderColor = UIColor(white: 0.95, alpha: 1).cgColor
+        iv.layer.borderWidth = 3
         return iv
     }()
     let userNameStatusLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "Sherif Wagih \n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
-        attributedText.append(NSAttributedString(string: "happy", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 6
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
         label.numberOfLines = -1
-        label.attributedText = attributedText
-        label.textAlignment = .center
         return label
     }()
     let trillsLabel:UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
-        attributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
-        label.attributedText = attributedText
         label.numberOfLines = -1
         label.textAlignment = .center
         return label
