@@ -30,12 +30,11 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
         profileController.uid = allUsers?[indexPath.item].uid;
  homeController?.navigationController?.pushViewController(profileController, animated: true)
     }
-    override init(frame: CGRect) {
+    override init(frame: CGRect)
+    {
         super.init(frame: frame)
         setupCollectionView()
-        //getAllUsers()
     }
-    
     func setupCollectionView()
     {
         addSubview(collectionView)
