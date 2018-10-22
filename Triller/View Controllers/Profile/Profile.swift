@@ -22,8 +22,6 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         {
             guard let user = user else {return}
             FirebaseService.shared.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
-            
-            self.user?.posts = allAudios
             self.posts = allAudios
             self.collectionView.reloadData()
             })

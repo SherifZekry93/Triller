@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         //let layout = UICollectionViewFlowLayout()
-        let loginController = MainTabBarController()
+        let loginController = UINavigationController(rootViewController: LoginController())
         window?.rootViewController =  loginController
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = true

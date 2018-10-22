@@ -144,12 +144,17 @@ class FirebaseService
         let ref = Database.database().reference().child("AudioPosts")
         let query = ref.queryOrdered(byChild: "uid").queryEqual(toValue: user.uid)
         query.keepSynced(true)
-        query.observe(.childAdded, with: { (snap) in
+        query.observe(.value, with: { (snap) in
+            
             if let dictionary = snap.value as? [String:Any]
             {
-                print(dictionary)
-                 let audioPost = AudioPost(user: user, dictionary: dictionary)
-                audioPosts.append(audioPost)
+                dictionary.forEach({ (key,value) in
+                    if let dict = value as? [String:Any]
+                    {
+                        let audioPost = AudioPost(user: user, dictionary: dict)
+                        audioPosts.append(audioPost)
+                    }
+                })
             }
             completitionHandler(audioPosts)
         }) { (err) in

@@ -86,12 +86,11 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]
         let attributedString = NSMutableAttributedString(string: "I accept ", attributes: [:])
         attributedString.append(NSAttributedString(string: "Terms and Conditions", attributes: underlineAttribute))
-        
         termsAndConditions.attributedText = attributedString
         termsAndConditions.textAlignment = .center
-        termsAndConditions.font = UIFont.boldSystemFont(ofSize: 17)
-        termsAndConditions.textColor = .white
-        termsAndConditions.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToTermsAndConditionsURL)))
+        termsAndConditions.font = UIFont.boldSystemFont(ofSize: 15)
+        termsAndConditions.textColor = .white;
+    termsAndConditions.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToTermsAndConditionsURL)))
         return termsAndConditions
     }()
     
@@ -154,7 +153,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
     }()
     
     lazy var controlsStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,stackForPasswordStrength,emailTextField,phoneNumber,termsAndConditionsStack,createAccountButton])
+        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,stackForPasswordStrength,emailTextField,phoneNumber,termsAndConditionsStack,createAccountButton,alreadyHaveAnAccount])
         stack.axis = .vertical
         stack.spacing = 40
         return stack
@@ -165,6 +164,17 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         label.textColor = .white
         label.numberOfLines = 0
         return label
+    }()
+    
+    lazy var alreadyHaveAnAccount:UILabel = {
+       let label = UILabel()
+       label.text = "Already have an account"
+       label.font = UIFont.systemFont(ofSize: 15)
+       label.textColor = .white
+       label.isUserInteractionEnabled = true
+       label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAlreadyHaveAnAccount)))
+       label.textAlignment = .center
+       return label
     }()
     
     override func viewDidLoad()
@@ -186,7 +196,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         
         logoImage.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 150, height: 150), centerH: true)
         
-        scrollView.anchorToView(top: logoImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor,padding: .init(top: 0, left: 60, bottom: 0, right: 60),size: .init(width: 0, height:0))
+        scrollView.anchorToView(top: logoImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
         
         bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant:0)
         
@@ -269,5 +279,8 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         let isSelected = sender.isSelected
         checkButton.setImage(isSelected ? #imageLiteral(resourceName: "Checkbox").withRenderingMode(.alwaysOriginal) : nil, for: .normal)
     }
-    
+    @objc func handleAlreadyHaveAnAccount()
+    {
+        navigationController?.popViewController(animated: true)
+    }
 }

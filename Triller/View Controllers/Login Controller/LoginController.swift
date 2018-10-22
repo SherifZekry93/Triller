@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Firebase
 class LoginController: UIViewController
 {
     var bottomAnchorConstraint:NSLayoutConstraint?
@@ -206,7 +206,11 @@ extension LoginController
 {
     @objc func handleLogin()
     {
-        navigationController?.pushViewController(MainTabBarController(), animated: true)
+  //      Auth.auth().signIn(withCustomToken: "")
+    //    {  (result, err) in
+            
+      //  }
+ navigationController?.pushViewController(MainTabBarController(), animated: true)
     }
     @objc func handleSignup()
     {

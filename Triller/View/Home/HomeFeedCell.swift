@@ -8,6 +8,9 @@
 
 import UIKit
 import Kingfisher
+import AVKit
+import MediaPlayer
+import Firebase
 class HomeFeedCell: UICollectionViewCell {
     
     var post:AudioPost?{
@@ -28,7 +31,10 @@ class HomeFeedCell: UICollectionViewCell {
             
             attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
             userNameTimeLabel.attributedText = attributedText
-            
+            let duration = post.audioDuration / 1000
+            timeLabel.text = "00:\(Int(duration))"
+            //set caption Label
+            postTitle.text = post.audioNote
         }
     }
     let profileImage:UIImageView = {
@@ -48,14 +54,12 @@ class HomeFeedCell: UICollectionViewCell {
         button.setTitleColor(.black, for: .normal)
         return button
     }()
-    let captionLabel:UILabel = {
-        let view = UILabel()
-        return view
-    }()
-    let playButton:UIButton = {
+    lazy var playButton:UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
         button.tintColor = .orange
+        button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(playEpisode), for: .touchUpInside)
         return button
     }()
     let recordSlider:UISlider = {
@@ -96,9 +100,11 @@ class HomeFeedCell: UICollectionViewCell {
         view.backgroundColor = .white
         return view
     }()
-    let postTitle:UITextView = {
-        let title = UITextView()
+    let postTitle:UILabel = {
+        let title = UILabel()
         title.text = "Hello How are \n you are you alright"
+        title.numberOfLines = -1
+        title.font = UIFont.systemFont(ofSize: 17)
         return title
     }()
     lazy var bottomStack:UIStackView = {
@@ -109,6 +115,7 @@ class HomeFeedCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        setupAudioSession()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -124,13 +131,59 @@ class HomeFeedCell: UICollectionViewCell {
         containerView.addSubview(topStackView)
         topStackView.anchorToView(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, padding: .init(top: 12, left: 12, bottom: 0, right: 62), size: .init(width: 0, height: 50))
         profileImage.anchorToView(size: .init(width: 50, height: 0))
-        menuButton.anchorToView(top: userNameTimeLabel.topAnchor, left: nil, bottom: nil, right:containerView.rightAnchor, padding: .init(top: -12, left: 12, bottom: 0, right: 12), size: .init(width: 50, height: 50))
+        menuButton.anchorToView(top: userNameTimeLabel.topAnchor, left: nil, bottom: nil, right:containerView.rightAnchor, padding: .init(top: -12, left: 5, bottom: 5, right: 5), size: .init(width: 40, height: 40))
         containerView.addSubview(postTitle)
-        postTitle.anchorToView(top: topStackView.bottomAnchor, left: topStackView.leftAnchor, bottom: bottomStack.topAnchor, right: menuButton.rightAnchor,padding: .init(top: 0, left: 0, bottom: 12, right: 0))
-      
-        bottomStack.anchorToView(top: postTitle.bottomAnchor, left: postTitle.leftAnchor, bottom: controlsStack.topAnchor, right: postTitle.rightAnchor, padding: .init(top: 12, left: 0, bottom:12, right: 0), size: .init(width: 0, height: 40))
-        controlsStack.anchorToView(top: bottomStack.bottomAnchor, left: bottomStack.leftAnchor, bottom: containerView.bottomAnchor, right:nil, padding: .init(top: 12, left: 20, bottom: 12, right: 0), size: .init(width: 120, height: 40))
+        postTitle.anchorToView(top: topStackView.bottomAnchor, left: topStackView.leftAnchor, bottom: bottomStack.topAnchor, right: menuButton.rightAnchor,padding: .init(top: 5, left: 0, bottom: 5, right: 0))
+        bottomStack.anchorToView(top: postTitle.bottomAnchor, left: postTitle.leftAnchor, bottom: controlsStack.topAnchor, right: postTitle.rightAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 40))
+        controlsStack.anchorToView(top: bottomStack.bottomAnchor, left: bottomStack.leftAnchor, bottom: containerView.bottomAnchor, right:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 0), size: .init(width: 120, height: 40))
         likeButton.anchorToView( size: .init(width: 40, height: 40))
         commentButton.anchorToView(size: .init(width: 40, height: 40))
+        playButton.anchorToView(size:.init(width: 40, height: 0))
+    }
+    let player:AVPlayer = {
+       let player = AVPlayer()
+        player.automaticallyWaitsToMinimizeStalling = false
+        return player
+    }()
+    fileprivate func setupAudioSession()
+    {
+        do
+        {
+            try AVAudioSession.sharedInstance().setCategory(.playback,mode:.default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        }
+        catch
+        {
+            print("Error setting session")
+        }
+    }
+    @objc func playEpisode()
+    {
+        if let url = post?.audioURL
+        {
+            let pathString = "SongsPath.mp3"
+            let storageReference = Storage.storage().reference().child(url)
+            let fileUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            
+            guard let fileUrl = fileUrls.first?.appendingPathComponent(pathString) else {
+                return
+            }
+            
+            let downloadTask = storageReference.write(toFile: fileUrl)
+            
+            downloadTask.observe(.success) { _ in
+                
+                    let itemToPlay = AVPlayerItem(url: fileUrl)
+                    self.player.replaceCurrentItem(with: itemToPlay)
+                    self.player.play()
+            }
+            guard let actualURL = URL(string: url) else {return}
+            let itemToPlay = AVPlayerItem(url: actualURL)
+            player.replaceCurrentItem(with: itemToPlay)
+            player.play()
+        }
+        
+        
+        
     }
 }

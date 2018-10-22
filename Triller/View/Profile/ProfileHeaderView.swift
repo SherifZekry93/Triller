@@ -18,18 +18,18 @@ class ProfileHeaderCell: BaseCell{
             profilePicture.contentMode = .scaleAspectFill
             //set full name label and status
             let attributedText = NSMutableAttributedString(string: "\(user.full_name)\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
-            attributedText.append(NSAttributedString(string: "\(user.status)", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+            attributedText.append(NSAttributedString(string: "\(user.status == "" ? "No Status": user.status)", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 3
             attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
             userNameStatusLabel.attributedText = attributedText
             userNameStatusLabel.textAlignment = .center
-            //
+            //set trillsattributedText
             let trillsattributedText = NSMutableAttributedString(string: "\(user.posts.count)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
             trillsattributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
             let trillsparagraphStyle = NSMutableParagraphStyle()
             trillsparagraphStyle.lineSpacing = 4
-            trillsattributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, trillsattributedText.length))
+            trillsattributedText.addAttribute(.paragraphStyle, value: trillsparagraphStyle, range: NSMakeRange(0, trillsattributedText.length))
             trillsLabel.attributedText = trillsattributedText
             trillsLabel.textAlignment = .center
         }
@@ -47,11 +47,25 @@ class ProfileHeaderCell: BaseCell{
     let userNameStatusLabel:UILabel = {
         let label = UILabel()
         label.numberOfLines = -1
+        let attributedText = NSMutableAttributedString(string: "Sherif Zekry\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
+        attributedText.append(NSAttributedString(string: "No Status", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 3
+        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+        label.attributedText = attributedText
+        label.textAlignment = .center
         return label
     }()
     let trillsLabel:UILabel = {
         let label = UILabel()
         label.numberOfLines = -1
+        label.textAlignment = .center
+        let trillsattributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+        trillsattributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+        let trillsparagraphStyle = NSMutableParagraphStyle()
+        trillsparagraphStyle.lineSpacing = 4
+        trillsattributedText.addAttribute(.paragraphStyle, value: trillsparagraphStyle, range: NSMakeRange(0, trillsattributedText.length))
+        label.attributedText = trillsattributedText
         label.textAlignment = .center
         return label
     }()
