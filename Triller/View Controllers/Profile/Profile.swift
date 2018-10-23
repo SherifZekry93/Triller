@@ -32,11 +32,14 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         super.viewDidLoad()
         setupCollectionView()
         setupNavigationController()
-        fetchUserUsinguid()
+        if user == nil
+        {
+            fetchUserUsinguid()
+        }
     }
     func fetchUserUsinguid()
     {
-         let uid = self.uid ?? Auth.auth().currentUser?.uid ?? "z"
+         let uid = self.uid ?? Auth.auth().currentUser?.uid ?? "17gYsB7Sc2QUqJ41XDbqtKvoW1B2"
          FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
                     self.user = user
             })
@@ -80,6 +83,12 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 200)
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 220)
+        let dummyCell = ProfilePostCell(frame: frame)
+        dummyCell.post = posts[indexPath.item]
+        dummyCell.layoutIfNeeded()
+        let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
+        let height = max(150, estimatedsize.height)
+        return CGSize(width: view.frame.width, height: height)
     }
 }

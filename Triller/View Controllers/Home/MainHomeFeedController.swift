@@ -118,7 +118,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
       
         let layout = UICollectionViewFlowLayout()
         let profileController = MainProfileController(collectionViewLayout:layout)
-        profileController.uid = audioPosts?[indexPath.item].uid;
+        profileController.user = audioPosts?[indexPath.item].user;
         navigationController?.pushViewController(profileController, animated: true)
 
     }

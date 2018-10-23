@@ -27,7 +27,7 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
         
         let layout = UICollectionViewFlowLayout()
         let profileController = MainProfileController(collectionViewLayout:layout)
-        profileController.uid = allUsers?[indexPath.item].uid;
+        profileController.user = allUsers?[indexPath.item]//.uid;
  homeController?.navigationController?.pushViewController(profileController, animated: true)
     }
     override init(frame: CGRect)
