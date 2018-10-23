@@ -10,7 +10,7 @@ import Foundation
 class HashTag:NSObject {
     let hashTagName:String
     let audioPosts:[AudioPost]
-    init(hashTagName:String,audioPosts:[AudioPost])
+    init(hashTagName:String,audioPosts:[AudioPost] = [AudioPost]() )
     {
         self.hashTagName = hashTagName
         self.audioPosts = audioPosts

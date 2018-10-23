@@ -89,7 +89,7 @@ class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UIC
     func setupCollectionView()
     {
         addSubview(collectionView)
-        collectionView.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+        collectionView.anchorToView(top: topAnchor, leading: leftAnchor, bottom: bottomAnchor, trailing: rightAnchor)
         collectionView.backgroundColor = UIColor(white: 0.97, alpha: 1)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -143,13 +143,13 @@ class TabBarCell: UICollectionViewCell {
         addSubview(tabItemImage)
         if custom
         {
-            tabItemImage.anchorToView(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, padding:.init(top: 5, left: 5, bottom: 5, right: 5))
+            tabItemImage.anchorToView(top:topAnchor, leading: leftAnchor, bottom: bottomAnchor, trailing: rightAnchor, padding:.init(top: 5, left: 5, bottom: 5, right: 5))
         }
         else
         {
             topConstant?.isActive = true
             bottomConstant?.isActive = true
-            tabItemImage.anchorToView(left: leftAnchor,right: rightAnchor,padding:.init(top: 15, left: 15, bottom: 15, right: 15))
+            tabItemImage.anchorToView(leading: leftAnchor,trailing: rightAnchor,padding:.init(top: 15, left: 15, bottom: 15, right: 15))
         }
             
     }

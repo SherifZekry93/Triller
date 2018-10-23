@@ -37,11 +37,8 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     func fetchUserUsinguid()
     {
          let uid = self.uid ?? Auth.auth().currentUser?.uid ?? "z"
-        print(uid)
-
-        FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
+         FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
                     self.user = user
-                    self.collectionView.reloadData()
             })
     }
     
@@ -78,7 +75,8 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         return posts.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ProfilePostCell
+        cell.post = posts[indexPath.item]
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

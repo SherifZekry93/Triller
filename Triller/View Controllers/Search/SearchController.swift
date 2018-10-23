@@ -23,7 +23,6 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     var filteredUsers = [User]()
     var allHashTags = [HashTag]()
     var filteredHashTags = [HashTag]()
-    
     var searchForTopUsers = true
     var searchForHashTags = false
     
@@ -122,11 +121,11 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     {
         let menuView = UIView()
         view.addSubview(menuView)
-        menuView.anchorToView(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
+        menuView.anchorToView(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
         let horizontalGrayLine = UIView()
         horizontalGrayLine.backgroundColor = .lightGray
         menuView.addSubview(horizontalGrayLine)
-        horizontalGrayLine.anchorToView(left: menuView.leftAnchor, bottom: menuView.bottomAnchor, right: menuView.rightAnchor, size: .init(width: 0, height: 1))
+        horizontalGrayLine.anchorToView(leading: menuView.leadingAnchor, bottom: menuView.bottomAnchor, trailing: menuView.trailingAnchor, size: .init(width: 0, height: 1))
         let searchForFriendsButton = UIButton()
         searchForFriendsButton.setTitle("TOP", for: .normal)
         searchForFriendsButton.setTitleColor(.black, for: .normal)
@@ -140,7 +139,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         let menuStackView = UIStackView(arrangedSubviews: [searchForFriendsButton,searchForHashTagButton])
         menuStackView.distribution = .fillEqually
         menuView.addSubview(menuStackView)
-        menuStackView.anchorToView(top: menuView.topAnchor, left: menuView.leftAnchor, bottom: menuView.bottomAnchor, right: menuView.rightAnchor)
+        menuStackView.anchorToView(top: menuView.topAnchor, leading: menuView.leadingAnchor, bottom: menuView.bottomAnchor, trailing: menuView.trailingAnchor)
         horizontalLine.backgroundColor = .orange
         horizontalLine.frame = CGRect(x: 0, y: 48, width: view.frame.width / 2, height: 2)
         menuView.addSubview(horizontalLine)
@@ -196,6 +195,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
             if let AllHashTags = (cell as? AllHashTags)
             {
                 AllHashTags.allHashTags = filteredHashTags
+                AllHashTags.homeController = self
             }
         }
         return cell

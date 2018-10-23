@@ -21,6 +21,8 @@
 		7EA5BACE217AF9F100EFC458 /* AudioPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BACD217AF9F100EFC458 /* AudioPost.swift */; };
 		7EA5BAD0217AFB1600EFC458 /* HashTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BACF217AFB1600EFC458 /* HashTag.swift */; };
 		7EA5BAD2217B0E5E00EFC458 /* AllUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BAD1217B0E5E00EFC458 /* AllUsersCell.swift */; };
+		7EAE3AF9217E576F008C1B02 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE3AF8217E576F008C1B02 /* String.swift */; };
+		7EAE3AFB217E5D5E008C1B02 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE3AFA217E5D5E008C1B02 /* Label.swift */; };
 		7EB8E276217722D400903704 /* HomeNavigationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8E275217722D400903704 /* HomeNavigationCell.swift */; };
 		7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81892172768000895EDA /* AppDelegate.swift */; };
 		7ECE818F2172768000895EDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE818D2172768000895EDA /* Main.storyboard */; };
@@ -63,6 +65,8 @@
 		7EA5BACD217AF9F100EFC458 /* AudioPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPost.swift; sourceTree = "<group>"; };
 		7EA5BACF217AFB1600EFC458 /* HashTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTag.swift; sourceTree = "<group>"; };
 		7EA5BAD1217B0E5E00EFC458 /* AllUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUsersCell.swift; sourceTree = "<group>"; };
+		7EAE3AF8217E576F008C1B02 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		7EAE3AFA217E5D5E008C1B02 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		7EB8E275217722D400903704 /* HomeNavigationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationCell.swift; sourceTree = "<group>"; };
 		7ECE81862172768000895EDA /* Triller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81892172768000895EDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -257,6 +261,8 @@
 				7ECE81D22173EABE00895EDA /* BaseCell.swift */,
 				7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */,
 				7E15E6DF217CC28A009851BB /* Date.swift */,
+				7EAE3AF8217E576F008C1B02 /* String.swift */,
+				7EAE3AFA217E5D5E008C1B02 /* Label.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -449,7 +455,9 @@
 				7EA5BAD0217AFB1600EFC458 /* HashTag.swift in Sources */,
 				7ECE81A62172BB3C00895EDA /* LeftPaddedTextField.swift in Sources */,
 				7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */,
+				7EAE3AF9217E576F008C1B02 /* String.swift in Sources */,
 				7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */,
+				7EAE3AFB217E5D5E008C1B02 /* Label.swift in Sources */,
 				7ECE81D82173ED6500895EDA /* ProfilePostCell.swift in Sources */,
 				7EF91DBD21785CED00BD42CA /* LoginController.swift in Sources */,
 				7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */,

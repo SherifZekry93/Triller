@@ -133,7 +133,7 @@ class LoginController: UIViewController
         let height = UIApplication.shared.statusBarFrame.height
         guard let window = UIApplication.shared.keyWindow else {return}
         window.addSubview(customBackgroundView)
-        customBackgroundView.anchorToView(top: window.topAnchor, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, padding: .zero, size: .init(width: 0, height: height))
+        customBackgroundView.anchorToView(top: window.topAnchor, leading: window.leadingAnchor, bottom: nil, trailing: window.trailingAnchor, padding: .zero, size: .init(width: 0, height: height))
     }
     func setupNavigationBar()
     {
@@ -142,15 +142,15 @@ class LoginController: UIViewController
     func setupControlsStack()
     {
         view.addSubview(backGroundImage)
-        backGroundImage.anchorToView(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
+        backGroundImage.anchorToView(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
         view.addSubview(logoImage)
         view.addSubview(scrollView)
-        logoImage.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 150, height: 150), centerH: true)
-        scrollView.anchorToView(top: logoImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
+        logoImage.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 150, height: 150), centerH: true)
+        scrollView.anchorToView(top: logoImage.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
        bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant:30)
         bottomAnchorConstraint!.isActive = true
         scrollView.addSubview(controlsStack)
-        controlsStack.anchorToView(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, padding: .init(top: 30, left: 0, bottom:150, right: 0))
+        controlsStack.anchorToView(top: scrollView.topAnchor, leading: scrollView.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: scrollView.trailingAnchor, padding: .init(top: 30, left: 0, bottom:150, right: 0))
         controlsStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         userNameTextField.anchorToView(size: .init(width: 0, height: 35))
         passwordTextField.anchorToView(size: .init(width: 0, height: 35))
@@ -195,7 +195,6 @@ class LoginController: UIViewController
         let curframe = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         let targetFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let delta = targetFrame.origin.y - curframe.origin.y
-      //  print(targetFrame.origin.y)
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: UIView.AnimationOptions(rawValue: curve!), animations: {
             self.bottomAnchorConstraint?.constant += delta
             self.view.layoutIfNeeded()
@@ -206,11 +205,7 @@ extension LoginController
 {
     @objc func handleLogin()
     {
-  //      Auth.auth().signIn(withCustomToken: "")
-    //    {  (result, err) in
-            
-      //  }
- navigationController?.pushViewController(MainTabBarController(), animated: true)
+        navigationController?.pushViewController(MainTabBarController(), animated: true)
     }
     @objc func handleSignup()
     {

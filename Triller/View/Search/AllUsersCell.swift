@@ -38,7 +38,7 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
     func setupCollectionView()
     {
         addSubview(collectionView)
-        collectionView.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+        collectionView.anchorToView(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(TopUserCell.self, forCellWithReuseIdentifier: cellID)

@@ -11,6 +11,7 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
     let cellID = "cellID"
     let notificationHeaderID = "notificationHeaderID"
     var notifications:[MyNotification] = [MyNotification]()
+    var loadedData = false
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -21,7 +22,9 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
     {
         FirebaseService.shared.getNotificationByuid(uid: "hdcDPY8gSENKkM0Fw31zDbCLdSQ2") { (allNotifications) in
             self.notifications = allNotifications
+            self.loadedData = true
             self.collectionView.reloadData()
+            
         }
     }
     func setupNavigationController()
@@ -46,7 +49,7 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if notifications.count == 0
+        if notifications.count == 0 && loadedData == true
         {
             return CGSize(width: view.frame.width, height: 244)
         }

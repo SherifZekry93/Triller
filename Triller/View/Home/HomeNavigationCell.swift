@@ -30,7 +30,7 @@ class HomeNavigationCell: UICollectionViewCell {
     {
         super.init(frame: frame)
         addSubview(stackContainer)
-        stackContainer.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor,padding: .init(top: 3, left: 8, bottom: 3, right: 0))
+        stackContainer.anchorToView(top: topAnchor, leading: leftAnchor, bottom: bottomAnchor, trailing: rightAnchor,padding: .init(top: 3, left: 8, bottom: 3, right: 0))
         menuImage.anchorToView( size: .init(width: 38, height: 38))
         logoImage.anchorToView( size: .init(width: 60, height: 38))
     }

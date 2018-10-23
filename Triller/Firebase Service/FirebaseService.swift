@@ -24,32 +24,12 @@ class FirebaseService
         }
         
         ref.observe(.childAdded, with: { (snap) in
-            let hashTag = self.allHashTagsObserver(snap:snap)
+            let hashTag = HashTag(hashTagName: snap.key)
+            //self.getPostsByHashtag(hashtag: hashTag)
             allHashtags.append(hashTag)
             completitionHandler(allHashtags)
         }) { (err) in
         }
-    }
-    func allHashTagsObserver(snap:DataSnapshot) -> HashTag
-    {
-        var audioPosts = [AudioPost]()
-        var hashtag = HashTag(hashTagName: "", audioPosts: audioPosts)
-        if let dictionaries = snap.value as? [String:Any]
-        {
-            dictionaries.forEach({ (key,value) in
-                if let postVlaue = value as? [String:Any]
-                {
-                    let uid = postVlaue["uid"] as? String ?? ""
-                    fetchUserByuid(uid: uid, completitionHandler: { (user) in
-                        let audioPost = AudioPost(user:user,dictionary: postVlaue)
-                        audioPosts.append(audioPost)
-                    })
-                    
-                }
-            })
-            hashtag = HashTag(hashTagName: snap.key, audioPosts: audioPosts)
-        }
-        return hashtag
     }
     func getAllUsers(completitionHandler:@escaping ([User])->())
     {
@@ -70,6 +50,7 @@ class FirebaseService
             })
             completitionHandler(allUsers)
         }
+        
     }
     func getNotificationByuid(uid:String,completitionHandler:@escaping ([MyNotification]) -> ())
     {
@@ -160,5 +141,29 @@ class FirebaseService
         }) { (err) in
             
         }
+    }
+    func getPostsByHashtag(hashtag:HashTag,completitionHandler:@escaping ([AudioPost]) -> ())
+    {
+        var audioPosts = [AudioPost]()
+        let ref = Database.database().reference().child("HashTags").child(hashtag.hashTagName)
+        ref.observe(.childAdded, with: { (snap) in
+            if let dictionary = snap.value as? [String:Any]
+            {
+                guard let uid = dictionary["uid"] as? String else {return}
+                self.fetchUserByuid(uid: uid, completitionHandler: { (user) in
+                    self.fetchHashTagPost(user: user, dictionary: dictionary, completitionHandler: { (audioPost) in
+                        audioPosts.append(audioPost)
+                    })
+                    completitionHandler(audioPosts)
+                })
+            }
+        }) { (err) in
+            
+        }
+    }
+    func fetchHashTagPost(user:User,dictionary:[String:Any],completitionHandler:(AudioPost) -> ())
+    {
+        let audioPost = AudioPost(user: user, dictionary: dictionary)
+        completitionHandler(audioPost)
     }
 }

@@ -192,17 +192,17 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         
         scrollView.addSubview(controlsStack)
         
-        backGroundImage.anchorToView(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
+        backGroundImage.anchorToView(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
         
-        logoImage.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 150, height: 150), centerH: true)
+        logoImage.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 150, height: 150), centerH: true)
         
-        scrollView.anchorToView(top: logoImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
+        scrollView.anchorToView(top: logoImage.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
         
         bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant:0)
         
         bottomAnchorConstraint!.isActive = true
         
-        controlsStack.anchorToView(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, padding: .init(top: 30, left: 0, bottom:150, right: 0))
+        controlsStack.anchorToView(top: scrollView.topAnchor, leading: scrollView.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: scrollView.trailingAnchor, padding: .init(top: 30, left: 0, bottom:150, right: 0))
         
         controlsStack.widthAnchor.constraint(equalTo:
             scrollView.widthAnchor).isActive = true
@@ -223,9 +223,9 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         
         phoneNumber.addSubview(requiredLabel)
         
-        bottomSeparator.anchorToView(top: nil, left: phoneNumber.leftAnchor, bottom: phoneNumber.bottomAnchor, right: phoneNumber.rightAnchor, padding: .zero, size: .init(width: 0, height: 2))
+        bottomSeparator.anchorToView(top: nil, leading: phoneNumber.leadingAnchor, bottom: phoneNumber.bottomAnchor, trailing: phoneNumber.trailingAnchor, padding: .zero, size: .init(width: 0, height: 2))
         
-        requiredLabel.anchorToView(top: phoneNumber.bottomAnchor, left: phoneNumber.leftAnchor)
+        requiredLabel.anchorToView(top: phoneNumber.bottomAnchor, leading: phoneNumber.leadingAnchor)
         
         termsAndConditionsStack.anchorToView(size:.init(width: 0, height: 25))
         checkButton.anchorToView(size:.init(width: 25, height: 0))

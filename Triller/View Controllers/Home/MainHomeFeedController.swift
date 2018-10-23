@@ -12,20 +12,48 @@ import MediaPlayer
 class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout
     {
     let cellID = "cellID"
-    var audioPosts = [AudioPost]()
+    var audioPosts:[AudioPost]?{
+        didSet{
+            self.collectionView.reloadData()
+        }
+    }
+    var uid:String?{
+        didSet{
+            guard let uid = uid else {return}
+            fetchFollowing(uid: uid)
+        }
+    }
+    var hashTag:HashTag?{
+        didSet{
+            guard let hashTag = hashTag else {return}
+            fetchPostsForHashtag(hashTag: hashTag)
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setupAudioSession()
+        if hashTag == nil
+        {
+            fetchFollowing(uid: "")
+        }
+    }
+    func fetchFollowing(uid:String)
+    {
         setupNavigationController()
         FirebaseService.shared.fetchFollowingPosts(uid: "jVECsq43DWUdU02e9TcuuIjeloi2") { (allAudioPosts) in
             self.audioPosts = allAudioPosts
-            self.collectionView.reloadData()
         }
-        setupAudioSession()
+    }
+    func fetchPostsForHashtag(hashTag:HashTag)
+    {
+        FirebaseService.shared.getPostsByHashtag(hashtag: hashTag) { (allPosts) in
+            self.audioPosts = allPosts
+        }
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return audioPosts.count
+        return audioPosts?.count  ?? 0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
@@ -33,7 +61,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 220)
         let dummyCell = HomeFeedCell(frame: frame)
-        dummyCell.post = audioPosts[indexPath.item]
+        dummyCell.post = audioPosts?[indexPath.item]
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
         let height = max(170, estimatedsize.height)
@@ -41,7 +69,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for:indexPath) as! HomeFeedCell
-       let post = audioPosts[indexPath.item]
+       let post = audioPosts?[indexPath.item]
        cell.post = post
        return cell
     }
@@ -85,5 +113,13 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         let item = AVPlayerItem(url: actualURL)
         player = AVPlayer(playerItem: item)
         player?.play()
+    }
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+      
+        let layout = UICollectionViewFlowLayout()
+        let profileController = MainProfileController(collectionViewLayout:layout)
+        profileController.uid = audioPosts?[indexPath.item].uid;
+        navigationController?.pushViewController(profileController, animated: true)
+
     }
 }

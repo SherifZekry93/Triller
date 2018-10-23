@@ -65,27 +65,27 @@ class CustomTextField: UITextField {
         addSubview(customLabelPlaceHolder)
         leftViewContainer.frame = CGRect(x: 0, y: 0, width: 30, height: 35)
         leftViewContainer.addSubview(textIcon)
-        textIcon.anchorToView(top: leftViewContainer.topAnchor, left: leftViewContainer.leftAnchor, bottom: leftViewContainer.bottomAnchor,padding: .init(top: 0, left: 0, bottom: 5, right: 0),size: .init(width: 30, height: 30))
+        textIcon.anchorToView(top: leftViewContainer.topAnchor, leading: leftViewContainer.leadingAnchor, bottom: leftViewContainer.bottomAnchor,padding: .init(top: 0, left: 0, bottom: 5, right: 0),size: .init(width: 30, height: 30))
         self.leftViewMode = .always
         self.leftView = leftViewContainer;
-        customLabelPlaceHolder.anchorToView(left: leftAnchor, padding: .init(top: 0, left: 35, bottom: 0, right: 0))
+        customLabelPlaceHolder.anchorToView(leading: leadingAnchor, padding: .init(top: 0, left: 35, bottom: 0, right: 0))
         toAnimateAnchor = customLabelPlaceHolder.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         toAnimateAnchor?.isActive = true
         self.addTarget(self, action: #selector(startEditing), for: .editingDidBegin)
         self.addTarget(self, action: #selector(finishEditing), for: .editingDidEnd)
         self.textAlignment = .center
         addSubview(bottomSeparator)
-        bottomSeparator.anchorToView(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, padding: .zero, size: .init(width: 0, height: 2))
+        bottomSeparator.anchorToView(top: nil, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .zero, size: .init(width: 0, height: 2))
         addSubview(requiredLabel)
         self.textColor = .white
         addSubview(requiredLabel)
-        requiredLabel.anchorToView(top: self.bottomAnchor, left: self.leftAnchor)
+        requiredLabel.anchorToView(top: self.bottomAnchor, leading: self.leadingAnchor)
         rightViewContainer.frame = CGRect(x: self.frame.width - 35, y: 0, width: 35, height: 35)
         self.rightViewMode = .always
         self.rightView = rightViewContainer
         self.addSubview(rightViewContainer)
         rightViewContainer.addSubview(rightViewImage)
-        rightViewImage.anchorToView(top: rightViewContainer.topAnchor, left: rightViewContainer.leftAnchor, bottom: rightViewContainer.bottomAnchor, right: rightViewContainer.rightAnchor)
+        rightViewImage.anchorToView(top: rightViewContainer.topAnchor, leading: rightViewContainer.leadingAnchor, bottom: rightViewContainer.bottomAnchor, trailing: rightViewContainer.trailingAnchor)
     }
     @objc func startEditing()
     {

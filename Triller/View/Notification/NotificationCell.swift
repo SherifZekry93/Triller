@@ -44,8 +44,8 @@ class NotificationCell: UICollectionViewCell
         super.init(frame:frame)
         addSubview(profileImage)
         addSubview(notificationContentDateLabel)
-        profileImage.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, padding:.init(top: 12, left: 12, bottom: 12, right: 12), size: .init(width: 50, height: 50))
-        notificationContentDateLabel.anchorToView(top: profileImage.topAnchor, left: profileImage.rightAnchor, padding: .init(top: 6, left: 12, bottom: 0, right: 0))
+        profileImage.anchorToView(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, padding:.init(top: 12, left: 12, bottom: 12, right: 12), size: .init(width: 50, height: 50))
+        notificationContentDateLabel.anchorToView(top: profileImage.topAnchor, leading: profileImage.trailingAnchor, padding: .init(top: 6, left: 12, bottom: 0, right: 0))
     }
     
     required init?(coder aDecoder: NSCoder) {

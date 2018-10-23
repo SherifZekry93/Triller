@@ -34,7 +34,14 @@ class HomeFeedCell: UICollectionViewCell {
             let duration = post.audioDuration / 1000
             timeLabel.text = "00:\(Int(duration))"
             //set caption Label
-            postTitle.text = post.audioNote
+            if post.audioNote != ""
+            {
+                postTitle.text = post.audioNote
+            }
+            if post.audioNote.getLanguage() == "ar"
+            {
+                postTitle.textAlignment = .right
+            }
         }
     }
     let profileImage:UIImageView = {
@@ -102,13 +109,14 @@ class HomeFeedCell: UICollectionViewCell {
     }()
     let postTitle:UILabel = {
         let title = UILabel()
-        title.text = "Hello How are \n you are you alright"
-        title.numberOfLines = -1
+        title.text = nil
+        // title.text = "Hello How are \n you are you alright"
         title.font = UIFont.systemFont(ofSize: 17)
+        title.numberOfLines = -1
         return title
     }()
     lazy var bottomStack:UIStackView = {
-       let stack = UIStackView(arrangedSubviews: [playButton,recordSlider,timeLabel])
+        let stack = UIStackView(arrangedSubviews: [playButton,recordSlider,timeLabel])
         stack.spacing = 4
         return stack
     }()
@@ -127,29 +135,29 @@ class HomeFeedCell: UICollectionViewCell {
         containerView.addSubview(controlsStack)
         containerView.addSubview(menuButton)
         backgroundColor = .lightGray
-        containerView.anchorToView(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, padding: .init(top: 0, left: 8, bottom: 0, right: 8))
+        containerView.anchorToView(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 8, bottom: 0, right: 8))
         containerView.addSubview(topStackView)
-        topStackView.anchorToView(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, padding: .init(top: 12, left: 12, bottom: 0, right: 62), size: .init(width: 0, height: 50))
+        topStackView.anchorToView(top: containerView.topAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: containerView.trailingAnchor, padding: .init(top: 12, left: 12, bottom: 0, right: 62), size: .init(width: 0, height: 50))
         profileImage.anchorToView(size: .init(width: 50, height: 0))
-        menuButton.anchorToView(top: userNameTimeLabel.topAnchor, left: nil, bottom: nil, right:containerView.rightAnchor, padding: .init(top: -12, left: 5, bottom: 5, right: 5), size: .init(width: 40, height: 40))
+        menuButton.anchorToView(top: userNameTimeLabel.topAnchor, leading: nil, bottom: nil, trailing:containerView.trailingAnchor, padding: .init(top: -12, left: 5, bottom: 5, right: 5), size: .init(width: 40, height: 40))
         containerView.addSubview(postTitle)
-        postTitle.anchorToView(top: topStackView.bottomAnchor, left: topStackView.leftAnchor, bottom: bottomStack.topAnchor, right: menuButton.rightAnchor,padding: .init(top: 5, left: 0, bottom: 5, right: 0))
-        bottomStack.anchorToView(top: postTitle.bottomAnchor, left: postTitle.leftAnchor, bottom: controlsStack.topAnchor, right: postTitle.rightAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 40))
-        controlsStack.anchorToView(top: bottomStack.bottomAnchor, left: bottomStack.leftAnchor, bottom: containerView.bottomAnchor, right:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 0), size: .init(width: 120, height: 40))
+        postTitle.anchorToView(top: topStackView.bottomAnchor, leading: topStackView.leadingAnchor, bottom: bottomStack.topAnchor, trailing: menuButton.trailingAnchor,padding: .init(top: 5, left: 0, bottom: 5, right: 0))
+        bottomStack.anchorToView(top: postTitle.bottomAnchor, leading: postTitle.leadingAnchor, bottom: controlsStack.topAnchor, trailing: postTitle.trailingAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 40))
+        controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: containerView.bottomAnchor, trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 0), size: .init(width: 120, height: 40))
         likeButton.anchorToView( size: .init(width: 40, height: 40))
         commentButton.anchorToView(size: .init(width: 40, height: 40))
         playButton.anchorToView(size:.init(width: 40, height: 0))
     }
     let player:AVPlayer = {
-       let player = AVPlayer()
-        player.automaticallyWaitsToMinimizeStalling = false
-        return player
+        let avPlayer = AVPlayer()
+        avPlayer.automaticallyWaitsToMinimizeStalling = false
+        return avPlayer
     }()
     fileprivate func setupAudioSession()
     {
         do
         {
-            try AVAudioSession.sharedInstance().setCategory(.playback,mode:.default)
+            try! AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback,mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         }
         catch
@@ -159,31 +167,33 @@ class HomeFeedCell: UICollectionViewCell {
     }
     @objc func playEpisode()
     {
-        if let url = post?.audioURL
-        {
-            let pathString = "SongsPath.mp3"
-            let storageReference = Storage.storage().reference().child(url)
-            let fileUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            
-            guard let fileUrl = fileUrls.first?.appendingPathComponent(pathString) else {
+        Auth.auth().signIn(withCustomToken: "") { (result, err) in
+            if err != nil
+            {
+                print(err)
                 return
             }
-            
-            let downloadTask = storageReference.write(toFile: fileUrl)
-            
-            downloadTask.observe(.success) { _ in
-                
-                    let itemToPlay = AVPlayerItem(url: fileUrl)
-                    self.player.replaceCurrentItem(with: itemToPlay)
-                    self.player.play()
+            return
+        }
+        if let testurl = post?.audioURL
+        {
+            let storageRef = Storage.storage().reference().child(post?.uid ?? "").child("AudioPosts").child(testurl)
+            storageRef.downloadURL
+            { (url, err) in
+                print(err)
+                print(url)
             }
-            guard let actualURL = URL(string: url) else {return}
-            let itemToPlay = AVPlayerItem(url: actualURL)
-            player.replaceCurrentItem(with: itemToPlay)
-            player.play()
         }
         
         
         
+        if let url = post?.audioURL
+        {
+            //https://feeds.soundcloud.com/stream/396259545-brian-hong-voong-my-experiences-in-computer-science-vs-real-world.mp3
+                guard let actualURL = URL(string: url) else {return}
+                let item = AVPlayerItem(url: actualURL)
+                player.replaceCurrentItem(with: item)
+                player.play()
+        }
     }
 }
