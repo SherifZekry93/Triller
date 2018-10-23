@@ -22,6 +22,7 @@ class CustomTextField: UITextField {
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "profile_selected").withRenderingMode(.alwaysTemplate)
         image.tintColor = .white
+        image.contentMode = .scaleAspectFit
         return image
     }()
     

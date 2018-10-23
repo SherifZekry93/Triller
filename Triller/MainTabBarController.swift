@@ -8,14 +8,33 @@
 
 import UIKit
 //import SwipeableTabBarController
-class MainTabBarController: UITabBarController{
+class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate{
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         setupViewControllers()
-        self.tabBar.isTranslucent = false
+        
         self.tabBar.backgroundColor = UIColor(white: 0.9, alpha: 0.4)
+    }
+    private var popGesture: UIGestureRecognizer?
+    
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        if navigationController!.responds(to: #selector(getter: UINavigationController.interactivePopGestureRecognizer)) {
+            self.popGesture = navigationController!.interactivePopGestureRecognizer
+             self.navigationController!.view.removeGestureRecognizer(navigationController!.interactivePopGestureRecognizer!)
+        }
+        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        
+        if self.popGesture != nil {
+            navigationController!.view.addGestureRecognizer(self.popGesture!)
+        }
     }
     func setupViewControllers()
     {

@@ -48,6 +48,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     func setupNavigationController()
     {
         navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.barTintColor = .white
     }
     
     func setupCollectionView()

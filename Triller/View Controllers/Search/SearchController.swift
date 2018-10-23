@@ -114,13 +114,17 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         collectionView.bounces = false
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 94, left: 0, bottom: 0, right: 0)
+        guard let height = navigationController?.navigationBar.frame.height else {return .zero}
+        guard let statusBarHeight = UIApplication.shared.keyWindow?.safeAreaInsets.top else {return .zero}
+        let inset = height + statusBarHeight
+        return UIEdgeInsets(top: inset + 50 , left: 0, bottom: 0, right: 0)
     }
     let horizontalLine = UIView()
     func setupMenuBar()
     {
         let menuView = UIView()
         view.addSubview(menuView)
+        menuView.backgroundColor = .white
         menuView.anchorToView(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
         let horizontalGrayLine = UIView()
         horizontalGrayLine.backgroundColor = .lightGray

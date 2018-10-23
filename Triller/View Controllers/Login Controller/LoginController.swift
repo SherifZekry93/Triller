@@ -53,6 +53,7 @@ class LoginController: UIViewController
         userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
         userName.textIcon.tintColor = .white
         userName.customLabelPlaceHolder.text = "Username/Email/Mobile"
+        userName.requiredLabel.isHidden = false
         return userName
     }()
     
@@ -73,7 +74,12 @@ class LoginController: UIViewController
         login.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return login
     }()
-    
+    lazy var reduceSpacingStackView:UIStackView = {
+       let reduce = UIStackView(arrangedSubviews: [loginButton,spearatorStackView,signUpButton])
+        reduce.axis = .vertical
+        reduce.spacing = 10
+        return reduce
+    }()
     let signUpButton:UIButton = {
         let signUp = UIButton()
         signUp.backgroundColor = .blue
@@ -86,9 +92,9 @@ class LoginController: UIViewController
     }()
     
     lazy var controlsStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,loginButton,spearatorStackView,signUpButton,forgotPasswordLabel,languageLabel])
+        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,reduceSpacingStackView,forgotPasswordLabel,languageLabel])
         stack.axis = .vertical
-        stack.spacing = 40
+        stack.spacing = 37.5
         return stack
     }()
     
@@ -147,8 +153,8 @@ class LoginController: UIViewController
         view.addSubview(scrollView)
         logoImage.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 150, height: 150), centerH: true)
         scrollView.anchorToView(top: logoImage.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
-       bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant:30)
-        bottomAnchorConstraint!.isActive = true
+         bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+       bottomAnchorConstraint!.isActive = true
         scrollView.addSubview(controlsStack)
         controlsStack.anchorToView(top: scrollView.topAnchor, leading: scrollView.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: scrollView.trailingAnchor, padding: .init(top: 30, left: 0, bottom:150, right: 0))
         controlsStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
@@ -158,32 +164,13 @@ class LoginController: UIViewController
         let width = (view.frame.width - 60 - 40) / 2
         secondSeparator.anchorToView(size: .init(width: width, height: 1))
         firstSeparator.anchorToView(size: .init(width:  width, height: 1))
-        loginButton.anchorToView(size: .init(width: 0, height: 45))
-        signUpButton.anchorToView(size:.init(width: 0, height: 45))
-        //scrollView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        //self.view.setNeedsLayout()
-        //self.view.layoutIfNeeded()
-        //print(self.scrollView.frame) // gives correct frame
-        //print(controlsStack.frame)
-        //526
-
-        //scrollView.isScrollEnabled =  checkToEnableScroll()
+        loginButton.anchorToView(size: .init(width: 0, height: 40))
+        signUpButton.anchorToView(size:.init(width: 0, height: 40))
     }
-   /* func checkToEnableScroll() -> Bool
-    {
-        guard let window = UIApplication.shared.keyWindow else {
-            return false
-        }
-        let height = 20 + 150 + 500 + window.safeAreaInsets.top
-        if height >= view.frame.height
-        {
-            return true
-        }
-        else
-        {
-            return false
-        }
-    }*/
+    override func viewWillLayoutSubviews(){
+        super.viewWillLayoutSubviews()
+        scrollView.contentSize = CGSize(width: 0, height: 450)
+    }
     func addKeyboardObserver()
     {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -205,7 +192,8 @@ extension LoginController
 {
     @objc func handleLogin()
     {
-        navigationController?.pushViewController(MainTabBarController(), animated: true)
+       let tabbar = MainTabBarController()
+       navigationController?.pushViewController(tabbar, animated: true)
     }
     @objc func handleSignup()
     {

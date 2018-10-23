@@ -9,8 +9,9 @@
 import UIKit
 import AVKit
 import MediaPlayer
+import Firebase
 class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout
-    {
+{
     let cellID = "cellID"
     var audioPosts:[AudioPost]?{
         didSet{
@@ -69,9 +70,9 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for:indexPath) as! HomeFeedCell
-       let post = audioPosts?[indexPath.item]
-       cell.post = post
-       return cell
+        let post = audioPosts?[indexPath.item]
+        cell.post = post
+        return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 12
@@ -91,6 +92,9 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         let leftBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "logo-empty").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: nil)
         leftBarButton.imageInsets = UIEdgeInsets(top: 0, left: -40, bottom: 0, right: 0)
         navigationItem.leftBarButtonItem  = leftBarButton
+        let rightbarImage = #imageLiteral(resourceName: "nav_more_icon").withRenderingMode(.alwaysTemplate)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image:rightbarImage, style: .plain, target: self, action:#selector(handleShowEditProfile))
+        navigationItem.rightBarButtonItem?.tintColor  = .black
     }
     fileprivate func setupAudioSession()
     {
@@ -115,11 +119,55 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         player?.play()
     }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      
+        
         let layout = UICollectionViewFlowLayout()
         let profileController = MainProfileController(collectionViewLayout:layout)
         profileController.user = audioPosts?[indexPath.item].user;
         navigationController?.pushViewController(profileController, animated: true)
-
+        
     }
+    
+    @objc func handleShowEditProfile()
+    {
+        let alert = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
+        
+        alert.view.frame = CGRect(x: alert.view.frame.origin.x, y: self.view.frame.height / 2, width: alert.view.frame.width, height: alert.view.frame.height);
+
+        let editAction = UIAlertAction(title: "Edit Profile", style: .default) { (action) in
+            let editProfileController = EditProfileViewController()
+            self.navigationController?.pushViewController(editProfileController, animated: true)
+        }
+        let signOutAction = UIAlertAction(title: "Signout", style: .default) { (action) in
+            let signOutAlert = UIAlertController(title: nil, message: "Are you sure you want to Logout?", preferredStyle: UIAlertController.Style.alert)
+
+            signOutAlert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (Action) in
+                do
+                {
+                    try Auth.auth().signOut()
+                    self.tabBarController?.navigationController?.popViewController(animated: true)
+                }
+                catch
+                {
+                    
+                }
+            }))
+            signOutAlert.addAction(UIAlertAction(title: "No", style: .destructive, handler: { (alert) in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            self.present(signOutAlert, animated: true, completion: nil)
+        }
+        
+        alert.addAction(editAction)
+        alert.addAction(signOutAction)
+        present(alert, animated: true){
+             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+            alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))
+            
+        }
+        
+    }
+    @objc func actionSheetBackgroundTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }

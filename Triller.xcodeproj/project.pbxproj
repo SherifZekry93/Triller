@@ -23,6 +23,8 @@
 		7EA5BAD2217B0E5E00EFC458 /* AllUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BAD1217B0E5E00EFC458 /* AllUsersCell.swift */; };
 		7EAE3AF9217E576F008C1B02 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE3AF8217E576F008C1B02 /* String.swift */; };
 		7EAE3AFB217E5D5E008C1B02 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE3AFA217E5D5E008C1B02 /* Label.swift */; };
+		7EAE3AFE217F5F88008C1B02 /* EditProfilieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE3AFD217F5F88008C1B02 /* EditProfilieViewController.swift */; };
+		7EAE3B00217F639C008C1B02 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE3AFF217F639C008C1B02 /* AlertViewController.swift */; };
 		7EB8E276217722D400903704 /* HomeNavigationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8E275217722D400903704 /* HomeNavigationCell.swift */; };
 		7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81892172768000895EDA /* AppDelegate.swift */; };
 		7ECE818F2172768000895EDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE818D2172768000895EDA /* Main.storyboard */; };
@@ -67,6 +69,8 @@
 		7EA5BAD1217B0E5E00EFC458 /* AllUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUsersCell.swift; sourceTree = "<group>"; };
 		7EAE3AF8217E576F008C1B02 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		7EAE3AFA217E5D5E008C1B02 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		7EAE3AFD217F5F88008C1B02 /* EditProfilieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfilieViewController.swift; sourceTree = "<group>"; };
+		7EAE3AFF217F639C008C1B02 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		7EB8E275217722D400903704 /* HomeNavigationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationCell.swift; sourceTree = "<group>"; };
 		7ECE81862172768000895EDA /* Triller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81892172768000895EDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				7EA5BABF217AF21200EFC458 /* Profile.swift */,
+				7EAE3AFC217F4EFC008C1B02 /* Edit Profile */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -152,6 +157,14 @@
 				7EA5BAC3217AF29D00EFC458 /* FirebaseService.swift */,
 			);
 			path = "Firebase Service";
+			sourceTree = "<group>";
+		};
+		7EAE3AFC217F4EFC008C1B02 /* Edit Profile */ = {
+			isa = PBXGroup;
+			children = (
+				7EAE3AFD217F5F88008C1B02 /* EditProfilieViewController.swift */,
+			);
+			path = "Edit Profile";
 			sourceTree = "<group>";
 		};
 		7ECE817D2172767F00895EDA = {
@@ -263,6 +276,7 @@
 				7E15E6DF217CC28A009851BB /* Date.swift */,
 				7EAE3AF8217E576F008C1B02 /* String.swift */,
 				7EAE3AFA217E5D5E008C1B02 /* Label.swift */,
+				7EAE3AFF217F639C008C1B02 /* AlertViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -464,6 +478,7 @@
 				7ECE81C62173C24E00895EDA /* MainHomeFeedController.swift in Sources */,
 				7EA4FC28217937DD00D481A1 /* NotificationCell.swift in Sources */,
 				7EA5BAC4217AF29D00EFC458 /* FirebaseService.swift in Sources */,
+				7EAE3AFE217F5F88008C1B02 /* EditProfilieViewController.swift in Sources */,
 				7ECE81A221728E0900895EDA /* UIView.swift in Sources */,
 				7EA4FC26217934A200D481A1 /* SignupController.swift in Sources */,
 				7ECE819C2172859800895EDA /* MainTabBarController.swift in Sources */,
@@ -473,6 +488,7 @@
 				7EA5BAD2217B0E5E00EFC458 /* AllUsersCell.swift in Sources */,
 				7ECE81BB2173219D00895EDA /* TopUserCell.swift in Sources */,
 				7E2E93CB217C400800B298B5 /* MyNotification.swift in Sources */,
+				7EAE3B00217F639C008C1B02 /* AlertViewController.swift in Sources */,
 				7E15E6E0217CC28A009851BB /* Date.swift in Sources */,
 				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,
 				7EA5BACE217AF9F100EFC458 /* AudioPost.swift in Sources */,

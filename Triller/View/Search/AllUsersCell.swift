@@ -45,7 +45,7 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
         collectionView.bounces = false
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        return UIEdgeInsets(top: 18, left: 0, bottom: 118, right: 0)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allUsers?.count ?? 0
