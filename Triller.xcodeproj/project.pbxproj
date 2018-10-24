@@ -46,6 +46,10 @@
 		7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D22173EABE00895EDA /* BaseCell.swift */; };
 		7ECE81D62173ED4100895EDA /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D52173ED4100895EDA /* ProfileHeaderView.swift */; };
 		7ECE81D82173ED6500895EDA /* ProfilePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */; };
+		7EF28555217F9F2700D7F2F7 /* EditProfileController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF28554217F9F2700D7F2F7 /* EditProfileController+handlers.swift */; };
+		7EF28558217FA2D000D7F2F7 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF28557217FA2D000D7F2F7 /* PhotoSelectorController.swift */; };
+		7EF2855B217FA46300D7F2F7 /* PhotoSelectoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2855A217FA46300D7F2F7 /* PhotoSelectoCell.swift */; };
+		7EF2855D217FA4B900D7F2F7 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2855C217FA4B900D7F2F7 /* PhotoSelectorHeader.swift */; };
 		7EF91DBD21785CED00BD42CA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF91DBC21785CED00BD42CA /* LoginController.swift */; };
 		B58D8FA68BFDCB56738C9757 /* Pods_Triller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */; };
 /* End PBXBuildFile section */
@@ -94,6 +98,10 @@
 		7ECE81D22173EABE00895EDA /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		7ECE81D52173ED4100895EDA /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		7ECE81D72173ED6500895EDA /* ProfilePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostCell.swift; sourceTree = "<group>"; };
+		7EF28554217F9F2700D7F2F7 /* EditProfileController+handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProfileController+handlers.swift"; sourceTree = "<group>"; };
+		7EF28557217FA2D000D7F2F7 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
+		7EF2855A217FA46300D7F2F7 /* PhotoSelectoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectoCell.swift; sourceTree = "<group>"; };
+		7EF2855C217FA4B900D7F2F7 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
 		7EF91DBC21785CED00BD42CA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				7EAE3AFD217F5F88008C1B02 /* EditProfilieViewController.swift */,
+				7EF28554217F9F2700D7F2F7 /* EditProfileController+handlers.swift */,
 			);
 			path = "Edit Profile";
 			sourceTree = "<group>";
@@ -219,6 +228,7 @@
 		7ECE81B3217320C200895EDA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7EF28559217FA44800D7F2F7 /* PhotoSelector */,
 				7ECE81D42173ED1D00895EDA /* Profile */,
 				7ECE81CC2173D6D700895EDA /* Notification */,
 				7ECE81C22173684900895EDA /* TabBar */,
@@ -307,9 +317,27 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		7EF28556217FA2C200D7F2F7 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				7EF28557217FA2D000D7F2F7 /* PhotoSelectorController.swift */,
+			);
+			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		7EF28559217FA44800D7F2F7 /* PhotoSelector */ = {
+			isa = PBXGroup;
+			children = (
+				7EF2855A217FA46300D7F2F7 /* PhotoSelectoCell.swift */,
+				7EF2855C217FA4B900D7F2F7 /* PhotoSelectorHeader.swift */,
+			);
+			path = PhotoSelector;
+			sourceTree = "<group>";
+		};
 		7EF91DBB21785CCD00BD42CA /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7EF28556217FA2C200D7F2F7 /* ImagePicker */,
 				7EA5BAC1217AF21B00EFC458 /* Profile */,
 				7EA4FC242179349200D481A1 /* Signup */,
 				7EA4FC2321790CD400D481A1 /* Login Controller */,
@@ -464,10 +492,14 @@
 				7ECE81CB2173D20600895EDA /* MainNotificationController.swift in Sources */,
 				7EA5BACC217AF46700EFC458 /* User.swift in Sources */,
 				7E15E6E2217D86B9009851BB /* CMTime.swift in Sources */,
+				7EF28558217FA2D000D7F2F7 /* PhotoSelectorController.swift in Sources */,
+				7EF2855D217FA4B900D7F2F7 /* PhotoSelectorHeader.swift in Sources */,
 				7ECE81AC21731FCA00895EDA /* AllHashTags.swift in Sources */,
 				7ECE81A021728C4D00895EDA /* HomeFeedCell.swift in Sources */,
+				7EF2855B217FA46300D7F2F7 /* PhotoSelectoCell.swift in Sources */,
 				7EA5BAD0217AFB1600EFC458 /* HashTag.swift in Sources */,
 				7ECE81A62172BB3C00895EDA /* LeftPaddedTextField.swift in Sources */,
+				7EF28555217F9F2700D7F2F7 /* EditProfileController+handlers.swift in Sources */,
 				7ECE81A42172ACDA00895EDA /* SearchController.swift in Sources */,
 				7EAE3AF9217E576F008C1B02 /* String.swift in Sources */,
 				7ECE81C1217363E500895EDA /* UIViewController.swift in Sources */,

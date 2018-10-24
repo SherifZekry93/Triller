@@ -8,11 +8,41 @@
 
 import UIKit
 class CustomTextField: UITextField {
+    var isEditProfile:Bool?{
+        didSet{
+            if self.text != ""
+            {
+                self.toAnimateAnchor?.constant = -35 + 10
+                self.customLabelPlaceHolder.font = UIFont.systemFont(ofSize: 14)
+                self.layoutIfNeeded()
+                self.bottomSeparator.backgroundColor = .white
+            }
+            if self.text != "" && self.isFirstResponder
+            {
+                self.customLabelPlaceHolder.textColor = .red
+            }
+            else
+            {
+                self.customLabelPlaceHolder.textColor = .lightGray
+            }
+            customLabelPlaceHolder.anchorToView(leading: leadingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
+
+            self.customLabelPlaceHolder.textColor = .lightGray
+            self.leftView = nil
+            self.rightView = nil
+            self.textAlignment = .natural
+            
+            self.bottomSeparator.backgroundColor = .lightGray
+            self.textColor = .black
+            
+        }
+    }
     var toAnimateAnchor:NSLayoutConstraint?
+    var customPLaceHolderLeftAnchor:NSLayoutConstraint?
     let customLabelPlaceHolder:UILabel = {
         let label = UILabel()
         label.text = "Custom PLace Holder"
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         return label
@@ -70,8 +100,6 @@ class CustomTextField: UITextField {
         self.leftViewMode = .always
         self.leftView = leftViewContainer;
         customLabelPlaceHolder.anchorToView(leading: leadingAnchor, padding: .init(top: 0, left: 35, bottom: 0, right: 0))
-        toAnimateAnchor = customLabelPlaceHolder.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        toAnimateAnchor?.isActive = true
         self.addTarget(self, action: #selector(startEditing), for: .editingDidBegin)
         self.addTarget(self, action: #selector(finishEditing), for: .editingDidEnd)
         self.textAlignment = .center
@@ -87,14 +115,24 @@ class CustomTextField: UITextField {
         self.addSubview(rightViewContainer)
         rightViewContainer.addSubview(rightViewImage)
         rightViewImage.anchorToView(top: rightViewContainer.topAnchor, leading: rightViewContainer.leadingAnchor, bottom: rightViewContainer.bottomAnchor, trailing: rightViewContainer.trailingAnchor)
+        if isEditProfile == nil
+       {
+            toAnimateAnchor = customLabelPlaceHolder.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        }
+        toAnimateAnchor?.isActive = true
     }
+    
     @objc func startEditing()
     {
         UIView.animate(withDuration: 0.12, delay: 0, options: .curveEaseInOut, animations: {
             self.toAnimateAnchor?.constant = -self.frame.height + 10
-            self.customLabelPlaceHolder.font = UIFont.systemFont(ofSize: 16)
+            self.customLabelPlaceHolder.font = UIFont.systemFont(ofSize: 14)
+            self.bottomSeparator.backgroundColor = self.isEditProfile == nil ?  .white : .red// UIColor(white: 0.82, alpha: 1)
+            if self.isEditProfile != nil
+            {
+                self.customLabelPlaceHolder.textColor = .red
+            }
             self.layoutIfNeeded()
-            self.bottomSeparator.backgroundColor = .white// UIColor(white: 0.82, alpha: 1)
         }, completion: nil)
     }
     @objc func finishEditing()
@@ -103,12 +141,20 @@ class CustomTextField: UITextField {
         {
             UIView.animate(withDuration: 0.12, delay: 0, options: .curveEaseInOut, animations: {
                 self.toAnimateAnchor?.constant = 0
-                self.customLabelPlaceHolder.font = UIFont.systemFont(ofSize: 18)
+                self.customLabelPlaceHolder.font = UIFont.systemFont(ofSize: 16)
+                self.bottomSeparator.backgroundColor = self.isEditProfile == nil ? UIColor(white: 0.82, alpha: 1) : .lightGray
+               
                 self.layoutIfNeeded()
-                self.bottomSeparator.backgroundColor =  UIColor(white: 0.82, alpha: 1)
-               // self.requiredLabel.alpha = 1
+
             }, completion: nil)
             
+        }
+        if isEditProfile != nil
+        {
+            UIView.animate(withDuration: 0.12, delay: 0, options: .curveEaseInOut, animations: {
+              self.customLabelPlaceHolder.textColor = .lightGray
+                self.bottomSeparator.backgroundColor = .lightGray
+            })
         }
     }
     required init?(coder aDecoder: NSCoder) {

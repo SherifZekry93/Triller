@@ -167,7 +167,8 @@ class LoginController: UIViewController
         loginButton.anchorToView(size: .init(width: 0, height: 40))
         signUpButton.anchorToView(size:.init(width: 0, height: 40))
     }
-    override func viewWillLayoutSubviews(){
+    override func viewWillLayoutSubviews()
+    {
         super.viewWillLayoutSubviews()
         scrollView.contentSize = CGSize(width: 0, height: 450)
     }

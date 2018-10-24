@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 import FlagPhoneNumber
 class SignupController: UIViewController,FPNTextFieldDelegate {
     func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool)
@@ -102,7 +103,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
     
     lazy var phoneNumber:FPNTextField = {
         let phone = FPNTextField()
-        phone.parentViewController = self
+       // phone.parentViewController = self
         phone.setFlag(for: .EG)
         phone.textColor = .white
         phone.isEnabled = true
@@ -129,6 +130,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         createAccount.setTitleColor(.black, for: .normal)
         createAccount.layer.cornerRadius = 20
         createAccount.titleLabel?.font = UIFont.systemFont(ofSize: 19)
+        createAccount.addTarget(self, action: #selector(handleCreateAccount), for: .touchUpInside)
         return createAccount
     }()
     
@@ -282,5 +284,33 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
     @objc func handleAlreadyHaveAnAccount()
     {
         navigationController?.popViewController(animated: true)
+    }
+    @objc func handleCreateAccount()
+    {
+        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.text!, uiDelegate: nil) { (verificationID, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            print(verificationID)
+            // Sign in using the verificationID and the code sent to the user
+            // ...
+            
+        }
+
+       /* Auth.auth().createUser(withEmail: emailTextField.text ?? "", password: passwordTextField.text!) { (result, err) in
+            if err != nil
+            {
+               // print(NSLocale.current.languageCode) applicatioin language
+               // print(err)
+                return
+            }
+            guard let currentUserInfo = result?.user else {return}
+            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+            currentUserInfo.getIDToken(completion: { (token, err) in
+                let allValues = ["email":emailTextField.text,"full_name":ful]
+                Database.database().reference().child("Users").updateChildValues(<#T##values: [AnyHashable : Any]##[AnyHashable : Any]#>, withCompletionBlock: <#T##(Error?, DatabaseReference) -> Void#>)
+            })
+        }*/
     }
 }

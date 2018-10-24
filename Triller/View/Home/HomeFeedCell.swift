@@ -170,7 +170,7 @@ class HomeFeedCell: UICollectionViewCell {
         Auth.auth().signIn(withCustomToken: "") { (result, err) in
             if err != nil
             {
-                print(err)
+               // print(err)
                 return
             }
             return
@@ -180,8 +180,8 @@ class HomeFeedCell: UICollectionViewCell {
             let storageRef = Storage.storage().reference().child(post?.uid ?? "").child("AudioPosts").child(testurl)
             storageRef.downloadURL
             { (url, err) in
-                print(err)
-                print(url)
+               // print(err)
+               // print(url)
             }
         }
         
