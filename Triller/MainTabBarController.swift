@@ -22,7 +22,8 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate{
     override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
-        if navigationController!.responds(to: #selector(getter: UINavigationController.interactivePopGestureRecognizer)) {
+        guard let nav = navigationController else {return}
+        if nav.responds(to: #selector(getter: UINavigationController.interactivePopGestureRecognizer)) {
             self.popGesture = navigationController!.interactivePopGestureRecognizer
              self.navigationController!.view.removeGestureRecognizer(navigationController!.interactivePopGestureRecognizer!)
         }

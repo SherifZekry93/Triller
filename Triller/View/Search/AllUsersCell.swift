@@ -44,9 +44,21 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
         collectionView.register(TopUserCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.bounces = false
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 18, left: 0, bottom: 118, right: 0)
+        let height = self.homeController?.tabBarController?.tabBar.frame.height ?? 0
+        let safeaAreaHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+        let inset = height  + safeaAreaHeight
+        if safeaAreaHeight > 0
+        {
+            return UIEdgeInsets(top: 0, left: 0, bottom: inset + 150 + 6 , right: 0)
+        }
+        else
+        {
+            return UIEdgeInsets(top: 0, left: 0, bottom: inset + 150 + 12  , right: 0)
+        }
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allUsers?.count ?? 0
     }

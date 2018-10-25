@@ -287,7 +287,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
     }
     @objc func handleCreateAccount()
     {
-        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.text!, uiDelegate: nil) { (verificationID, error) in
+       /* PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.getFormattedPhoneNumber(format: .E164)!, uiDelegate: nil) { (verificationID, error) in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -297,20 +297,41 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
             // ...
             
         }
-
-       /* Auth.auth().createUser(withEmail: emailTextField.text ?? "", password: passwordTextField.text!) { (result, err) in
+*/
+        Auth.auth().createUser(withEmail: emailTextField.text ?? "", password: passwordTextField.text!) { (result, err) in
             if err != nil
             {
-               // print(NSLocale.current.languageCode) applicatioin language
-               // print(err)
+               print(err!)
                 return
             }
             guard let currentUserInfo = result?.user else {return}
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+            guard let fullPhone = self.phoneNumber.getFormattedPhoneNumber(format: .E164) else {return}
+            guard let currentAppLanguage = NSLocale.current.languageCode else {return}
             currentUserInfo.getIDToken(completion: { (token, err) in
-                let allValues = ["email":emailTextField.text,"full_name":ful]
-                Database.database().reference().child("Users").updateChildValues(<#T##values: [AnyHashable : Any]##[AnyHashable : Any]#>, withCompletionBlock: <#T##(Error?, DatabaseReference) -> Void#>)
+                let privateData = ["birth_date":"","gender":"","language":currentAppLanguage,"phone_number":fullPhone,"register_date":Date().timeIntervalSince1970] as [String : Any]
+                let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber()!,"phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text!,"user_token":token ?? ""] as [String : Any]
+            
+                let toUpdateValues = [currentUserID:allValues]; Database.database().reference().child("Users").updateChildValues(toUpdateValues, withCompletionBlock: { (err, ref) in
+                    if err != nil
+                    {
+                        print(err!)
+                        return
+                    }
+                    else
+                    {
+                        print("user updated succussefully")
+                        print(currentUserID)
+                    }
+                })
             })
-        }*/
+        }
+    }
+    @objc func getCountryCode() -> String
+    {
+        guard let phone = self.phoneNumber.getFormattedPhoneNumber(format: .International) else {return ""}
+        let arr = phone.split(separator: " ")
+        print(String(arr[0]))
+        return String(arr[0])
     }
 }

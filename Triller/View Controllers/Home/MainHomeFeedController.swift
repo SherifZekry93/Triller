@@ -34,17 +34,32 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         super.viewDidLoad()
         setupCollectionView()
         setupAudioSession()
+        self.createCustomStatusBar(color: .blue)
         if hashTag == nil
         {
-            fetchFollowing(uid: "")
+            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+            fetchFollowing(uid: currentUserID)
         }
     }
     func fetchFollowing(uid:String)
     {
         setupNavigationController()
-        FirebaseService.shared.fetchFollowingPosts(uid: "jVECsq43DWUdU02e9TcuuIjeloi2") { (allAudioPosts) in
+        FirebaseService.shared.fetchFollowingPosts(uid: uid) { (allAudioPosts) in
             self.audioPosts = allAudioPosts
         }
+    }
+    let customBackGroundView = UIView()
+    func createCustomStatusBar(color:UIColor){
+        customBackGroundView.backgroundColor = .blue
+        customBackGroundView.translatesAutoresizingMaskIntoConstraints = false
+        let height = UIApplication.shared.statusBarFrame.height
+        guard let window = UIApplication.shared.keyWindow else {return}
+        window.addSubview(customBackGroundView)
+        customBackGroundView.anchorToView(top: window.topAnchor, leading: window.leadingAnchor, bottom: nil, trailing: window.trailingAnchor, padding: .zero, size: .init(width: 0, height: height))
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        customBackGroundView.removeFromSuperview()
     }
     func fetchPostsForHashtag(hashTag:HashTag)
     {
@@ -144,7 +159,8 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
                 do
                 {
                     try Auth.auth().signOut()
-                    self.tabBarController?.navigationController?.popViewController(animated: true)
+                    let loginNav = UINavigationController(rootViewController:  LoginController())
+                    self.present(loginNav, animated: true, completion: nil)
                 }
                 catch
                 {

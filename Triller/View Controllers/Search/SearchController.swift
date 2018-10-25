@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Firebase
 protocol SearchForUserOrHashTag {
     func searchForUser(allUsers:[User])
 }
@@ -66,8 +66,11 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     }
     func getAllUsers()
     {
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         FirebaseService.shared.getAllUsers { (users) in
-            self.allUsers = users
+            self.allUsers = users.filter({ (user) -> Bool in
+                return user.uid != currentUserID
+            })
             self.filteredUsers = users
             self.collectionView.reloadData()
         }
@@ -81,11 +84,13 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         getAllUsers()
         getHashTags()
         setupNavigationController()
+        self.extendedLayoutIncludesOpaqueBars = true;
     }
     
     func setupSearchController()
     {
         navigationItem.searchController = searchController
+        searchController.hidesNavigationBarDuringPresentation = false
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
@@ -100,6 +105,8 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     func setupNavigationController()
     {
         navigationController?.navigationBar.isTranslucent = false
+       // navigationController?.navigationBar.prefersLargeTitles = true
+        //navigationItem.title = "Search"
     }
     func setupCollectionView()
     {
@@ -114,10 +121,23 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         collectionView.bounces = false
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard let height = navigationController?.navigationBar.frame.height else {return .zero}
+        let height = navigationController?.navigationBar.frame.height  ?? 0
         guard let statusBarHeight = UIApplication.shared.keyWindow?.safeAreaInsets.top else {return .zero}
-        let inset = height + statusBarHeight
-        return UIEdgeInsets(top: inset + 50 , left: 0, bottom: 0, right: 0)
+        let safeaAreaHeight = UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0
+        let inset = height + statusBarHeight + safeaAreaHeight
+        let bottomSafeAreaHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+        if bottomSafeAreaHeight > 0
+        {
+        return UIEdgeInsets(top: inset + 200 - 12, left: 0, bottom: 0, right: 0)
+        }
+        else
+        {
+            return UIEdgeInsets(top: inset + 200 - 24, left: 0, bottom: 0, right: 0)
+        }
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.filteredUsers = allUsers
+        self.collectionView.reloadData()
     }
     let horizontalLine = UIView()
     func setupMenuBar()
@@ -125,7 +145,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         let menuView = UIView()
         view.addSubview(menuView)
         menuView.backgroundColor = .white
-        menuView.anchorToView(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
+        menuView.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
         let horizontalGrayLine = UIView()
         horizontalGrayLine.backgroundColor = .lightGray
         menuView.addSubview(horizontalGrayLine)

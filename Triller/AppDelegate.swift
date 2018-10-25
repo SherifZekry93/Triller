@@ -12,13 +12,21 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        FirebaseApp.configure()
         // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         //let layout = UICollectionViewFlowLayout()
+        if Auth.auth().currentUser != nil
+        {
+            let homeFeed = MainTabBarController()   ;        window?.rootViewController =  homeFeed
+        }
+        else
+        {
         let loginController = UINavigationController(rootViewController:   LoginController())
-        window?.rootViewController =  loginController
-        FirebaseApp.configure()
+            window?.rootViewController =  loginController
+            
+        }
         Database.database().isPersistenceEnabled = true
         return true
     }

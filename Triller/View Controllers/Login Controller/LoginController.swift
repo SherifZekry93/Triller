@@ -127,12 +127,21 @@ class LoginController: UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //checkIfLoggedIn()
         setupNavigationBar()
         setupControlsStack()
-        addCustomStatusBar()
+        //addCustomStatusBar()
         addKeyboardObserver()
+        //view.fixSafeArea(color: .blue)
     }
-    func addCustomStatusBar()
+    func checkIfLoggedIn()
+    {
+        if Auth.auth().currentUser != nil
+        {
+            goToHomePage()
+        }
+    }
+/*    func addCustomStatusBar()
     {
         let customBackgroundView = UIView()
         customBackgroundView.backgroundColor = .blue
@@ -140,7 +149,7 @@ class LoginController: UIViewController
         guard let window = UIApplication.shared.keyWindow else {return}
         window.addSubview(customBackgroundView)
         customBackgroundView.anchorToView(top: window.topAnchor, leading: window.leadingAnchor, bottom: nil, trailing: window.trailingAnchor, padding: .zero, size: .init(width: 0, height: height))
-    }
+    }*/
     func setupNavigationBar()
     {
         navigationController?.navigationBar.isHidden = true
@@ -193,11 +202,34 @@ extension LoginController
 {
     @objc func handleLogin()
     {
-       let tabbar = MainTabBarController()
-       navigationController?.pushViewController(tabbar, animated: true)
+        guard let userNameEmailTextField = userNameTextField.text else {return}
+        guard let password = passwordTextField.text else {return}
+        if isValidEmail(testStr: userNameEmailTextField)
+        {
+            Auth.auth().signIn(withEmail: userNameEmailTextField, password: password) { (result, err) in
+                if err != nil
+                {
+                    print(err!)
+                    return
+                }
+                self.goToHomePage()
+            }
+        }
     }
+    
     @objc func handleSignup()
     {
         navigationController?.pushViewController(SignupController(), animated: true)
+    }
+    
+    func isValidEmail(testStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
+    func goToHomePage()
+    {
+        let tabbar = MainTabBarController()
+        self.navigationController?.pushViewController(tabbar, animated: true)
     }
 }

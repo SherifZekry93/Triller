@@ -13,4 +13,5 @@ target 'Triller' do
   pod 'Firebase/Auth'
   pod 'SVProgressHUD'
   pod 'Kingfisher'
+  pod 'XLPagerTabStrip'
 end
