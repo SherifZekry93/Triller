@@ -21,4 +21,7 @@ extension String
             return "Unknown language"
         }
     }
+    var isNumber: Bool {
+        return !isEmpty && rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
+    }
 }

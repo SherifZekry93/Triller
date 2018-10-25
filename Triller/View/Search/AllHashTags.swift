@@ -34,11 +34,13 @@ class AllHashTags: AllUsersCell
         super.setupCollectionView()
         collectionView.register(HashTagCell.self, forCellWithReuseIdentifier: hashtagCellID)
     }
-   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: hashtagCellID, for: indexPath) as! HashTagCell
         cell.hashTag = allHashTags?[indexPath.item]
         return cell
     }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allHashTags?.count ?? 0
     }

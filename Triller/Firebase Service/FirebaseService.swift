@@ -52,33 +52,45 @@ class FirebaseService
         }
         
     }
-    func getNotificationByuid(uid:String,completitionHandler:@escaping ([MyNotification]) -> ())
+    func getNotificationByuid(uid:String,completitionHandler:@escaping ([MyNotification]?) -> ())
     {
         var allNotifications = [MyNotification]()
         let ref = Database.database().reference().child("notification")
-        let query = ref.queryOrdered(byChild: "to").queryEqual(toValue: uid)
+        let query = ref.queryOrdered(byChild: "to").queryEqual(toValue: "hdcDPY8gSENKkM0Fw31zDbCLdSQ2")
         query.keepSynced(true)
-        query.observe(.childAdded, with: { (snap) in
-            if let dictionary = snap.value as? [String:Any]
-            {
-                let fromID = dictionary["fromUser"] as? String ?? ""
-                self.fetchUserByuid(uid: fromID, completitionHandler: { (user) in
-                    let notification = MyNotification(user: user, dictionary: dictionary,id:snap.key)
-                    allNotifications.append(notification)
-                    completitionHandler(allNotifications)
-                })
+        query.observeSingleEvent(of:.value,with:{snapshot in
+            if snapshot.value is NSNull {
+                completitionHandler(nil)
             }
-        }) { (err) in
-            print(err)
-        }
-        query.observe(.childRemoved, with: { (snap) in
-           allNotifications = allNotifications.filter({ (notification) -> Bool in
-            return notification.notificationID != snap.key
-            })
-            completitionHandler(allNotifications)
-        }) { (err) in
-            
-        }
+            else
+            {
+                query.observe(.childAdded, with: { (snap) in
+                    if let dictionary = snap.value as? [String:Any]
+                    {
+                        let fromID = dictionary["fromUser"] as? String ?? ""
+                        self.fetchUserByuid(uid: fromID, completitionHandler: { (user) in
+                            let notification = MyNotification(user: user, dictionary: dictionary,id:snap.key)
+                            allNotifications.append(notification)
+                            completitionHandler(allNotifications)
+                        })
+                    }
+                    else
+                    {
+                        completitionHandler(nil)
+                    }
+                }) { (err) in
+                    print(err)
+                }
+                query.observe(.childRemoved, with: { (snap) in
+                    allNotifications = allNotifications.filter({ (notification) -> Bool in
+                        return notification.notificationID != snap.key
+                    })
+                    completitionHandler(allNotifications)
+                }) { (err) in
+                }
+
+            }
+        })
     }
     func fetchUserByuid(uid:String,completitionHandler:@escaping (User) -> ())
     {
@@ -165,5 +177,49 @@ class FirebaseService
     {
         let audioPost = AudioPost(user: user, dictionary: dictionary)
         completitionHandler(audioPost)
+    }
+  
+    func getUserBy(userName:String,completitionHandler:@escaping (User?) -> ())
+    {
+        let ref = Database.database().reference().child("Users")
+        if userName != ""
+        {
+            let query = ref.queryOrdered(byChild: "user_name").queryEqual(toValue: userName)
+            query.observeSingleEvent(of:.childAdded, with: { (snap) in
+                if let dictionary = snap.value as? [String:Any]
+                {
+                    let user = User(dictionary: dictionary)
+                    completitionHandler(user)
+                }
+                else
+                {
+                    completitionHandler(nil)
+                }
+            }) { (err) in
+                
+            }
+        }
+    }
+    
+    func getUserBy(phoneNumber:String,completitionHandler:@escaping (User?) -> ())
+    {
+        let ref = Database.database().reference().child("Users")
+        if phoneNumber != ""
+        {
+            let query = ref.queryOrdered(byChild: "phone").queryEqual(toValue: phoneNumber)
+            query.observeSingleEvent(of:.childAdded, with: { (snap) in
+                if let dictionary = snap.value as? [String:Any]
+                {
+                    let user = User(dictionary: dictionary)
+                    completitionHandler(user)
+                }
+                else
+                {
+                    completitionHandler(nil)
+                }
+            }) { (err) in
+                
+            }
+        }
     }
 }

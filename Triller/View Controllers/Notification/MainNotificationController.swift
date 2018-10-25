@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 class MainNotificationController:UICollectionViewController, UICollectionViewDelegateFlowLayout{
     let cellID = "cellID"
     let notificationHeaderID = "notificationHeaderID"
@@ -16,16 +17,21 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
         super.viewDidLoad()
         setupCollectionView()
         setupNavigationController()
-        loadNotificationByuid(uid:"4")
+        if let currentuid = Auth.auth().currentUser?.uid
+        {
+            loadNotificationByuid(uid:currentuid)
+        }
     }
     func loadNotificationByuid(uid:String)
     {
-        FirebaseService.shared.getNotificationByuid(uid: "hdcDPY8gSENKkM0Fw31zDbCLdSQ2") { (allNotifications) in
-            self.notifications = allNotifications
+         FirebaseService.shared.getNotificationByuid(uid: uid) { (allNotifications) in
+            if let notifications = allNotifications
+            {
+                self.notifications = notifications
+            }
             self.loadedData = true
             self.collectionView.reloadData()
-            
-        }
+         }
     }
     func setupNavigationController()
     {

@@ -40,7 +40,7 @@ class LoginController: UIViewController
         return label
     }()
     let languageLabel:UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "العربية"
         label.textColor = .white
         label.textAlignment = .center
@@ -53,7 +53,6 @@ class LoginController: UIViewController
         userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
         userName.textIcon.tintColor = .white
         userName.customLabelPlaceHolder.text = "Username/Email/Mobile"
-        userName.requiredLabel.isHidden = false
         return userName
     }()
     
@@ -75,7 +74,7 @@ class LoginController: UIViewController
         return login
     }()
     lazy var reduceSpacingStackView:UIStackView = {
-       let reduce = UIStackView(arrangedSubviews: [loginButton,spearatorStackView,signUpButton])
+        let reduce = UIStackView(arrangedSubviews: [loginButton,spearatorStackView,signUpButton])
         reduce.axis = .vertical
         reduce.spacing = 10
         return reduce
@@ -141,15 +140,6 @@ class LoginController: UIViewController
             goToHomePage()
         }
     }
-/*    func addCustomStatusBar()
-    {
-        let customBackgroundView = UIView()
-        customBackgroundView.backgroundColor = .blue
-        let height = UIApplication.shared.statusBarFrame.height
-        guard let window = UIApplication.shared.keyWindow else {return}
-        window.addSubview(customBackgroundView)
-        customBackgroundView.anchorToView(top: window.topAnchor, leading: window.leadingAnchor, bottom: nil, trailing: window.trailingAnchor, padding: .zero, size: .init(width: 0, height: height))
-    }*/
     func setupNavigationBar()
     {
         navigationController?.navigationBar.isHidden = true
@@ -162,8 +152,8 @@ class LoginController: UIViewController
         view.addSubview(scrollView)
         logoImage.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 150, height: 150), centerH: true)
         scrollView.anchorToView(top: logoImage.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
-         bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-       bottomAnchorConstraint!.isActive = true
+        bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        bottomAnchorConstraint!.isActive = true
         scrollView.addSubview(controlsStack)
         controlsStack.anchorToView(top: scrollView.topAnchor, leading: scrollView.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: scrollView.trailingAnchor, padding: .init(top: 30, left: 0, bottom:150, right: 0))
         controlsStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
@@ -202,19 +192,42 @@ extension LoginController
 {
     @objc func handleLogin()
     {
-        guard let userNameEmailTextField = userNameTextField.text else {return}
-        guard let password = passwordTextField.text else {return}
-        if isValidEmail(testStr: userNameEmailTextField)
+        if var userNameEmailTextField = userNameTextField.text, let password = passwordTextField.text, userNameEmailTextField != "", password != ""
         {
-            Auth.auth().signIn(withEmail: userNameEmailTextField, password: password) { (result, err) in
-                if err != nil
-                {
-                    print(err!)
-                    return
+            if isValidEmail(testStr: userNameEmailTextField)
+            {
+                finalLoginToFirebase(email: userNameEmailTextField, password: password)
+            }
+            else if userNameEmailTextField.isNumber
+            {
+            userNameEmailTextField.remove(at: userNameEmailTextField.startIndex)
+                FirebaseService.shared.getUserBy(phoneNumber: userNameEmailTextField) { (user) in
+                    if let user = user
+                    {
+                    self.finalLoginToFirebase(email: user.email, password: password)
+                    }
+                    else
+                    {
+                        print("Can't find this phone number")
+                    }
                 }
-                self.goToHomePage()
+            }
+            else
+            {
+                FirebaseService.shared.getUserBy(userName: userNameEmailTextField) { (user) in
+                    if let user = user
+                    {
+                        self.finalLoginToFirebase(email: user.email, password: password)
+                    }
+                    else
+                    {
+                        print("Can't find this user name")
+                    }
+                }
             }
         }
+        userNameTextField.requiredLabel.isHidden =  userNameTextField.text == "" ? false : true
+        passwordTextField.requiredLabel.isHidden =  passwordTextField.text == "" ? false : true
     }
     
     @objc func handleSignup()
@@ -231,5 +244,16 @@ extension LoginController
     {
         let tabbar = MainTabBarController()
         self.navigationController?.pushViewController(tabbar, animated: true)
+    }
+    func finalLoginToFirebase(email:String,password:String)
+    {
+        Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
+            if err != nil
+            {
+                print(err!)
+                return
+            }
+            self.goToHomePage()
+        }
     }
 }

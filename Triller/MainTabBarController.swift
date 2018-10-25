@@ -9,13 +9,29 @@
 import UIKit
 //import SwipeableTabBarController
 class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate{
-    
+    let customBackGroundView = UIView()
     override func viewDidLoad()
     {
         super.viewDidLoad()
         setupViewControllers()
-        
+        DispatchQueue.main.async {
+        self.createCustomStatusBar(color: .blue)
+        }
         self.tabBar.backgroundColor = UIColor(white: 0.9, alpha: 0.4)
+    }
+    func createCustomStatusBar(color:UIColor){
+       
+        customBackGroundView.backgroundColor = .blue
+        customBackGroundView.translatesAutoresizingMaskIntoConstraints = false
+        let height = UIApplication.shared.statusBarFrame.height
+        guard let window = UIApplication.shared.keyWindow else {return}
+        window.addSubview(customBackGroundView)
+        customBackGroundView.anchorToView(top: window.topAnchor, leading: window.leadingAnchor, bottom: nil, trailing: window.trailingAnchor, padding: .zero, size: .init(width: 0, height: height))
+        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        customBackGroundView.removeFromSuperview()
     }
     private var popGesture: UIGestureRecognizer?
     
@@ -29,14 +45,7 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate{
         }
         
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        super.viewWillDisappear(animated)
-        
-        if self.popGesture != nil {
-            navigationController!.view.addGestureRecognizer(self.popGesture!)
-        }
-    }
+    
     func setupViewControllers()
     {
         let layout = UICollectionViewFlowLayout()

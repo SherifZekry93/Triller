@@ -34,7 +34,6 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         super.viewDidLoad()
         setupCollectionView()
         setupAudioSession()
-        self.createCustomStatusBar(color: .blue)
         if hashTag == nil
         {
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
@@ -47,19 +46,6 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         FirebaseService.shared.fetchFollowingPosts(uid: uid) { (allAudioPosts) in
             self.audioPosts = allAudioPosts
         }
-    }
-    let customBackGroundView = UIView()
-    func createCustomStatusBar(color:UIColor){
-        customBackGroundView.backgroundColor = .blue
-        customBackGroundView.translatesAutoresizingMaskIntoConstraints = false
-        let height = UIApplication.shared.statusBarFrame.height
-        guard let window = UIApplication.shared.keyWindow else {return}
-        window.addSubview(customBackGroundView)
-        customBackGroundView.anchorToView(top: window.topAnchor, leading: window.leadingAnchor, bottom: nil, trailing: window.trailingAnchor, padding: .zero, size: .init(width: 0, height: height))
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        customBackGroundView.removeFromSuperview()
     }
     func fetchPostsForHashtag(hashTag:HashTag)
     {

@@ -16,7 +16,6 @@ class MyNotification
     let to:String
     let type:String
     let user:User
-    
     init(user:User,dictionary:[String:Any],id:String)
     {
         let date = dictionary["creationDate"] as? Double ?? 0
