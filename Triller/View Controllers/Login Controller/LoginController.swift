@@ -208,7 +208,7 @@ extension LoginController
                     }
                     else
                     {
-                        print("Can't find this phone number")
+                        self.showToast(message: "number not found")
                     }
                 }
             }
@@ -221,7 +221,7 @@ extension LoginController
                     }
                     else
                     {
-                        print("Can't find this user name")
+                        self.showToast(message: "username not found")
                     }
                 }
             }
@@ -250,7 +250,7 @@ extension LoginController
         Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
             if err != nil
             {
-                print(err!)
+                self.showToast(message: "Can't find email")
                 return
             }
             self.goToHomePage()

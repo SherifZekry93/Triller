@@ -44,33 +44,7 @@ extension UIView
             self.centerYAnchor.constraint(equalTo: (self.superview?.centerYAnchor)!).isActive = true
         }
     }
-   /* func addTopBorderWithColor(color: UIColor, width: CGFloat) {
-        let border = CALayer()
-        border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: width)
-        self.layer.addSublayer(border)
-    }
     
-    func addRightBorderWithColor(color: UIColor, width: CGFloat) {
-        let border = CALayer()
-        border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: self.frame.size.width - width, y: 0, width: width, height: self.frame.size.height)
-        self.layer.addSublayer(border)
-    }
-    
-    func addBottomBorderWithColor(color: UIColor, width: CGFloat) {
-        let border = CALayer()
-        border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width: self.frame.size.width, height: width)
-        self.layer.addSublayer(border)
-    }
-    
-    func addLeftBorderWithColor(color: UIColor, width: CGFloat) {
-        let border = CALayer()
-        border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: 0, y: 0, width: width, height: self.frame.size.height)
-        self.layer.addSublayer(border)
-    }*/
     func fixBottomSafeArea(color:UIColor)
     {
         guard let window = UIApplication.shared.keyWindow else {return}
@@ -80,5 +54,6 @@ extension UIView
         self.addSubview(viewToFix)
         viewToFix.anchorToView(leading: self.leadingAnchor, bottom: self.bottomAnchor, trailing: self.trailingAnchor, padding: .zero, size: .init(width: 0, height: height))
     }
-    
+   
 }
+
