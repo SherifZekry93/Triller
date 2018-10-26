@@ -9,7 +9,16 @@
 import UIKit
 import Firebase
 import FlagPhoneNumber
-class SignupController: UIViewController,FPNTextFieldDelegate {
+class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegate {
+    
+    /*  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+     guard range.location == 0 else {
+     return true
+     }
+     let newString = (textView.text as NSString).replacingCharacters(in: range, with: text) as NSString
+     return newString.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines).location != 0
+     }
+     */
     func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool)
     {
         if isValid
@@ -55,6 +64,11 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
         userName.textIcon.tintColor = .white
         userName.customLabelPlaceHolder.text = "Username"
+        userName.addTarget(self, action: #selector(validateUserNameOnChange), for: .editingChanged)
+        userName.autocapitalizationType = .none
+        userName.requiredLabel.font = UIFont.systemFont(ofSize: 13)
+        userName.requiredLabel.numberOfLines = -1
+        userName.rightView?.isHidden = true
         return userName
     }()
     //weak medium strong very strong
@@ -91,19 +105,19 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         termsAndConditions.textAlignment = .center
         termsAndConditions.font = UIFont.boldSystemFont(ofSize: 15)
         termsAndConditions.textColor = .white;
-    termsAndConditions.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToTermsAndConditionsURL)))
+        termsAndConditions.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToTermsAndConditionsURL)))
         return termsAndConditions
     }()
     
     lazy var termsAndConditionsStack:UIStackView = {
-       let stack = UIStackView(arrangedSubviews: [checkButton,termsAndConditionsLabel])
+        let stack = UIStackView(arrangedSubviews: [checkButton,termsAndConditionsLabel])
         stack.spacing = 4
         return stack
     }()
     
     lazy var phoneNumber:FPNTextField = {
         let phone = FPNTextField()
-       // phone.parentViewController = self
+        // phone.parentViewController = self
         phone.setFlag(for: .EG)
         phone.textColor = .white
         phone.isEnabled = true
@@ -169,20 +183,21 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
     }()
     
     lazy var alreadyHaveAnAccount:UILabel = {
-       let label = UILabel()
-       label.text = "Already have an account"
-       label.font = UIFont.systemFont(ofSize: 15)
-       label.textColor = .white
-       label.isUserInteractionEnabled = true
-       label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAlreadyHaveAnAccount)))
-       label.textAlignment = .center
-       return label
+        let label = UILabel()
+        label.text = "Already have an account"
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = .white
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAlreadyHaveAnAccount)))
+        label.textAlignment = .center
+        return label
     }()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         setupViews()
+        addKeyboardObserver()
         navigationController?.navigationBar.isHidden = true
     }
     var bottomAnchorConstraint:NSLayoutConstraint?
@@ -200,7 +215,9 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         
         scrollView.anchorToView(top: logoImage.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 0, left: 30, bottom: 0, right: 30),size: .init(width: 0, height:0))
         
-        bottomAnchorConstraint =   scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant:0)
+        bottomAnchorConstraint =  //scrollView.heightAnchor.constraint(equalToConstant:570)
+            //scrollView.backgroundColor = .red
+            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant:0)
         
         bottomAnchorConstraint!.isActive = true
         
@@ -267,7 +284,10 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         phoneNumber.attributedPlaceholder = attributedString
     }
-    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize = CGSize(width: 0, height: 570)
+    }
     @objc func goToTermsAndConditionsURL()
     {
         if let url = URL(string: "http://trillzapp.com/terms.php?lang=en") {
@@ -285,23 +305,39 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
     {
         navigationController?.popViewController(animated: true)
     }
+    func addKeyboardObserver()
+    {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    @objc func keyboardWillShow(_ notification:Notification)
+    {
+        let duration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+        let curve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt
+        let curframe = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        let targetFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let delta = targetFrame.origin.y - curframe.origin.y
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: UIView.AnimationOptions(rawValue: curve!), animations: {
+            self.bottomAnchorConstraint?.constant += delta
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
     @objc func handleCreateAccount()
     {
-       /* PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.getFormattedPhoneNumber(format: .E164)!, uiDelegate: nil) { (verificationID, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            print(verificationID)
-            // Sign in using the verificationID and the code sent to the user
-            // ...
-            
-        }
-*/
+        /* PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.getFormattedPhoneNumber(format: .E164)!, uiDelegate: nil) { (verificationID, error) in
+         if let error = error {
+         print(error.localizedDescription)
+         return
+         }
+         print(verificationID)
+         // Sign in using the verificationID and the code sent to the user
+         // ...
+         
+         }
+         */
         Auth.auth().createUser(withEmail: emailTextField.text ?? "", password: passwordTextField.text!) { (result, err) in
             if err != nil
             {
-               print(err!)
+                print(err!)
                 return
             }
             guard let currentUserInfo = result?.user else {return}
@@ -310,8 +346,8 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
             guard let currentAppLanguage = NSLocale.current.languageCode else {return}
             currentUserInfo.getIDToken(completion: { (token, err) in
                 let privateData = ["birth_date":"","gender":"","language":currentAppLanguage,"phone_number":fullPhone,"register_date":Date().timeIntervalSince1970] as [String : Any]
-                let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber()!,"phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text!,"user_token":token ?? ""] as [String : Any]
-            
+                let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber()!,"phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text ?? "","user_token":token ?? ""] as [String : Any]
+                
                 let toUpdateValues = [currentUserID:allValues]; Database.database().reference().child("Users").updateChildValues(toUpdateValues, withCompletionBlock: { (err, ref) in
                     if err != nil
                     {
@@ -334,4 +370,87 @@ class SignupController: UIViewController,FPNTextFieldDelegate {
         print(String(arr[0]))
         return String(arr[0])
     }
+    @objc func validateUserNameOnChange()
+    {
+        self.validateUserName { (valid) in
+            if valid
+            {
+                self.userNameTextField.rightView?.isHidden = false
+                self.userNameTextField.rightViewImage.image = #imageLiteral(resourceName: "trillLogo")
+            }
+            else
+            {
+                self.userNameTextField.rightView?.isHidden = true
+            }
+        }
+    }
+    func validateUserName(completitionHandler:@escaping (Bool) -> ())
+    {
+        userNameTextField.requiredLabel.isHidden = false
+        
+        if userNameTextField.text == ""
+        {
+            completitionHandler(false)
+            userNameTextField.requiredLabel.isHidden = false
+            userNameTextField.requiredLabel.text = "required"
+        }
+        else
+        {
+            
+            if let count =  userNameTextField.text?.count , count >= 5
+            {
+                if var username = userNameTextField.text, username != ""
+                {
+                    username = username.trimmingCharacters(in: .whitespacesAndNewlines)
+                    userNameTextField.text = username
+                    if !isValidUsernameFunction(input: username)
+                    {
+                        completitionHandler(false)
+                        userNameTextField.requiredLabel.text = "Username Only can have small english letter,number and must be "
+                    }
+                    else
+                    {
+                        
+                        FirebaseService.shared.getUserBy(userName: username.lowercased()) { (user) in
+                            if user != nil
+                            {
+                                self.userNameTextField.requiredLabel.text = "username found"
+                                completitionHandler(false)
+                            }
+                            else
+                            {
+                                self.userNameTextField.requiredLabel.text = ""
+                                completitionHandler(true)
+                            }
+                        }
+                    }
+                }
+                
+            }
+            else
+            {
+                userNameTextField.requiredLabel.text = "Must be at least 5 chars long"
+            }
+        }
+    }
+    func isValidUsernameFunction(input: String) -> Bool
+    {
+        
+        do
+        {
+            let regex = try NSRegularExpression(pattern: "^[0-9a-z\\_\\-]{5,18}$"
+                , options: [])
+            if regex.matches(in: input, options: [], range: NSMakeRange(0, input.count)).count > 0
+            {
+                let charset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz")
+                if input.rangeOfCharacter(from: charset) == nil {
+                    return false
+                }
+                return true
+            }
+        }
+        catch {}
+        return false
+    }
+    
 }

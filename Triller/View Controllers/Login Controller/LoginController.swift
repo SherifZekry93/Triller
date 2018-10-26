@@ -192,7 +192,7 @@ extension LoginController
 {
     @objc func handleLogin()
     {
-        if var userNameEmailTextField = userNameTextField.text, let password = passwordTextField.text, userNameEmailTextField != "", password != ""
+        if var userNameEmailTextField = userNameTextField.text, let password = passwordTextField.text, userNameEmailTextField != "", password != "", password.count >= 6
         {
             if isValidEmail(testStr: userNameEmailTextField)
             {
@@ -226,8 +226,20 @@ extension LoginController
                 }
             }
         }
+       
         userNameTextField.requiredLabel.isHidden =  userNameTextField.text == "" ? false : true
         passwordTextField.requiredLabel.isHidden =  passwordTextField.text == "" ? false : true
+        guard let count = passwordTextField.text?.count else {return}
+        if count > 0 && count < 6
+        {
+            passwordTextField.requiredLabel.isHidden = false
+            passwordTextField.requiredLabel.text = "Incorrect format"
+        }
+        else
+        {
+            passwordTextField.requiredLabel.text = "required"
+        }
+        
     }
     
     @objc func handleSignup()

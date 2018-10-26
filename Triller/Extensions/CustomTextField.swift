@@ -75,7 +75,7 @@ class CustomTextField: UITextField {
     let requiredLabel:UILabel = {
        let label = UILabel()
         label.textColor = .white
-        label.text = "required"
+        //label.text = "required"
         label.numberOfLines = 0
         label.isHidden = true
         return label
@@ -108,7 +108,7 @@ class CustomTextField: UITextField {
         addSubview(requiredLabel)
         self.textColor = .white
         addSubview(requiredLabel)
-        requiredLabel.anchorToView(top: self.bottomAnchor, leading: self.leadingAnchor)
+        requiredLabel.anchorToView(top: self.bottomAnchor, leading: self.leadingAnchor,trailing:self.trailingAnchor)
         rightViewContainer.frame = CGRect(x: self.frame.width - 35, y: 0, width: 35, height: 35)
         self.rightViewMode = .always
         self.rightView = rightViewContainer

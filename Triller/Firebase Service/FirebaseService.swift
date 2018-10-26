@@ -185,6 +185,12 @@ class FirebaseService
         if userName != ""
         {
             let query = ref.queryOrdered(byChild: "user_name").queryEqual(toValue: userName)
+            query.observe(.value) { (snap) in
+                if snap.value is NSNull
+                {
+                    completitionHandler(nil)
+                }
+            }
             query.observeSingleEvent(of:.childAdded, with: { (snap) in
                 if let dictionary = snap.value as? [String:Any]
                 {
