@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 class LoginController: UIViewController
 {
     var bottomAnchorConstraint:NSLayoutConstraint?
@@ -192,10 +193,25 @@ extension LoginController
 {
     @objc func handleLogin()
     {
+        
+        let connectedRef = Database.database().reference(withPath: ".info/connected")
+        connectedRef.observe(.value, with: { snapshot in
+            if snapshot.value as? Bool ?? false {
+                print("Connected")
+            } else {
+                print("Not connected")
+            }
+        })
+
+        
+        
         if var userNameEmailTextField = userNameTextField.text, let password = passwordTextField.text, userNameEmailTextField != "", password != "", password.count >= 6
         {
+            SVProgressHUD.show(withStatus: "Logging in")
             if isValidEmail(testStr: userNameEmailTextField)
             {
+                SVProgressHUD.dismiss()
+                self.view.endEditing(true)
                 finalLoginToFirebase(email: userNameEmailTextField, password: password)
             }
             else if userNameEmailTextField.isNumber
@@ -204,10 +220,15 @@ extension LoginController
                 FirebaseService.shared.getUserBy(phoneNumber: userNameEmailTextField) { (user) in
                     if let user = user
                     {
+                        
+                        SVProgressHUD.dismiss()
+                        self.view.endEditing(true)
                     self.finalLoginToFirebase(email: user.email, password: password)
                     }
                     else
                     {
+                        SVProgressHUD.dismiss()
+                        self.view.endEditing(true)
                         self.showToast(message: "number not found")
                     }
                 }
@@ -217,10 +238,14 @@ extension LoginController
                 FirebaseService.shared.getUserBy(userName: userNameEmailTextField) { (user) in
                     if let user = user
                     {
+                        SVProgressHUD.dismiss()
+                        self.view.endEditing(true)
                         self.finalLoginToFirebase(email: user.email, password: password)
                     }
                     else
                     {
+                        SVProgressHUD.dismiss()
+                        self.view.endEditing(true)
                         self.showToast(message: "username not found")
                     }
                 }

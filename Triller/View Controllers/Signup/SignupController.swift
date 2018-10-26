@@ -134,6 +134,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         email.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
         email.textIcon.tintColor = .white
         email.customLabelPlaceHolder.text = "email"
+        email.addTarget(self, action: #selector(handleValidateEmailChange), for: .editingChanged)
         return email
     }()
     
@@ -252,32 +253,9 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     //handlers
     @objc func handlePasswordTextChange()
     {
-        let password = passwordTextField.text ?? ""
-        
-        if password.count >= 0 && password.count <= 6
-        {
-            passwordStregnthLabel.text = "Weak"
-            passwordPercentageBackground.backgroundColor = .red
-        }
-            
-        else if password.count > 6 && password.count <= 12
-        {
-            passwordStregnthLabel.text = "Medium"
-            passwordPercentageBackground.backgroundColor = .orange
-        }
-            
-        else if password.count > 12 && password.count < 18
-        {
-            passwordStregnthLabel.text = "Strong"
-            passwordPercentageBackground.backgroundColor = .green
-        }
-            
-        else
-        {
-            passwordStregnthLabel.text = "Very Strong"
-            passwordPercentageBackground.backgroundColor = .blue
-        }
+        let _ = validatePassword()
     }
+    
     func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
         let text = phoneNumber.placeholder ?? "Enter a phone number"
         let attributedString = NSAttributedString(string: text,
@@ -334,33 +312,39 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
          
          }
          */
-        Auth.auth().createUser(withEmail: emailTextField.text ?? "", password: passwordTextField.text!) { (result, err) in
-            if err != nil
+        isValidForm { (formIsValid) in
+            if formIsValid
             {
-                print(err!)
-                return
-            }
-            guard let currentUserInfo = result?.user else {return}
-            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-            guard let fullPhone = self.phoneNumber.getFormattedPhoneNumber(format: .E164) else {return}
-            guard let currentAppLanguage = NSLocale.current.languageCode else {return}
-            currentUserInfo.getIDToken(completion: { (token, err) in
-                let privateData = ["birth_date":"","gender":"","language":currentAppLanguage,"phone_number":fullPhone,"register_date":Date().timeIntervalSince1970] as [String : Any]
-                let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber()!,"phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text ?? "","user_token":token ?? ""] as [String : Any]
-                
-                let toUpdateValues = [currentUserID:allValues]; Database.database().reference().child("Users").updateChildValues(toUpdateValues, withCompletionBlock: { (err, ref) in
+                Auth.auth().createUser(withEmail: self.emailTextField.text ?? "", password: self.passwordTextField.text ?? "") { (result, err) in
                     if err != nil
                     {
                         print(err!)
                         return
                     }
-                    else
-                    {
-                        print("user updated succussefully")
-                        print(currentUserID)
-                    }
-                })
-            })
+                    guard let currentUserInfo = result?.user else {return}
+                    guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+                    guard let fullPhone = self.phoneNumber.getFormattedPhoneNumber(format: .E164) else {return}
+                    guard let currentAppLanguage = NSLocale.current.languageCode else {return}
+                    currentUserInfo.getIDToken(completion: { (token, err) in
+                        let privateData = ["birth_date":"","gender":"","language":currentAppLanguage,"phone_number":fullPhone,"register_date":Date().timeIntervalSince1970] as [String : Any]
+                        let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber()!,"phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text ?? "","user_token":token ?? ""] as [String : Any]
+                        
+                        let toUpdateValues = [currentUserID:allValues]; Database.database().reference().child("Users").updateChildValues(toUpdateValues, withCompletionBlock: { (err, ref) in
+                            if err != nil
+                            {
+                                print(err!)
+                                return
+                            }
+                            else
+                            {
+                                print("user updated succussefully")
+                                print(currentUserID)
+                            }
+                        })
+                    })
+                }
+
+            }
         }
     }
     @objc func getCountryCode() -> String
@@ -452,5 +436,125 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         catch {}
         return false
     }
+    @objc func handleValidateEmailChange()
+    {
+        let _ = validateEmail()
+    }
     
+    func isValidEmail(testStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
+    func validatePassword() -> Bool
+    {
+        let numbersCharset = CharacterSet.decimalDigits
+        let alphabeticalSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz")
+        let password = passwordTextField.text ?? ""
+        if password.count == 0
+        {
+            passwordTextField.requiredLabel.isHidden = false
+            passwordTextField.requiredLabel.text = "required"
+        }
+        else if password.count > 0 && password.count < 6
+        {
+            passwordTextField.requiredLabel.text = "Password mut be 6 charachters and up"
+            passwordStregnthLabel.text = "Weak"
+            passwordPercentageBackground.backgroundColor = .red
+        }
+        else if password.count >= 6
+        {
+            if password.rangeOfCharacter(from: numbersCharset) == nil
+            {
+                passwordTextField.requiredLabel.isHidden = false
+                passwordTextField.requiredLabel.text = "Password should contain at least one Number"
+            }
+            else if password.rangeOfCharacter(from: alphabeticalSet) == nil
+            {
+                passwordTextField.requiredLabel.isHidden = false
+                passwordTextField.requiredLabel.text = "Password should contain at least one small charachter"
+            }
+            else
+            {
+                passwordStregnthLabel.text = "Medium"
+                passwordTextField.requiredLabel.text = ""
+            }
+            if password.count <= 12
+            {
+                passwordPercentageBackground.backgroundColor = .orange
+            }
+            else if password.count > 12 && password.count < 18
+            {
+                passwordStregnthLabel.text = "Strong"
+                passwordPercentageBackground.backgroundColor = .green
+            }
+            else if password.count >= 18
+            {
+                passwordStregnthLabel.text = "Very Strong"
+                passwordPercentageBackground.backgroundColor = .blue
+            }
+            return true
+        }
+        return false
+    }
+    func validateEmail() -> Bool
+    {
+        if emailTextField.text == ""
+        {
+            emailTextField.requiredLabel.isHidden = false
+            emailTextField.requiredLabel.text = "required"
+        }
+        else
+        {
+            guard let email = emailTextField.text else {return false}
+            if isValidEmail(testStr: email)
+            {
+                return true
+                //emailTextField.requiredLabel.isHidden = true
+            }
+            else
+            {
+                emailTextField.requiredLabel.isHidden = false
+                emailTextField.requiredLabel.text = "input error"
+            }
+        }
+        return false
+    }
+    func isValidForm(completitionHandler: @escaping (Bool) -> ())
+    {
+        if checkButton.isSelected
+        {
+        validateUserNameOnChange()
+        handleValidateEmailChange()
+        handlePasswordTextChange()
+        validateUserName { (validUser) in
+            if !validUser
+            {
+                completitionHandler(false)
+            }
+            else
+            {
+                if self.validateEmail()
+                {
+                    if self.validatePassword()
+                    {
+                        completitionHandler(true)
+                    }
+                    else
+                    {
+                        completitionHandler(false)
+                    }
+                }
+                else
+                {
+                    completitionHandler(false)
+                }
+            }
+        }
+        }
+        else
+        {
+            self.showToast(message: "You must accept terms and conditions")
+        }
+    }
 }
