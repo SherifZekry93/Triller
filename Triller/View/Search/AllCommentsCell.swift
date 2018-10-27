@@ -7,8 +7,10 @@
 //
 
 import UIKit
-class AllCommentsCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    
     let cellID = "cellID"
+    var homeController:SearchController?
     var collectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
