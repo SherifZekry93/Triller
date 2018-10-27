@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SVProgressHUD
+import ProgressHUD
 class AllHashTags: AllUsersCell
 {
     let hashtagCellID = "hashtagCellID"

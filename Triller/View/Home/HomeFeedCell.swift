@@ -18,7 +18,7 @@ class HomeFeedCell: UICollectionViewCell {
             guard let post = post else {return}
             guard let url = URL(string: post.user.picture_path) else {return}
             let image = #imageLiteral(resourceName: "profile-imag")
-            print(url)
+           // print(url)
             profileImage.kf.setImage(with: url, placeholder: image)
             //set username and date
             let attributedText = NSMutableAttributedString(string: post.user.full_name, attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 18)])
@@ -148,9 +148,9 @@ class HomeFeedCell: UICollectionViewCell {
         commentButton.anchorToView(size: .init(width: 40, height: 40))
         playButton.anchorToView(size:.init(width: 40, height: 0))
     }
-    let player:AVPlayer = {
+    var player:AVPlayer = {
         let avPlayer = AVPlayer()
-        avPlayer.automaticallyWaitsToMinimizeStalling = false
+        avPlayer.automaticallyWaitsToMinimizeStalling = true
         return avPlayer
     }()
     fileprivate func setupAudioSession()
@@ -167,33 +167,86 @@ class HomeFeedCell: UICollectionViewCell {
     }
     @objc func playEpisode()
     {
-        Auth.auth().signIn(withCustomToken: "") { (result, err) in
-            if err != nil
-            {
-               // print(err)
-                return
-            }
+       // var player: AVAudioPlayer?
+        guard let url = post?.audioURL else {return}
+        let storageReference = Storage.storage().reference(forURL: url)
+        let pathString = "SongsPath.mp3"
+//        let storageReference = Storage.storage().reference().child(pathString)
+        let fileUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        
+        guard let fileUrl = fileUrls.first?.appendingPathComponent(pathString) else {
             return
         }
-        if let testurl = post?.audioURL
+        
+        let downloadTask = storageReference.write(toFile: fileUrl)
+        
+        downloadTask.observe(.success) { _ in
+            guard let testurl = URL(string: (self.post?.audioURL)!) else {return}
+                let item = AVPlayerItem(url: testurl)
+                self.player.replaceCurrentItem(with: item)
+                self.player.play()
+        }
+
+    }
+        /*let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("file_name.mp3")
+        
+        Storage.storage().reference(forURL: url).getData(maxSize: 10 * 1024 * 1024) { (data, err) in
+            if let error = err {
+                print(error)
+            } else {
+                if let d = data {
+                    do {
+//                        print(d)
+//                        print(fileURL)
+                        try d.write(to: fileURL)
+//                        let item = AVPlayerItem(url: URL(string: "http://feeds.soundcloud.com/stream/396259545-brian-hong-voong-my-experiences-in-computer-science-vs-real-world.mp3")!)
+                        let item = AVPlayerItem(url: fileURL)
+                        self.player.replaceCurrentItem(with: item)
+                        self.player.play()
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+        }*/
+    
+        /*if let testurl = post?.audioURL
         {
-            let storageRef = Storage.storage().reference().child(post?.uid ?? "").child("AudioPosts").child(testurl)
+            print(testurl)
+           /* let storageRef = Storage.storage().reference().child(post?.uid ?? "").child("AudioPosts").child(testurl)
             storageRef.downloadURL
             { (url, err) in
-               // print(err)
-               // print(url)
-            }
+                if err != nil
+                {
+                    print(err)
+                }
+                print(url)
+            }*/
         }
-        
         
         
         if let url = post?.audioURL
         {
-            //https://feeds.soundcloud.com/stream/396259545-brian-hong-voong-my-experiences-in-computer-science-vs-real-world.mp3
-                guard let actualURL = URL(string: url) else {return}
-                let item = AVPlayerItem(url: actualURL)
-                player.replaceCurrentItem(with: item)
-                player.play()
-        }
-    }
+            let refStorage = Storage.storage().reference(forURL: url)
+            refStorage.downloadURL { (url, err) in
+                if err != nil
+                {
+                    print(err)
+                    return
+                }
+                //print(url)
+                //guard let actualURL = URL(string: url) else {return}
+                let item = AVPlayerItem(url: url!)
+                self.player.replaceCurrentItem(with: item)
+                self.player.play()
+            }
+            
+            //let testURL =
+            //"http://feeds.soundcloud.com/stream/396259545-brian-hong-voong-my-experiences-in-computer-science-vs-real-world.mp3"
+//                guard let actualURL = URL(string: url) else {return}
+//                let item = AVPlayerItem(url: actualURL)
+//                player.replaceCurrentItem(with: item)
+//                player.play()
+        }*/
 }
+

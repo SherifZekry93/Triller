@@ -233,7 +233,7 @@ class ProfileHeaderCell: BaseCell{
                         {
                             self.followUnfollowImage.isUserInteractionEnabled = true
 
-                            print("error following the user",err)
+                            print("error following the user",err!)
                             return
                         }
                         self.followUnfollowImage.isUserInteractionEnabled = true
@@ -269,7 +269,6 @@ class ProfileHeaderCell: BaseCell{
                 return
             }
         }
-        //followUnfollowImage.image = self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add") ?? #imageLiteral(resourceName: "button_tick") : #imageLiteral(resourceName: "button_add")
     }
     func setupFollowButton()
     {

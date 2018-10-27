@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SVProgressHUD
+import ProgressHUD
 class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     let cellID = "cellID"
     var allUsers:[User]?{

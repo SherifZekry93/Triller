@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-import SVProgressHUD
+import ProgressHUD
 class LoginController: UIViewController
 {
     var bottomAnchorConstraint:NSLayoutConstraint?
@@ -134,13 +134,7 @@ class LoginController: UIViewController
         addKeyboardObserver()
         //view.fixSafeArea(color: .blue)
     }
-    func checkIfLoggedIn()
-    {
-        if Auth.auth().currentUser != nil
-        {
-            goToHomePage()
-        }
-    }
+    
     func setupNavigationBar()
     {
         navigationController?.navigationBar.isHidden = true
@@ -195,10 +189,9 @@ extension LoginController
     {
         if var userNameEmailTextField = userNameTextField.text, let password = passwordTextField.text, userNameEmailTextField != "", password != "", password.count >= 6
         {
-            SVProgressHUD.show(withStatus: "Logging in")
+            ProgressHUD.show("Logging in")
             if isValidEmail(testStr: userNameEmailTextField)
             {
-                SVProgressHUD.dismiss()
                 self.view.endEditing(true)
                 finalLoginToFirebase(email: userNameEmailTextField, password: password)
             }
@@ -209,15 +202,15 @@ extension LoginController
                     if let user = user
                     {
                         
-                        SVProgressHUD.dismiss()
                         self.view.endEditing(true)
                     self.finalLoginToFirebase(email: user.email, password: password)
                     }
                     else
                     {
-                        SVProgressHUD.dismiss()
+                        //ProgressHUD.dismiss()
                         self.view.endEditing(true)
-                        self.showToast(message: "number not found")
+                        ProgressHUD.showError("number not found")
+                        //self.showToast(message: "number not found")
                     }
                 }
             }
@@ -226,13 +219,13 @@ extension LoginController
                 FirebaseService.shared.getUserBy(userName: userNameEmailTextField) { (user) in
                     if let user = user
                     {
-                        SVProgressHUD.dismiss()
+                        //SVProgressHUD.dismiss()
                         self.view.endEditing(true)
                         self.finalLoginToFirebase(email: user.email, password: password)
                     }
                     else
                     {
-                        SVProgressHUD.dismiss()
+                        ProgressHUD.dismiss()
                         self.view.endEditing(true)
                         self.showToast(message: "username not found")
                     }
@@ -267,6 +260,7 @@ extension LoginController
     }
     func goToHomePage()
     {
+        ProgressHUD.dismiss()
         let tabbar = MainTabBarController()
         self.navigationController?.pushViewController(tabbar, animated: true)
     }
@@ -275,7 +269,7 @@ extension LoginController
         Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
             if err != nil
             {
-                self.showToast(message: "Can't find email")
+                ProgressHUD.showError(err?.localizedDescription)
                 return
             }
             self.goToHomePage()

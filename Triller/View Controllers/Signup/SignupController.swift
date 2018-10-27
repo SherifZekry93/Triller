@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FlagPhoneNumber
+import ProgressHUD
 class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegate {
     
     /*  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -19,11 +20,13 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
      return newString.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines).location != 0
      }
      */
+    var isValidPhoneNumber:Bool = false
     func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool)
     {
         if isValid
         {
             requiredLabel.text = ""
+            isValidPhoneNumber = true
         }
         else
         {
@@ -35,6 +38,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             {
                 requiredLabel.text = "Please enter a valid number"
             }
+            isValidPhoneNumber = false
         }
     }
     
@@ -318,7 +322,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                 Auth.auth().createUser(withEmail: self.emailTextField.text ?? "", password: self.passwordTextField.text ?? "") { (result, err) in
                     if err != nil
                     {
-                        print(err!)
+                        ProgressHUD.showError(err?.localizedDescription)
                         return
                     }
                     guard let currentUserInfo = result?.user else {return}
@@ -326,24 +330,28 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                     guard let fullPhone = self.phoneNumber.getFormattedPhoneNumber(format: .E164) else {return}
                     guard let currentAppLanguage = NSLocale.current.languageCode else {return}
                     currentUserInfo.getIDToken(completion: { (token, err) in
+                        if err != nil
+                        {
+                            ProgressHUD.showError(err?.localizedDescription)
+                        }
                         let privateData = ["birth_date":"","gender":"","language":currentAppLanguage,"phone_number":fullPhone,"register_date":Date().timeIntervalSince1970] as [String : Any]
-                        let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber()!,"phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text ?? "","user_token":token ?? ""] as [String : Any]
+                        let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber(),"phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text ?? "","user_token":token ?? ""] as [String : Any]
                         
                         let toUpdateValues = [currentUserID:allValues]; Database.database().reference().child("Users").updateChildValues(toUpdateValues, withCompletionBlock: { (err, ref) in
                             if err != nil
                             {
-                                print(err!)
+                                ProgressHUD.showError(err?.localizedDescription)
                                 return
                             }
                             else
                             {
-                                print("user updated succussefully")
+                                ProgressHUD.showSuccess("User Created Successfully")
                                 print(currentUserID)
                             }
                         })
                     })
                 }
-
+                
             }
         }
     }
@@ -509,8 +517,8 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             guard let email = emailTextField.text else {return false}
             if isValidEmail(testStr: email)
             {
+                emailTextField.requiredLabel.isHidden = true
                 return true
-                //emailTextField.requiredLabel.isHidden = true
             }
             else
             {
@@ -524,37 +532,52 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     {
         if checkButton.isSelected
         {
-        validateUserNameOnChange()
-        handleValidateEmailChange()
-        handlePasswordTextChange()
-        validateUserName { (validUser) in
-            if !validUser
-            {
-                completitionHandler(false)
-            }
-            else
-            {
-                if self.validateEmail()
+            validateUserNameOnChange()
+            handleValidateEmailChange()
+            handlePasswordTextChange()
+            validateUserName { (validUser) in
+                if !validUser
                 {
-                    if self.validatePassword()
+                    completitionHandler(false)
+                }
+                else
+                {
+                    if self.validateEmail()
                     {
-                        completitionHandler(true)
+                        if self.validatePassword()
+                        {
+                            if self.isValidPhoneNumber
+                            {
+                                completitionHandler(true)
+                            }
+                            else
+                            {
+                                completitionHandler(false)
+                                if self.phoneNumber.text == ""
+                                {
+                                    self.requiredLabel.text = "required"
+                                }
+                                else
+                                {
+                                    self.requiredLabel.text = "Must enter a valid phone number"
+                                }
+                            }
+                        }
+                        else
+                        {
+                            completitionHandler(false)
+                        }
                     }
                     else
                     {
                         completitionHandler(false)
                     }
                 }
-                else
-                {
-                    completitionHandler(false)
-                }
             }
-        }
         }
         else
         {
-            self.showToast(message: "You must accept terms and conditions")
+            ProgressHUD.showError("You must accept terms and conditions")
         }
     }
 }

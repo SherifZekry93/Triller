@@ -11,7 +11,7 @@ target 'Triller' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'Firebase/Auth'
-  pod 'SVProgressHUD'
+  pod 'ProgressHUD'
   pod 'Kingfisher'
   pod 'XLPagerTabStrip'
 end
