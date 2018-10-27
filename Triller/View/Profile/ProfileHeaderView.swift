@@ -209,6 +209,7 @@ class ProfileHeaderCell: BaseCell{
     {
         guard let currentID = Auth.auth().currentUser?.uid else {return}
         guard let userID = user?.uid else {return}
+        self.followUnfollowImage.isUserInteractionEnabled = false
         if self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add")
         {
             //follow the user
@@ -219,22 +220,54 @@ class ProfileHeaderCell: BaseCell{
              Database.database().reference().child("following").child(currentID).childByAutoId().updateChildValues(followingNodeValues) { (err, ref) in
                 if err != nil
                 {
-                    print(err!)
+                    self.followUnfollowImage.isUserInteractionEnabled = true
+                    print("err following the user",err!)
                     return
                 }
                 else
                 {
+                    
                     let followersNodeValues = ["create_date":creationDate,"follower_uid":currentID] as [String:Any]
                     Database.database().reference().child("followers").child(userID).childByAutoId().updateChildValues(followersNodeValues, withCompletionBlock: { (err, ref) in
-                        
+                        if err != nil
+                        {
+                            self.followUnfollowImage.isUserInteractionEnabled = true
+
+                            print("error following the user",err)
+                            return
+                        }
+                        self.followUnfollowImage.isUserInteractionEnabled = true
                     })
                 }
             }
-           // Database.database().reference().child("Following").childByAutoId().updateChildValues([AnyHashable : Any])
         }
         else
         {
             self.followUnfollowImage.image = #imageLiteral(resourceName: "button_add")
+            let ref =  Database.database().reference().child("following").child(currentID)
+            let query = ref.queryOrdered(byChild: "following_uid").queryEqual(toValue: userID)
+            query.observe(.value, with: { (snap) in
+                guard let childNode = snap.value as? [String:Any] else {return}
+                childNode.forEach({ (key,value) in
+                    ref.child(key).removeValue()
+                    let followerRef = Database.database().reference().child("followers").child(userID)
+                    let queryFollowers = followerRef.queryOrdered(byChild: "follower_uid").queryEqual(toValue: currentID)
+                    queryFollowers.observe(.value, with: { (snap) in
+                        let childs = snap.value as? [String:Any]
+                        childs?.forEach({ (key,value) in
+                            followerRef.child(key).removeValue()
+                        })
+                        self.followUnfollowImage.isUserInteractionEnabled = true
+                    }, withCancel: { (err) in
+                        print("err following the user")
+                        self.followUnfollowImage.isUserInteractionEnabled = true
+                    })
+                })
+            }) { (err) in
+                print("err following the user")
+                self.followUnfollowImage.isUserInteractionEnabled = true
+                return
+            }
         }
         //followUnfollowImage.image = self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add") ?? #imageLiteral(resourceName: "button_tick") : #imageLiteral(resourceName: "button_add")
     }

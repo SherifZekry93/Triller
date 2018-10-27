@@ -140,7 +140,6 @@ class FirebaseService
         ref.keepSynced(true)
         DispatchQueue.global(qos: .userInitiated).async {
             ref.observe(.childAdded, with: { (snap) in
-                print(snap)
                 guard let dictionary = snap.value as? [String:Any] else {return}
                 let followinguid = dictionary["following_uid"] as? String ?? ""
                 self.fetchUserByuid(uid:followinguid, completitionHandler: { (user) in
@@ -151,10 +150,21 @@ class FirebaseService
                         })
                         DispatchQueue.main.async
                         {
-                                completitionHandler(allAudioPosts)
+                            completitionHandler(allAudioPosts)
                         }
                     })
                 })
+            }) { (err) in
+                print(err)
+            }
+            ref.observe(.childRemoved, with: { (snap) in
+                if let dictionary = snap.value as? [String:Any]
+                {
+                    allAudioPosts = allAudioPosts.filter({ (audioPost) -> Bool in
+                        return audioPost.uid != dictionary["following_uid"] as? String
+                    })
+                }
+                completitionHandler(allAudioPosts)
             }) { (err) in
                 print(err)
             }

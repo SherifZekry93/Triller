@@ -40,6 +40,13 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
             fetchFollowing(uid: currentUserID)
         }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        if hashTag == nil
+        {
+            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+            fetchFollowing(uid: currentUserID)
+        }
+    }
     func fetchFollowing(uid:String)
     {
         setupNavigationController()
@@ -66,7 +73,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         dummyCell.post = audioPosts?[indexPath.item]
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
-        let height = max(170, estimatedsize.height)
+        let height = max(180, estimatedsize.height)
         return CGSize(width: view.frame.width, height: height)
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
