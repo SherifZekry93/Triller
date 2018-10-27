@@ -68,7 +68,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         header.backgroundColor = UIColor(red: 254/255, green: 254/255, blue: 254/255, alpha: 1)
         
         header.user = user
-        //headerImage =  header.profilePicture
+        header.posts = posts
         return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

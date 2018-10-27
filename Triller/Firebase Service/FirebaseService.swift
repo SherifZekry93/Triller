@@ -52,6 +52,33 @@ class FirebaseService
         }
         
     }
+    /*func getAllUsers(completitionHandler:@escaping ([User])->())
+    {
+        var allUsers = [User]()
+        let ref = Database.database().reference().child("Users")
+        ref.keepSynced(true)
+        ref.observeSingleEvent(of:.value) { (snap) in
+            if let dictionaries = snap.value as? [String:Any]
+            {
+                dictionaries.forEach({ (key,value) in
+                    if let dictionary = value as? [String:Any]
+                    {
+                        let user = User(dictionary: dictionary)
+                        allUsers.append(user)
+                    }
+                })
+                completitionHandler(allUsers)
+            }
+            
+        }
+        /*ref.observe(.childRemoved) { (snap) in
+            allUsers = allUsers.filter({ (user) -> Bool in
+                return user.uid != snap.key
+            })
+            completitionHandler(allUsers)
+        }*/
+        
+    }*/
     func getNotificationByuid(uid:String,completitionHandler:@escaping ([MyNotification]?) -> ())
     {
         var allNotifications = [MyNotification]()
@@ -113,14 +140,17 @@ class FirebaseService
         ref.keepSynced(true)
         DispatchQueue.global(qos: .userInitiated).async {
             ref.observe(.childAdded, with: { (snap) in
+                print(snap)
                 guard let dictionary = snap.value as? [String:Any] else {return}
                 let followinguid = dictionary["following_uid"] as? String ?? ""
                 self.fetchUserByuid(uid:followinguid, completitionHandler: { (user) in
                     self.fetchPostusinguid(user: user, completitionHandler: {
                         (audioPosts) in
-                        allAudioPosts = audioPosts
+                        audioPosts.forEach({ (post) in
+                            allAudioPosts.append(post)
+                        })
                         DispatchQueue.main.async
-                            {
+                        {
                                 completitionHandler(allAudioPosts)
                         }
                     })

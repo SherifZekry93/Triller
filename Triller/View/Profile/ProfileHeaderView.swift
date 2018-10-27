@@ -8,10 +8,26 @@
 
 import UIKit
 import Kingfisher
+import Firebase
 class ProfileHeaderCell: BaseCell{
+    var posts:[AudioPost]?{
+        didSet{
+            guard let posts = posts else {return}
+            //set trillsattributedText
+            let trillsattributedText = NSMutableAttributedString(string: "\(posts.count)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+            trillsattributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+            let trillsparagraphStyle = NSMutableParagraphStyle()
+            trillsparagraphStyle.lineSpacing = 4
+            trillsattributedText.addAttribute(.paragraphStyle, value: trillsparagraphStyle, range: NSMakeRange(0, trillsattributedText.length))
+            trillsLabel.attributedText = trillsattributedText
+            trillsLabel.textAlignment = .center
+        }
+    }
     var user : User?{
         didSet
         {
+            setupFollowButton()
+            
             guard let user = user else {return}
             guard let picURL = URL(string:user.picture_path) else {return}
             profilePicture.kf.setImage(with: picURL, placeholder: UIImage(named: "profile-imag"))
@@ -24,14 +40,6 @@ class ProfileHeaderCell: BaseCell{
             attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
             userNameStatusLabel.attributedText = attributedText
             userNameStatusLabel.textAlignment = .center
-            //set trillsattributedText
-            let trillsattributedText = NSMutableAttributedString(string: "\(user.posts.count)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
-            trillsattributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
-            let trillsparagraphStyle = NSMutableParagraphStyle()
-            trillsparagraphStyle.lineSpacing = 4
-            trillsattributedText.addAttribute(.paragraphStyle, value: trillsparagraphStyle, range: NSMakeRange(0, trillsattributedText.length))
-            trillsLabel.attributedText = trillsattributedText
-            trillsLabel.textAlignment = .center
         }
     }
     let profilePicture:UIImageView = {
@@ -43,6 +51,14 @@ class ProfileHeaderCell: BaseCell{
         iv.layer.borderColor = UIColor(white: 0.95, alpha: 1).cgColor
         iv.layer.borderWidth = 3
         return iv
+    }()
+    lazy var followUnfollowImage:UIImageView = {
+        let image = UIImageView()
+        image.image = #imageLiteral(resourceName: "button_add")
+        image.isUserInteractionEnabled = true
+        image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(followThisUser)))
+        image.isHidden = true
+        return image
     }()
     let userNameStatusLabel:UILabel = {
         let label = UILabel()
@@ -166,10 +182,10 @@ class ProfileHeaderCell: BaseCell{
         addSubview(labelsBottomStackSeparator)
         addSubview(bottomStack)
         profilePicture.anchorToView(top: topAnchor, trailing: nil, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 130, height: 130), centerH: true)
-         userNameStatusLabel.anchorToView(top: profilePicture.bottomAnchor, leading: leadingAnchor, bottom: labelsStackView.topAnchor, trailing: trailingAnchor)
+        userNameStatusLabel.anchorToView(top: profilePicture.bottomAnchor, leading: leadingAnchor, bottom: labelsStackView.topAnchor, trailing: trailingAnchor)
         labelsStackView.anchorToView(top: userNameStatusLabel.bottomAnchor, leading: leadingAnchor, bottom: labelsBottomStackSeparator.topAnchor, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 10, right: 0))
         labelsBottomStackSeparator.anchorToView(top: labelsStackView.bottomAnchor, leading: leadingAnchor, bottom: bottomStack.topAnchor, trailing: trailingAnchor,padding: .init(top: 10, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 1))
-         bottomStack.anchorToView(top: labelsBottomStackSeparator.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 0),size: .init(width: 0, height: 40))
+        bottomStack.anchorToView(top: labelsBottomStackSeparator.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 0),size: .init(width: 0, height: 40))
         searchStack.anchorToView(size:.init(width: 141, height: 40))
         horizontalBottomStackSeparator.anchorToView(size:.init(width: 1, height: 40))
         searchWithNoActive.anchorToView(size:.init(width: 40, height: 40))
@@ -178,6 +194,8 @@ class ProfileHeaderCell: BaseCell{
         secondBottomStackSeparator.anchorToView(size:.init(width: 30, height: 40))
         lastBottomStackSeparator.anchorToView(size:.init(width: 15, height: 40))
         playButton.anchorToView( size: .init(width: 0, height: 30))
+        addSubview(followUnfollowImage)
+        followUnfollowImage.anchorToView(top: profilePicture.bottomAnchor , leading: nil, bottom: nil, trailing: profilePicture.trailingAnchor, padding: .init(top:-35, left: 0, bottom: -35, right: 0), size: .init(width: 40, height: 40))
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -186,5 +204,65 @@ class ProfileHeaderCell: BaseCell{
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    @objc func followThisUser()
+    {
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        guard let userID = user?.uid else {return}
+        if self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add")
+        {
+            //follow the user
+            self.followUnfollowImage.image = #imageLiteral(resourceName: "button_tick")
+            //change the image
+            let creationDate = Date().timeIntervalSince1970
+            let followingNodeValues = ["create_date": creationDate ,"following_uid":userID] as [String : Any]
+             Database.database().reference().child("following").child(currentID).childByAutoId().updateChildValues(followingNodeValues) { (err, ref) in
+                if err != nil
+                {
+                    print(err!)
+                    return
+                }
+                else
+                {
+                    let followersNodeValues = ["create_date":creationDate,"follower_uid":currentID] as [String:Any]
+                    Database.database().reference().child("followers").child(userID).childByAutoId().updateChildValues(followersNodeValues, withCompletionBlock: { (err, ref) in
+                        
+                    })
+                }
+            }
+           // Database.database().reference().child("Following").childByAutoId().updateChildValues([AnyHashable : Any])
+        }
+        else
+        {
+            self.followUnfollowImage.image = #imageLiteral(resourceName: "button_add")
+        }
+        //followUnfollowImage.image = self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add") ?? #imageLiteral(resourceName: "button_tick") : #imageLiteral(resourceName: "button_add")
+    }
+    func setupFollowButton()
+    {
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        guard let user = user else {return}
+        if user.uid == currentID
+        {
+            self.followUnfollowImage.isHidden = true
+        }
+        else
+        {
+           let ref =  Database.database().reference().child("following").child(currentID)
+            let query = ref.queryOrdered(byChild: "following_uid").queryEqual(toValue: user.uid)
+            query.observe(.value, with: { (snap) in
+                if snap.value is NSNull
+                {
+                    self.followUnfollowImage.isHidden = false
+                }
+                else
+                {
+                    self.followUnfollowImage.image = #imageLiteral(resourceName: "button_tick")
+                    self.followUnfollowImage.isHidden = false
+                }
+            }) { (err) in
+                
+            }
+        }
     }
 }

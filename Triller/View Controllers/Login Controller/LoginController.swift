@@ -193,18 +193,6 @@ extension LoginController
 {
     @objc func handleLogin()
     {
-        
-        let connectedRef = Database.database().reference(withPath: ".info/connected")
-        connectedRef.observe(.value, with: { snapshot in
-            if snapshot.value as? Bool ?? false {
-                print("Connected")
-            } else {
-                print("Not connected")
-            }
-        })
-
-        
-        
         if var userNameEmailTextField = userNameTextField.text, let password = passwordTextField.text, userNameEmailTextField != "", password != "", password.count >= 6
         {
             SVProgressHUD.show(withStatus: "Logging in")
