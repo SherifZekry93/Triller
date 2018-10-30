@@ -12,13 +12,12 @@ import AVKit
 import MediaPlayer
 import Firebase
 class HomeFeedCell: UICollectionViewCell {
-    
     var post:AudioPost?{
         didSet{
             guard let post = post else {return}
             guard let url = URL(string: post.user.picture_path) else {return}
             let image = #imageLiteral(resourceName: "profile-imag")
-           // print(url)
+            // print(url)
             profileImage.kf.setImage(with: url, placeholder: image)
             //set username and date
             let attributedText = NSMutableAttributedString(string: post.user.full_name, attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 18)])
@@ -44,6 +43,7 @@ class HomeFeedCell: UICollectionViewCell {
             }
         }
     }
+    
     let profileImage:UIImageView = {
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "profile-imag")
@@ -55,12 +55,14 @@ class HomeFeedCell: UICollectionViewCell {
         label.numberOfLines = -1
         return label
     }()
+    
     let menuButton:UIButton = {
         let button = UIButton()
         button.setTitle("•••", for: .normal)
         button.setTitleColor(.black, for: .normal)
         return button
     }()
+    
     lazy var playButton:UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
@@ -69,16 +71,19 @@ class HomeFeedCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(playEpisode), for: .touchUpInside)
         return button
     }()
+    
     let recordSlider:UISlider = {
         let slider = UISlider()
         slider.thumbTintColor = .red
         return slider
     }()
+    
     let timeLabel:UILabel = {
         let label = UILabel()
         label.text = "00:00"
         return label
     }()
+    
     let likeButton:UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "love"), for: .normal)
@@ -148,9 +153,14 @@ class HomeFeedCell: UICollectionViewCell {
         commentButton.anchorToView(size: .init(width: 40, height: 40))
         playButton.anchorToView(size:.init(width: 40, height: 0))
     }
-    var player:AVPlayer = {
-        let avPlayer = AVPlayer()
-        avPlayer.automaticallyWaitsToMinimizeStalling = true
+    /*var player:AVPlayer = {
+     let avPlayer = AVPlayer()
+     avPlayer.automaticallyWaitsToMinimizeStalling = true
+     return avPlayer
+     }()*/
+    var player:AVAudioPlayer = {
+        let avPlayer = AVAudioPlayer()
+        // avPlayer.automaticallyWaitsToMinimizeStalling = true
         return avPlayer
     }()
     fileprivate func setupAudioSession()
@@ -167,13 +177,27 @@ class HomeFeedCell: UICollectionViewCell {
     }
     @objc func playEpisode()
     {
-       // var player: AVAudioPlayer?
+        guard let postURL = post?.audioURL else {return}
+        guard let downloadURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/trill-8aa7b.appspot.com/o/KjopXbKpsXTQGu3S39E5j2jmK3E3%2FAudioPosts%2Fay7aga.m4a?alt=media&token=d4f169a9-d439-4b66-b51a-86cf5034e2a5") else {return}
+        URLSession.shared.dataTask(with: downloadURL, completionHandler: { (data, response, err) in
+            do
+            {
+                self.player =  try AVAudioPlayer(data: data!, fileTypeHint: "mp3")
+                self.player.prepareToPlay()
+                self.player.play()
+            }
+            catch let err
+            {
+             print("err", err)
+            }
+        }).resume()
+        // var player: AVAudioPlayer?
         guard let url = post?.audioURL else {return}
         let storageReference = Storage.storage().reference(forURL: url)
         let pathString = "SongsPath.mp3"
-//        let storageReference = Storage.storage().reference().child(pathString)
+        //        let storageReference = Storage.storage().reference().child(pathString)
         let fileUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        
+        print(fileUrls)
         guard let fileUrl = fileUrls.first?.appendingPathComponent(pathString) else {
             return
         }
@@ -181,72 +205,89 @@ class HomeFeedCell: UICollectionViewCell {
         let downloadTask = storageReference.write(toFile: fileUrl)
         
         downloadTask.observe(.success) { _ in
-            guard let testurl = URL(string: (self.post?.audioURL)!) else {return}
-                let item = AVPlayerItem(url: testurl)
-                self.player.replaceCurrentItem(with: item)
+            //guard let testurl = URL(string: (self.post?.audioURL)!) else {return}
+            do
+            {
+                
+                guard     let bundleFile =  Bundle.main.path(forResource: "cs_vs_real_world", ofType: "mp3") else {return}
+                let url = URL.init(fileURLWithPath: bundleFile )
+                self.player = try AVAudioPlayer(contentsOf: url)
+                self.player.prepareToPlay()
+                self.player.volume = 1
                 self.player.play()
-        }
 
-    }
-        /*let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("file_name.mp3")
-        
-        Storage.storage().reference(forURL: url).getData(maxSize: 10 * 1024 * 1024) { (data, err) in
-            if let error = err {
-                print(error)
-            } else {
-                if let d = data {
-                    do {
-//                        print(d)
-//                        print(fileURL)
-                        try d.write(to: fileURL)
-//                        let item = AVPlayerItem(url: URL(string: "http://feeds.soundcloud.com/stream/396259545-brian-hong-voong-my-experiences-in-computer-science-vs-real-world.mp3")!)
-                        let item = AVPlayerItem(url: fileURL)
-                        self.player.replaceCurrentItem(with: item)
-                        self.player.play()
-                    } catch {
-                        print(error)
-                    }
-                }
+                print(self.player.isPlaying)
             }
-        }*/
-    
-        /*if let testurl = post?.audioURL
-        {
-            print(testurl)
-           /* let storageRef = Storage.storage().reference().child(post?.uid ?? "").child("AudioPosts").child(testurl)
-            storageRef.downloadURL
-            { (url, err) in
-                if err != nil
-                {
-                    print(err)
-                }
-                print(url)
-            }*/
+            catch let err
+            {
+                print("err",err)
+            }
+            //    let item = AVPlayerItem(url: fileUrl)
+            
+            //self.player.replaceCurrentItem(with: item)
+            //   self.player.play()
         }
         
-        
-        if let url = post?.audioURL
-        {
-            let refStorage = Storage.storage().reference(forURL: url)
-            refStorage.downloadURL { (url, err) in
-                if err != nil
-                {
-                    print(err)
-                    return
-                }
-                //print(url)
-                //guard let actualURL = URL(string: url) else {return}
-                let item = AVPlayerItem(url: url!)
-                self.player.replaceCurrentItem(with: item)
-                self.player.play()
-            }
-            
-            //let testURL =
-            //"http://feeds.soundcloud.com/stream/396259545-brian-hong-voong-my-experiences-in-computer-science-vs-real-world.mp3"
-//                guard let actualURL = URL(string: url) else {return}
-//                let item = AVPlayerItem(url: actualURL)
-//                player.replaceCurrentItem(with: item)
-//                player.play()
-        }*/
+    }
+    /*let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("file_name.mp3")
+     
+     Storage.storage().reference(forURL: url).getData(maxSize: 10 * 1024 * 1024) { (data, err) in
+     if let error = err {
+     print(error)
+     } else {
+     if let d = data {
+     do {
+     //                        print(d)
+     //                        print(fileURL)
+     try d.write(to: fileURL)
+     //                        let item = AVPlayerItem(url: URL(string: "http://feeds.soundcloud.com/stream/396259545-brian-hong-voong-my-experiences-in-computer-science-vs-real-world.mp3")!)
+     let item = AVPlayerItem(url: fileURL)
+     self.player.replaceCurrentItem(with: item)
+     self.player.play()
+     } catch {
+     print(error)
+     }
+     }
+     }
+     }*/
+    
+    /*if let testurl = post?.audioURL
+     {
+     print(testurl)
+     /* let storageRef = Storage.storage().reference().child(post?.uid ?? "").child("AudioPosts").child(testurl)
+     storageRef.downloadURL
+     { (url, err) in
+     if err != nil
+     {
+     print(err)
+     }
+     print(url)
+     }*/
+     }
+     
+     
+     if let url = post?.audioURL
+     {
+     let refStorage = Storage.storage().reference(forURL: url)
+     refStorage.downloadURL { (url, err) in
+     if err != nil
+     {
+     print(err)
+     return
+     }
+     //print(url)
+     //guard let actualURL = URL(string: url) else {return}
+     let item = AVPlayerItem(url: url!)
+     self.player.replaceCurrentItem(with: item)
+     self.player.play()
+     }
+     
+     //let testURL =
+     //"http://feeds.soundcloud.com/stream/396259545-brian-hong-voong-my-experiences-in-computer-science-vs-real-world.mp3"
+     //                guard let actualURL = URL(string: url) else {return}
+     //                let item = AVPlayerItem(url: actualURL)
+     //                player.replaceCurrentItem(with: item)
+     //                player.play()
+     }*/
 }
 

@@ -8,14 +8,47 @@
 
 import UIKit
 //import SwipeableTabBarController
-class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate{
+import IQAudioRecorderController
+class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITabBarControllerDelegate,IQAudioRecorderViewControllerDelegate{
+    func audioRecorderController(_ controller: IQAudioRecorderViewController, didFinishWithAudioAtPath filePath: String) {
+        let someV = ShareAudioViewController()
+        someV.filePath = filePath
+        //navigatonController
+/*        self.dismiss(animated: true) {
+            self.navigationController?.pushViewController(someV, animated: true)
+        }*/
+        //present
+        present(UINavigationController(rootViewController: someV), animated: true) {
+              self.dismiss(animated: true)
+        }
+     
+       
+    }
+    func audioRecorderControllerDidCancel(_ controller: IQAudioRecorderViewController) {
+        //let view = UIViewController()
+        //view.view.backgroundColor = .purple
+        //navigationController?.pushViewController(view, animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let index = viewControllers?.index(of: viewController)
+        if index == 2
+        {
+            let audioController = AudioRecorderView(delegate_:self)
+            audioController.PresentAudioRecorder(target: self)
+            return false
+        }
+        return true
+    }
     let customBackGroundView = UIView()
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.delegate = self
         setupViewControllers()
         DispatchQueue.main.async {
-        self.createCustomStatusBar(color: .blue)
+            self.createCustomStatusBar(color: .blue)
+            self.navigationController?.navigationBar.isHidden = true
         }
         self.tabBar.backgroundColor = UIColor(white: 0.9, alpha: 0.4)
     }
@@ -61,7 +94,10 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate{
         let layout4 = UICollectionViewFlowLayout()
 
         let profileNav = UINavigationController(rootViewController: MainProfileController(collectionViewLayout:layout4) )
-        profileNav.tabBarItem.image = #imageLiteral(resourceName: "profile_selected").withRenderingMode(.alwaysTemplate)        
-        viewControllers = [homeNav,searchNav,notificationNav,profileNav]
+        profileNav.tabBarItem.image = #imageLiteral(resourceName: "profile_selected").withRenderingMode(.alwaysOriginal)
+        let recordImage =  UIViewController()
+        recordImage.view.backgroundColor = .white
+        recordImage.tabBarItem.image = #imageLiteral(resourceName: "microphone").withRenderingMode(.alwaysOriginal)
+        viewControllers = [homeNav,searchNav,recordImage,notificationNav,profileNav]
     }
 }

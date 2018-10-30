@@ -68,6 +68,8 @@ PODS:
   - GoogleUtilities/UserDefaults (5.3.4):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.0)
+  - IQAudioRecorderController (1.2.3):
+    - SCSiriWaveformView
   - Kingfisher (4.10.0)
   - leveldb-library (1.20)
   - libPhoneNumber-iOS (0.9.13)
@@ -77,6 +79,7 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - ProgressHUD (2.60)
+  - SCSiriWaveformView (1.1.1)
   - XLPagerTabStrip (8.1.0)
 
 DEPENDENCIES:
@@ -85,6 +88,7 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Storage
   - FlagPhoneNumber
+  - IQAudioRecorderController
   - Kingfisher
   - ProgressHUD
   - XLPagerTabStrip
@@ -103,11 +107,13 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleUtilities
     - GTMSessionFetcher
+    - IQAudioRecorderController
     - Kingfisher
     - leveldb-library
     - libPhoneNumber-iOS
     - nanopb
     - ProgressHUD
+    - SCSiriWaveformView
     - XLPagerTabStrip
 
 SPEC CHECKSUMS:
@@ -123,13 +129,15 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  IQAudioRecorderController: 69a67c2e0b87bd8746cbb4de175fd7a0bf820009
   Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   libPhoneNumber-iOS: e444379ac18bbfbdefad571da735b2cd7e096caa
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   ProgressHUD: 4e4efbaf4f5de8bd32e0c4c3b6644a90ea1a8c3e
+  SCSiriWaveformView: 15b9dd6f94c7536e2032b34a35c6ff74d38c7411
   XLPagerTabStrip: 22d4c58200d7c105e0e407ab6bfd01a5d85014be
 
-PODFILE CHECKSUM: 014729d0ea513cc8caeec41f27ddd0bb0f9b5cfc
+PODFILE CHECKSUM: 76ceb28d8272aa09d6ef97bedae20acd85bf344e
 
 COCOAPODS: 1.5.3

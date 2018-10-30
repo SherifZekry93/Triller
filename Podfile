@@ -14,4 +14,5 @@ target 'Triller' do
   pod 'ProgressHUD'
   pod 'Kingfisher'
   pod 'XLPagerTabStrip'
+  pod 'IQAudioRecorderController'
 end

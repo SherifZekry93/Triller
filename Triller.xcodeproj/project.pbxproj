@@ -11,6 +11,8 @@
 		7E15E6E2217D86B9009851BB /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6E1217D86B9009851BB /* CMTime.swift */; };
 		7E2E93CB217C400800B298B5 /* MyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E93CA217C400800B298B5 /* MyNotification.swift */; };
 		7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */; };
+		7E90C6B62184C3B90090B320 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90C6B52184C3B90090B320 /* AudioRecorder.swift */; };
+		7E90C6B92184DA770090B320 /* ShareAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90C6B82184DA770090B320 /* ShareAudioViewController.swift */; };
 		7EA4FC26217934A200D481A1 /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC25217934A200D481A1 /* SignupController.swift */; };
 		7EA4FC28217937DD00D481A1 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC27217937DD00D481A1 /* NotificationCell.swift */; };
 		7EA5BAC0217AF21200EFC458 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BABF217AF21200EFC458 /* Profile.swift */; };
@@ -61,6 +63,8 @@
 		7E15E6E1217D86B9009851BB /* CMTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		7E2E93CA217C400800B298B5 /* MyNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNotification.swift; sourceTree = "<group>"; };
 		7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		7E90C6B52184C3B90090B320 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		7E90C6B82184DA770090B320 /* ShareAudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareAudioViewController.swift; sourceTree = "<group>"; };
 		7EA4FC25217934A200D481A1 /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
 		7EA4FC27217937DD00D481A1 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		7EA5BABF217AF21200EFC458 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -124,6 +128,22 @@
 				40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E90C6B42184C33E0090B320 /* Audio Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				7E90C6B52184C3B90090B320 /* AudioRecorder.swift */,
+			);
+			path = "Audio Recorder";
+			sourceTree = "<group>";
+		};
+		7E90C6B72184DA590090B320 /* Share Audio */ = {
+			isa = PBXGroup;
+			children = (
+				7E90C6B82184DA770090B320 /* ShareAudioViewController.swift */,
+			);
+			path = "Share Audio";
 			sourceTree = "<group>";
 		};
 		7EA4FC22217904B200D481A1 /* Notification */ = {
@@ -337,6 +357,8 @@
 		7EF91DBB21785CCD00BD42CA /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7E90C6B72184DA590090B320 /* Share Audio */,
+				7E90C6B42184C33E0090B320 /* Audio Recorder */,
 				7EF28556217FA2C200D7F2F7 /* ImagePicker */,
 				7EA5BAC1217AF21B00EFC458 /* Profile */,
 				7EA4FC242179349200D481A1 /* Signup */,
@@ -438,8 +460,10 @@
 				"${BUILT_PRODUCTS_DIR}/FlagPhoneNumber/FlagPhoneNumber.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/IQAudioRecorderController/IQAudioRecorderController.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SCSiriWaveformView/SCSiriWaveformView.framework",
 				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/libPhoneNumber-iOS/libPhoneNumber_iOS.framework",
@@ -450,8 +474,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlagPhoneNumber.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQAudioRecorderController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSiriWaveformView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libPhoneNumber_iOS.framework",
@@ -491,6 +517,7 @@
 				7EA5BAC0217AF21200EFC458 /* Profile.swift in Sources */,
 				7ECE81AE2173201B00895EDA /* HashTagCell.swift in Sources */,
 				7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */,
+				7E90C6B62184C3B90090B320 /* AudioRecorder.swift in Sources */,
 				7ECE81CB2173D20600895EDA /* MainNotificationController.swift in Sources */,
 				7EA5BACC217AF46700EFC458 /* User.swift in Sources */,
 				7E15E6E2217D86B9009851BB /* CMTime.swift in Sources */,
@@ -523,6 +550,7 @@
 				7ECE81BB2173219D00895EDA /* TopUserCell.swift in Sources */,
 				7E2E93CB217C400800B298B5 /* MyNotification.swift in Sources */,
 				7EAE3B00217F639C008C1B02 /* AlertViewController.swift in Sources */,
+				7E90C6B92184DA770090B320 /* ShareAudioViewController.swift in Sources */,
 				7E15E6E0217CC28A009851BB /* Date.swift in Sources */,
 				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,
 				7EA5BACE217AF9F100EFC458 /* AudioPost.swift in Sources */,

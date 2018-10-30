@@ -19,13 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let layout = UICollectionViewFlowLayout()
         if Auth.auth().currentUser != nil
         {
-            let homeFeed = MainTabBarController()   ;        window?.rootViewController =  homeFeed
+            //let homeFeed = UINavigationController(rootViewController:  ShareAudioViewController())
+            let homeFeed = UINavigationController(rootViewController: MainTabBarController() )
+            window?.rootViewController =  homeFeed
         }
         else
         {
         let loginController = UINavigationController(rootViewController:   LoginController())
             window?.rootViewController =  loginController
-            
         }
         Database.database().isPersistenceEnabled = true
         return true
