@@ -31,9 +31,9 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         {
             if searchText != ""
             {
-            filteredUsers = allUsers.filter({ (user) -> Bool in
-                return user.user_name.lowercased().contains(searchText.lowercased())
-            })
+                filteredUsers = allUsers.filter({ (user) -> Bool in
+                    return user.user_name.lowercased().contains(searchText.lowercased())
+                })
             }
             else
             {
@@ -77,15 +77,17 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        setupCollectionView()
-        setupMenuBar()
-        setupSearchController()
-        getAllUsers()
-        getHashTags()
-        setupNavigationController()
-        self.extendedLayoutIncludesOpaqueBars = true;
+        self.setupMenuBar()
+        self.setupCollectionView()
+        self.setupSearchController()
+        self.getAllUsers()
+        self.getHashTags()
+        self.setupNavigationController()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+//        self.extendedLayoutIncludesOpaqueBars = true;
+        //does nothing for now
+    }
     func setupSearchController()
     {
         navigationItem.searchController = searchController
@@ -104,7 +106,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     func setupNavigationController()
     {
         navigationController?.navigationBar.isTranslucent = false
-       // navigationController?.navigationBar.prefersLargeTitles = true
+        // navigationController?.navigationBar.prefersLargeTitles = true
         //navigationItem.title = "Search"
     }
     func setupCollectionView()
@@ -127,24 +129,28 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         let bottomSafeAreaHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
         if bottomSafeAreaHeight > 0
         {
-            return UIEdgeInsets(top: inset + 150 - 12, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: inset + 65 - 12, left: 0, bottom: 0, right: 0)
         }
         else
         {
-            return UIEdgeInsets(top: inset + 150 - 24, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: inset + 90 - 24, left: 0, bottom: 0, right: 0)
         }
     }
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
+    {
         self.filteredUsers = allUsers
+        self.filteredHashTags = allHashTags
         self.collectionView.reloadData()
     }
+    
     let horizontalLine = UIView()
     func setupMenuBar()
     {
         let menuView = UIView()
         view.addSubview(menuView)
         menuView.backgroundColor = .white
-        menuView.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: -45, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
+        menuView.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
         let horizontalGrayLine = UIView()
         horizontalGrayLine.backgroundColor = .lightGray
         menuView.addSubview(horizontalGrayLine)
