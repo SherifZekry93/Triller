@@ -111,7 +111,7 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
         let metaData = StorageMetadata()
         metaData.contentType = "audio/m4a"
         //let movUrl = URL(string: desc)
-        storageRef.putFile(from: finalPath, metadata: metaData, completion: {
+        let task = storageRef.putFile(from: finalPath, metadata: metaData, completion: {
             meta, error in
             if error != nil{
                 print("Error uploading File")
@@ -123,10 +123,9 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
                     ProgressHUD.showError(err?.localizedDescription)
                     return
                 }
-                
+                guard let urlValue = url?.absoluteString else {return}
                 let reference = Database.database().reference().child("AudioPosts").childByAutoId()
-                let values = ["audioDuration":self.getAudioInSeconds(finalPath:  finalPath),"audioName":uploadFileName,"audioURL":url?.absoluteString ?? ""
-                    ,"creationDate":Date().timeIntervalSince1970,"uid":currentID] as [String : Any]
+                let values = ["audioDuration":self.getAudioInSeconds(finalPath:  finalPath),"audioName":uploadFileName,"audioNote":self.audioNoteTextField.text ?? "","audioUri":urlValue                     ,"creationDate":Date().timeIntervalSince1970,"uid":currentID] as [String : Any]
                 reference.updateChildValues(values, withCompletionBlock: { (err, ref) in
                     if err != nil
                     {
@@ -134,44 +133,29 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
                         return
                     }
                     print("Uploaded successfully")
+                    self.dismiss(animated: true, completion: nil)
                 })
             })
             //let values = []
             //reference.updateChildValues(<#T##values: [AnyHashable : Any]##[AnyHashable : Any]#>, withCompletionBlock: <#T##(Error?, DatabaseReference) -> Void#>)
         })
         
-        /*task.observe(.success, handler: {
+        task.observe(.success, handler: {
          snap in
          switch snap.status{
          case .success:
-         
-         pRef.child("name").setValue(name)
-         print("Child Added at \(self.dbRef?.child(category).child(name).url)")
-         pRef.child("movUrl").setValue(url)
-         //pRef?.child("desc").setValue(desc)
-         
-         if self.uploadReporter != nil{
-         self.uploadReporter?.imageUploadStatus(status: true)
-         }
+         print("File Uploaded")
+            ProgressHUD.dismiss()
          case .failure:
-         if(self.uploadReporter != nil)
-         {
-         self.uploadReporter?.imageUploadStatus(status: false)
-         }
          print("Failed")
-         // MessageBox.Show(message: "Image Upload failed", title: "Upload Failed", view: nil)
          default:
          print("default")
          }
-         })*/
-        /*task.observe(.progress, handler: {
+         })
+        task.observe(.progress, handler: {
          snap in
-         if let p = snap.progress?.fractionCompleted{
-         if self.uploadReporter != nil{
-         self.uploadReporter?.reportProgress(progress: Float(p))
-         }
-         }
-         })*/
+            ProgressHUD.show("Posting")
+        })
     }
     @objc func dismissCurrentController()
     {
@@ -180,7 +164,7 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
     
     @objc func sharePostToFirebase()
     {
-        print("share post")
+        uploadAudio()
     }
     func getAudioInSeconds(finalPath:URL) -> Double
     {

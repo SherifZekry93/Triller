@@ -11,7 +11,13 @@ import Kingfisher
 import AVKit
 import MediaPlayer
 import Firebase
+
+protocol StartPlayingEpisodeInCell {
+    func playEpisode(url:URL);
+}
+
 class HomeFeedCell: UICollectionViewCell {
+    var delegate:StartPlayingEpisodeInCell?
     var post:AudioPost?{
         didSet{
             guard let post = post else {return}
@@ -69,6 +75,7 @@ class HomeFeedCell: UICollectionViewCell {
         button.tintColor = .orange
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(playEpisode), for: .touchUpInside)
+        button.imageView?.contentMode = .scaleAspectFill
         return button
     }()
     
@@ -147,22 +154,19 @@ class HomeFeedCell: UICollectionViewCell {
         menuButton.anchorToView(top: userNameTimeLabel.topAnchor, leading: nil, bottom: nil, trailing:containerView.trailingAnchor, padding: .init(top: -12, left: 5, bottom: 5, right: 5), size: .init(width: 40, height: 40))
         containerView.addSubview(postTitle)
         postTitle.anchorToView(top: topStackView.bottomAnchor, leading: topStackView.leadingAnchor, bottom: bottomStack.topAnchor, trailing: menuButton.trailingAnchor,padding: .init(top: 5, left: 0, bottom: 5, right: 0))
-        bottomStack.anchorToView(top: postTitle.bottomAnchor, leading: postTitle.leadingAnchor, bottom: controlsStack.topAnchor, trailing: postTitle.trailingAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 40))
-        controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: containerView.bottomAnchor, trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 0), size: .init(width: 120, height: 40))
+        bottomStack.anchorToView(top: postTitle.bottomAnchor, leading: postTitle.leadingAnchor, bottom: controlsStack.topAnchor, trailing: postTitle.trailingAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 35))
+        playButton.anchorToView(size:.init(width: 35, height: 0))
+        controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: containerView.bottomAnchor, trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 0), size: .init(width: 120, height: 30))
         likeButton.anchorToView( size: .init(width: 40, height: 40))
         commentButton.anchorToView(size: .init(width: 40, height: 40))
         playButton.anchorToView(size:.init(width: 40, height: 0))
     }
-    /*var player:AVPlayer = {
-     let avPlayer = AVPlayer()
-     avPlayer.automaticallyWaitsToMinimizeStalling = true
-     return avPlayer
-     }()*/
-    var player:AVAudioPlayer = {
+   
+   /* var player:AVAudioPlayer = {
         let avPlayer = AVAudioPlayer()
         // avPlayer.automaticallyWaitsToMinimizeStalling = true
         return avPlayer
-    }()
+    }()*/
     fileprivate func setupAudioSession()
     {
         do
@@ -178,6 +182,10 @@ class HomeFeedCell: UICollectionViewCell {
     @objc func playEpisode()
     {
         guard let postURL = post?.audioURL else {return}
+        guard let playURL = URL(string: postURL) else {return}
+        delegate?.playEpisode(url: playURL)
+//        }
+        /*guard let postURL = post?.audioURL else {return}
         guard let downloadURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/trill-8aa7b.appspot.com/o/KjopXbKpsXTQGu3S39E5j2jmK3E3%2FAudioPosts%2Fay7aga.m4a?alt=media&token=d4f169a9-d439-4b66-b51a-86cf5034e2a5") else {return}
         URLSession.shared.dataTask(with: downloadURL, completionHandler: { (data, response, err) in
             do
@@ -228,7 +236,7 @@ class HomeFeedCell: UICollectionViewCell {
             //   self.player.play()
         }
         
-    }
+    }*/
     /*let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("file_name.mp3")
      
      Storage.storage().reference(forURL: url).getData(maxSize: 10 * 1024 * 1024) { (data, err) in
@@ -291,3 +299,4 @@ class HomeFeedCell: UICollectionViewCell {
      }*/
 }
 
+}

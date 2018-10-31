@@ -178,7 +178,7 @@ class FirebaseService
         let query = ref.queryOrdered(byChild: "uid").queryEqual(toValue: user.uid)
         query.keepSynced(true)
         query.observe(.value, with: { (snap) in
-            
+            audioPosts.removeAll()
             if let dictionary = snap.value as? [String:Any]
             {
                 dictionary.forEach({ (key,value) in

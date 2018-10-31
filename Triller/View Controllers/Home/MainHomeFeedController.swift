@@ -10,8 +10,39 @@ import UIKit
 import AVKit
 import MediaPlayer
 import Firebase
-class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout
+import ProgressHUD
+class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout,StartPlayingEpisodeInCell
 {
+    
+    var player:AVAudioPlayer = {
+        let avPlayer = AVAudioPlayer()
+        return avPlayer
+    }()
+    
+    func playEpisode(url: URL) {
+        CustomAvPlayer.shared.loadSoundUsingSoundURL(url: url) { (data) in
+            if let data = data
+            {
+                do
+                {
+                    self.player =  try AVAudioPlayer(data: data, fileTypeHint: "m4a")
+                    self.player.prepareToPlay()
+                    self.player.play()
+                }
+                catch
+                {
+                    ProgressHUD.showError("Failed to Play sound")
+                }
+            }
+            else
+            {
+                ProgressHUD.showError("Failed to load sound")
+            }
+        }
+        //let playerItem = AVPlayerItem(url: url)
+        //self.player.replaceCurrentItem(with: playerItem)
+    }
+    
     let cellID = "cellID"
     var audioPosts:[AudioPost]?{
         didSet{
@@ -73,13 +104,14 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         dummyCell.post = audioPosts?[indexPath.item]
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
-        let height = max(180, estimatedsize.height)
+        let height = estimatedsize.height//max(185, estimatedsize.height)
         return CGSize(width: view.frame.width, height: height)
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for:indexPath) as! HomeFeedCell
         let post = audioPosts?[indexPath.item]
         cell.post = post
+        cell.delegate = self
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -110,22 +142,20 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         {
             try AVAudioSession.sharedInstance().setCategory(.playback,mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
-            playSound()
         }
         catch
         {
             print("Error setting session")
         }
     }
-    var player : AVPlayer?
-    func playSound()
+    /*func playSound()
     {
         let url:String = "https://firebasestorage.googleapis.com/v0/b/trill-8aa7b.appspot.com/o/d6gdQK4xZPZkj6i8UKvF6ON3IVA3%2FAudioPosts%2FTrill_Audio_rWUxfQZDUE3VNttjOWeKinVIJpw1jml_1525701682431.mp3?alt=media&token=2376eb8b-2969-4c22-99b3-487611b8d09c"
         guard let actualURL = URL(string: url) else {return}
         let item = AVPlayerItem(url: actualURL)
         player = AVPlayer(playerItem: item)
         player?.play()
-    }
+    }*/
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let layout = UICollectionViewFlowLayout()

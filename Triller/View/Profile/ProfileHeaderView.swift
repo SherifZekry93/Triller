@@ -27,7 +27,7 @@ class ProfileHeaderCell: BaseCell{
         didSet
         {
             setupFollowButton()
-            
+            setupListenerButton()
             guard let user = user else {return}
             guard let picURL = URL(string:user.picture_path) else {return}
             profilePicture.kf.setImage(with: picURL, placeholder: UIImage(named: "profile-imag"))
@@ -107,7 +107,8 @@ class ProfileHeaderCell: BaseCell{
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
-        label.attributedText = attributedText
+      //  self.listenersLabel.attributedText = attributedText
+      //  self.listenersLabel.textAlignment = .center
         label.numberOfLines = -1
         label.textAlignment = .center
         return label
@@ -297,4 +298,25 @@ class ProfileHeaderCell: BaseCell{
             }
         }
     }
+    
+    func setupListenerButton()
+    {
+        DispatchQueue.main.async {
+            
+            guard let currentID = self.user?.uid else {return}
+        let ref = Database.database().reference().child("followers").child(currentID)
+        ref.observe(.value, with: { (snapshot: DataSnapshot) in
+            let attributedText = NSMutableAttributedString(string: "\(snapshot.childrenCount)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+            attributedText.append(NSAttributedString(string: "Listeners", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+            
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 4
+            attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+            self.listenersLabel.attributedText = attributedText
+            self.listenersLabel.textAlignment = .center
+        })
+            
+        }
+    }
+    
 }

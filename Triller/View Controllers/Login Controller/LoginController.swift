@@ -225,9 +225,8 @@ extension LoginController
                     }
                     else
                     {
-                        ProgressHUD.dismiss()
                         self.view.endEditing(true)
-                        self.showToast(message: "username not found")
+                        ProgressHUD.showError("Username Not Found")
                     }
                 }
             }
@@ -250,6 +249,7 @@ extension LoginController
     
     @objc func handleSignup()
     {
+        self.view.endEditing(true)
         navigationController?.pushViewController(SignupController(), animated: true)
     }
     

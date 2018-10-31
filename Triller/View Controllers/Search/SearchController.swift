@@ -14,7 +14,6 @@ protocol SearchForUserOrHashTag {
 
 class SearchController: UICollectionViewController,UICollectionViewDelegateFlowLayout,UISearchBarDelegate
 {
-    
     let commentCellID = "commentCellID"
     let hashTagCellID = "hashTagCellID"
     var cellIDS:[String]!
@@ -128,11 +127,11 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         let bottomSafeAreaHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
         if bottomSafeAreaHeight > 0
         {
-        return UIEdgeInsets(top: inset + 200 - 12, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: inset + 150 - 12, left: 0, bottom: 0, right: 0)
         }
         else
         {
-            return UIEdgeInsets(top: inset + 200 - 24, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: inset + 150 - 24, left: 0, bottom: 0, right: 0)
         }
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -145,7 +144,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         let menuView = UIView()
         view.addSubview(menuView)
         menuView.backgroundColor = .white
-        menuView.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
+        menuView.anchorToView(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: -45, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 50))
         let horizontalGrayLine = UIView()
         horizontalGrayLine.backgroundColor = .lightGray
         menuView.addSubview(horizontalGrayLine)

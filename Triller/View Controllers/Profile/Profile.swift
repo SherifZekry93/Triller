@@ -8,10 +8,37 @@
 
 import UIKit
 import Firebase
+import AVKit
+import ProgressHUD
 protocol ProfileViewStartScrolling {
     func didScroll(imageView:UIImageView)
 }
-class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout{
+class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout,StartPlayingEpisodeInCell{
+    var player:AVAudioPlayer = {
+        let avPlayer = AVAudioPlayer()
+        return avPlayer
+    }()
+    func playEpisode(url: URL) {
+        CustomAvPlayer.shared.loadSoundUsingSoundURL(url: url) { (data) in
+            if let data = data
+            {
+                do
+                {
+                    self.player =  try AVAudioPlayer(data: data, fileTypeHint: "m4a")
+                    self.player.prepareToPlay()
+                    self.player.play()
+                }
+                catch
+                {
+                    ProgressHUD.showError("Failed to Play sound")
+                }
+            }
+            else
+            {
+                ProgressHUD.showError("Failed to load sound")
+            }
+        }
+    }
     let cellID = "cellID"
     let profileHeaderID = "profileHeaderID"
     var headerImage:UIImageView?
@@ -20,10 +47,11 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     var user:User?{
         didSet
         {
+            posts.removeAll()
             guard let user = user else {return}
             FirebaseService.shared.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
-            self.posts = allAudios
-            self.collectionView.reloadData()
+                self.posts = allAudios
+                self.collectionView.reloadData()
             })
         }
     }
@@ -39,10 +67,10 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     }
     func fetchUserUsinguid()
     {
-         let uid = self.uid ?? Auth.auth().currentUser?.uid ?? "17gYsB7Sc2QUqJ41XDbqtKvoW1B2"
-         FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
-                    self.user = user
-            })
+        let uid = self.uid ?? Auth.auth().currentUser?.uid ?? ""
+        FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
+            self.user = user
+        })
     }
     
     func setupNavigationController()
@@ -66,7 +94,6 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: profileHeaderID, for: indexPath) as! ProfileHeaderCell
         header.backgroundColor = UIColor(red: 254/255, green: 254/255, blue: 254/255, alpha: 1)
-        
         header.user = user
         header.posts = posts
         return header
@@ -81,6 +108,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ProfilePostCell
         cell.post = posts[indexPath.item]
+        cell.delegate = self
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -89,7 +117,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         dummyCell.post = posts[indexPath.item]
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
-        let height = max(150, estimatedsize.height)
+        let height = estimatedsize.height//max(150, estimatedsize.height)
         return CGSize(width: view.frame.width, height: height)
     }
 }
