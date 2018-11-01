@@ -170,8 +170,9 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
     {
         let audioAsset = AVURLAsset.init(url: finalPath, options: nil)
         let duration = audioAsset.duration
-        let durationInSeconds = CMTimeGetSeconds(duration)
-        return durationInSeconds
+        let actualDuration = CMTimeGetSeconds(duration)
+        let roundedDudration = Double(round(1000*actualDuration)/1000)
+        return roundedDudration * 1000
     }
     @objc func playRecorderVocie()
     {

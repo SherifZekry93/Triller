@@ -83,10 +83,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         self.getAllUsers()
         self.getHashTags()
         self.setupNavigationController()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-//        self.extendedLayoutIncludesOpaqueBars = true;
-        //does nothing for now
+        self.extendedLayoutIncludesOpaqueBars = true;
     }
     func setupSearchController()
     {
@@ -105,7 +102,8 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     
     func setupNavigationController()
     {
-        navigationController?.navigationBar.isTranslucent = false
+        self.tabBarController?.navigationController?.navigationBar.isHidden = true
+        //navigationController?.navigationBar.isTranslucent = false
         // navigationController?.navigationBar.prefersLargeTitles = true
         //navigationItem.title = "Search"
     }
@@ -129,11 +127,11 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         let bottomSafeAreaHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
         if bottomSafeAreaHeight > 0
         {
-            return UIEdgeInsets(top: inset + 65 - 12, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: inset + 200 - 12, left: 0, bottom: 0, right: 0)
         }
         else
         {
-            return UIEdgeInsets(top: inset + 90 - 24, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: inset + 200 - 24, left: 0, bottom: 0, right: 0)
         }
     }
     

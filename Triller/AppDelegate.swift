@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let layout = UICollectionViewFlowLayout()
         if Auth.auth().currentUser != nil
         {
-            //let homeFeed = UINavigationController(rootViewController:  ShareAudioViewController())
-            let homeFeed = UINavigationController(rootViewController: MainTabBarController() )
-            window?.rootViewController =  homeFeed
+            
+            let homeFeed = MainTabBarController()
+            window?.rootViewController = UINavigationController(rootViewController:   homeFeed)
         }
         else
         {

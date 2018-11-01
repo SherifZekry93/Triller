@@ -14,7 +14,7 @@ struct AudioPost {
     let creationDate:Date
     let uid:String
     let audioNote:String
-    let user:User
+    var user:User
     init(user:User,dictionary:[String:Any]) {
         self.audioDuration = dictionary["audioDuration"] as? Double ?? 0
         self.audioName = dictionary["audioName"] as? String ?? ""

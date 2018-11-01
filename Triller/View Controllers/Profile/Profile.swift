@@ -10,35 +10,19 @@ import UIKit
 import Firebase
 import AVKit
 import ProgressHUD
-protocol ProfileViewStartScrolling {
+protocol ProfileViewStartScrolling
+{
     func didScroll(imageView:UIImageView)
 }
-class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout,StartPlayingEpisodeInCell{
-    var player:AVAudioPlayer = {
-        let avPlayer = AVAudioPlayer()
+class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout{
+    var player:AVPlayer = {
+        let avPlayer = AVPlayer()
+        avPlayer.automaticallyWaitsToMinimizeStalling = false
         return avPlayer
     }()
-    func playEpisode(url: URL) {
-        CustomAvPlayer.shared.loadSoundUsingSoundURL(url: url) { (data) in
-            if let data = data
-            {
-                do
-                {
-                    self.player =  try AVAudioPlayer(data: data, fileTypeHint: "m4a")
-                    self.player.prepareToPlay()
-                    self.player.play()
-                }
-                catch
-                {
-                    ProgressHUD.showError("Failed to Play sound")
-                }
-            }
-            else
-            {
-                ProgressHUD.showError("Failed to load sound")
-            }
-        }
-    }
+   
+    
+
     let cellID = "cellID"
     let profileHeaderID = "profileHeaderID"
     var headerImage:UIImageView?
@@ -55,16 +39,18 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
             })
         }
     }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         setupCollectionView()
-        setupNavigationController()
+        setupCustomNavigationBar()
         if user == nil
         {
             fetchUserUsinguid()
         }
     }
+    
     func fetchUserUsinguid()
     {
         let uid = self.uid ?? Auth.auth().currentUser?.uid ?? ""
@@ -73,10 +59,19 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         })
     }
     
+   
+    func setupCustomNavigationBar()
+    {
+        guard let height = UIApplication.shared.keyWindow?.safeAreaInsets.top else {return}
+        let navView = UIView()
+        navView.backgroundColor = .green
+        self.view.addSubview(navView)
+        navView.anchorToView(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: 0, height: 50 + height))
+    }
+    
     func setupNavigationController()
     {
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = true
     }
     
     func setupCollectionView()
@@ -86,16 +81,18 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         collectionView.register(ProfileHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: profileHeaderID)
         collectionView.bounces = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
     }
     var animatedHeaderImageView:UIView?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 305)
+        return CGSize(width: view.frame.width, height: 270)
     }
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: profileHeaderID, for: indexPath) as! ProfileHeaderCell
         header.backgroundColor = UIColor(red: 254/255, green: 254/255, blue: 254/255, alpha: 1)
         header.user = user
         header.posts = posts
+        headerImage = header.profilePicture
         return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -105,10 +102,15 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     {
         return posts.count
     }
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ProfilePostCell
-        cell.post = posts[indexPath.item]
-        cell.delegate = self
+        var post = posts[indexPath.item]
+        if let user = user
+        {
+            post.user = user
+        }
+        cell.post = post
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -120,4 +122,17 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         let height = estimatedsize.height//max(150, estimatedsize.height)
         return CGSize(width: view.frame.width, height: height)
     }
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        /*if let startFrame = headerImage?.superview?.convert((headerImage?.frame)!, to: collectionView.superview)
+        {
+            //headerImage?.frame = CGRect(x: 50, y: 100, width: 200, height: 200)
+            //headerImage?.image = #imageLiteral(resourceName: "ic_action_comment")
+        }*/
+        //headerImage?.contentMode = .scaleAspectFill
+
+        //let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+       // layout?.sectionHeadersPinToVisibleBounds = true
+    }
+    
 }

@@ -11,7 +11,7 @@ import AVKit
 import MediaPlayer
 import Firebase
 import ProgressHUD
-class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout,StartPlayingEpisodeInCell
+class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout
 {
     
     var player:AVAudioPlayer = {
@@ -39,8 +39,6 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
                 ProgressHUD.showError("Failed to load sound")
             }
         }
-        //let playerItem = AVPlayerItem(url: url)
-        //self.player.replaceCurrentItem(with: playerItem)
     }
     
     let cellID = "cellID"
@@ -111,7 +109,6 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for:indexPath) as! HomeFeedCell
         let post = audioPosts?[indexPath.item]
         cell.post = post
-        cell.delegate = self
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

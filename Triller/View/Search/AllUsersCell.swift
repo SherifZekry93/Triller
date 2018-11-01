@@ -51,7 +51,7 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
         let inset = height  + safeaAreaHeight
         if safeaAreaHeight > 0
         {
-            return UIEdgeInsets(top: 0, left: 0, bottom: inset + 15 + 6 , right: 0)
+            return UIEdgeInsets(top: 0, left: 0, bottom: inset + 150 + 6 , right: 0)
         }
         else
         {

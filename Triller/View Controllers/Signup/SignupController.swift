@@ -60,7 +60,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         scv.showsVerticalScrollIndicator = false
         scv.showsHorizontalScrollIndicator = false
         scv.bounces = false
-        scv.contentInsetAdjustmentBehavior = .automatic
+        //scv.contentInsetAdjustmentBehavior = .automatic
         return scv
     }()
     let userNameTextField:CustomTextField = {

@@ -52,6 +52,7 @@
 		7EF28558217FA2D000D7F2F7 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF28557217FA2D000D7F2F7 /* PhotoSelectorController.swift */; };
 		7EF2855B217FA46300D7F2F7 /* PhotoSelectoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2855A217FA46300D7F2F7 /* PhotoSelectoCell.swift */; };
 		7EF2855D217FA4B900D7F2F7 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2855C217FA4B900D7F2F7 /* PhotoSelectorHeader.swift */; };
+		7EF55414218AFEFC0046658D /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF55413218AFEFC0046658D /* SpinnerView.swift */; };
 		7EF91DBD21785CED00BD42CA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF91DBC21785CED00BD42CA /* LoginController.swift */; };
 		7EFAD5622188D27D0056BC0C /* CachedPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFAD5612188D27D0056BC0C /* CachedPlayer.swift */; };
 		B58D8FA68BFDCB56738C9757 /* Pods_Triller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */; };
@@ -107,6 +108,7 @@
 		7EF28557217FA2D000D7F2F7 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		7EF2855A217FA46300D7F2F7 /* PhotoSelectoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectoCell.swift; sourceTree = "<group>"; };
 		7EF2855C217FA4B900D7F2F7 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
+		7EF55413218AFEFC0046658D /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		7EF91DBC21785CED00BD42CA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		7EFAD5612188D27D0056BC0C /* CachedPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedPlayer.swift; sourceTree = "<group>"; };
 		9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.debug.xcconfig"; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				7EAE3AFA217E5D5E008C1B02 /* Label.swift */,
 				7EAE3AFF217F639C008C1B02 /* AlertViewController.swift */,
 				7EFAD5612188D27D0056BC0C /* CachedPlayer.swift */,
+				7EF55413218AFEFC0046658D /* SpinnerView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				7E15E6E0217CC28A009851BB /* Date.swift in Sources */,
 				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,
 				7EA5BACE217AF9F100EFC458 /* AudioPost.swift in Sources */,
+				7EF55414218AFEFC0046658D /* SpinnerView.swift in Sources */,
 				7ECE81C42173685600895EDA /* TabBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

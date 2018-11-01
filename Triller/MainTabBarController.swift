@@ -21,7 +21,6 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
         present(UINavigationController(rootViewController: someV), animated: true) {
               self.dismiss(animated: true)
         }
-     
        
     }
     func audioRecorderControllerDidCancel(_ controller: IQAudioRecorderViewController) {
@@ -48,9 +47,11 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
         setupViewControllers()
         DispatchQueue.main.async {
             self.createCustomStatusBar(color: .blue)
-            self.navigationController?.navigationBar.isHidden = true
         }
         self.tabBar.backgroundColor = UIColor(white: 0.9, alpha: 0.4)
+    }
+    override func viewDidLayoutSubviews() {
+        self.navigationController?.navigationBar.isHidden = true
     }
     func createCustomStatusBar(color:UIColor){
        
@@ -92,8 +93,7 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
         notificationNav.tabBarItem.image = #imageLiteral(resourceName: "icons8-notification-filled-50").withRenderingMode(.alwaysTemplate)
         notificationNav.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         let layout4 = UICollectionViewFlowLayout()
-
-        let profileNav = UINavigationController(rootViewController: MainProfileController(collectionViewLayout:layout4) )
+        let profileNav =  MainProfileController(collectionViewLayout:layout4)
         profileNav.tabBarItem.image = #imageLiteral(resourceName: "profile_selected").withRenderingMode(.alwaysOriginal)
         let recordImage =  UIViewController()
         recordImage.view.backgroundColor = .white

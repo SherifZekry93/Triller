@@ -28,6 +28,7 @@ class ProfileHeaderCell: BaseCell{
         {
             setupFollowButton()
             setupListenerButton()
+            setupSpeakerButton()
             guard let user = user else {return}
             guard let picURL = URL(string:user.picture_path) else {return}
             profilePicture.kf.setImage(with: picURL, placeholder: UIImage(named: "profile-imag"))
@@ -165,16 +166,19 @@ class ProfileHeaderCell: BaseCell{
         let sep = UIView()
         return sep
     }()
+    
     let horizontalBottomStackSeparator:UIView = {
         let sep = UIView()
         sep.backgroundColor = .lightGray
         return sep
     }()
+
     let labelsBottomStackSeparator:UIView = {
         let sep = UIView()
         sep.backgroundColor = .lightGray
         return sep
     }()
+    
     override func setupViews()
     {
         addSubview(profilePicture)
@@ -182,7 +186,7 @@ class ProfileHeaderCell: BaseCell{
         addSubview(labelsStackView)
         addSubview(labelsBottomStackSeparator)
         addSubview(bottomStack)
-        profilePicture.anchorToView(top: topAnchor, trailing: nil, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 130, height: 130), centerH: true)
+        profilePicture.anchorToView(top: topAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 130, height: 130), centerH: true)
         userNameStatusLabel.anchorToView(top: profilePicture.bottomAnchor, leading: leadingAnchor, bottom: labelsStackView.topAnchor, trailing: trailingAnchor)
         labelsStackView.anchorToView(top: userNameStatusLabel.bottomAnchor, leading: leadingAnchor, bottom: labelsBottomStackSeparator.topAnchor, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 10, right: 0))
         labelsBottomStackSeparator.anchorToView(top: labelsStackView.bottomAnchor, leading: leadingAnchor, bottom: bottomStack.topAnchor, trailing: trailingAnchor,padding: .init(top: 10, left: 0, bottom: 0, right: 0),size:.init(width: 0, height: 1))
@@ -302,7 +306,6 @@ class ProfileHeaderCell: BaseCell{
     func setupListenerButton()
     {
         DispatchQueue.main.async {
-            
             guard let currentID = self.user?.uid else {return}
         let ref = Database.database().reference().child("followers").child(currentID)
         ref.observe(.value, with: { (snapshot: DataSnapshot) in
@@ -315,8 +318,27 @@ class ProfileHeaderCell: BaseCell{
             self.listenersLabel.attributedText = attributedText
             self.listenersLabel.textAlignment = .center
         })
-            
+        
         }
+    }
+    func setupSpeakerButton()
+    {
+        //DispatchQueue.main.async {
+            guard let currentID = self.user?.uid else {return}
+            let ref = Database.database().reference().child("following").child(currentID)
+            ref.observe(.value, with: { (snap) in
+                let attributedText = NSMutableAttributedString(string: "\(snap.childrenCount)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+                attributedText.append(NSAttributedString(string: "Speaker", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineSpacing = 4
+                attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+                self.speakerLabel.attributedText = attributedText
+                self.speakerLabel.textAlignment = .center
+            }) { (err) in
+                
+            }
+
+       // }
     }
     
 }
