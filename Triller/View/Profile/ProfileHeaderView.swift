@@ -254,13 +254,18 @@ class ProfileHeaderCell: BaseCell{
             query.observe(.value, with: { (snap) in
                 guard let childNode = snap.value as? [String:Any] else {return}
                 childNode.forEach({ (key,value) in
+                    if self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add"){
+
                     ref.child(key).removeValue()
+                    }
                     let followerRef = Database.database().reference().child("followers").child(userID)
                     let queryFollowers = followerRef.queryOrdered(byChild: "follower_uid").queryEqual(toValue: currentID)
                     queryFollowers.observe(.value, with: { (snap) in
                         let childs = snap.value as? [String:Any]
                         childs?.forEach({ (key,value) in
-                            followerRef.child(key).removeValue()
+                            if self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add"){
+                                followerRef.child(key).removeValue()
+                            }
                         })
                         self.followUnfollowImage.isUserInteractionEnabled = true
                     }, withCancel: { (err) in

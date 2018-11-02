@@ -21,6 +21,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
      }
      */
     var isValidPhoneNumber:Bool = false
+    var ignoreExistanceValidationAfterClicking = false
     func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool)
     {
         if isValid
@@ -63,6 +64,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         //scv.contentInsetAdjustmentBehavior = .automatic
         return scv
     }()
+    
     let userNameTextField:CustomTextField = {
         let userName = CustomTextField()
         userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
@@ -305,17 +307,8 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     }
     @objc func handleCreateAccount()
     {
-        /* PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.getFormattedPhoneNumber(format: .E164)!, uiDelegate: nil) { (verificationID, error) in
-         if let error = error {
-         print(error.localizedDescription)
-         return
-         }
-         print(verificationID)
-         // Sign in using the verificationID and the code sent to the user
-         // ...
-         
-         }
-         */
+        ignoreExistanceValidationAfterClicking = true
+        
         isValidForm { (formIsValid) in
             if formIsValid
             {
@@ -345,8 +338,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                             }
                             else
                             {
-                                ProgressHUD.showSuccess("User Created Successfully")
-                                print(currentUserID)
+                                self.goToHomePage()
                             }
                         })
                     })
@@ -406,8 +398,12 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                         FirebaseService.shared.getUserBy(userName: username.lowercased()) { (user) in
                             if user != nil
                             {
-                                self.userNameTextField.requiredLabel.text = "username found"
-                                completitionHandler(false)
+                                if self.ignoreExistanceValidationAfterClicking == false
+                                {
+                                    self.userNameTextField.requiredLabel.text = "username found"
+                                    completitionHandler(false)
+                                }
+                                
                             }
                             else
                             {
@@ -446,7 +442,24 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     }
     @objc func handleValidateEmailChange()
     {
-        let _ = validateEmail()
+        let isValidEmail = validateEmail()
+        if isValidEmail
+        {
+            checkIfEmailAlreadyExists { (user) in
+                if user == nil
+                {
+                    self.emailTextField.requiredLabel.isHidden = true
+                }
+                else
+                {
+                    if self.ignoreExistanceValidationAfterClicking == false
+                    {
+                        self.emailTextField.requiredLabel.text = "Email Exist"
+                        self.emailTextField.requiredLabel.isHidden = false
+                    }
+                }
+            }
+        }
     }
     
     func isValidEmail(testStr:String) -> Bool {
@@ -476,11 +489,13 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             {
                 passwordTextField.requiredLabel.isHidden = false
                 passwordTextField.requiredLabel.text = "Password should contain at least one Number"
+                return false
             }
             else if password.rangeOfCharacter(from: alphabeticalSet) == nil
             {
                 passwordTextField.requiredLabel.isHidden = false
                 passwordTextField.requiredLabel.text = "Password should contain at least one small charachter"
+                return false
             }
             else
             {
@@ -517,7 +532,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             guard let email = emailTextField.text else {return false}
             if isValidEmail(testStr: email)
             {
-                emailTextField.requiredLabel.isHidden = true
+                //emailTextField.requiredLabel.isHidden = true
                 return true
             }
             else
@@ -527,6 +542,30 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             }
         }
         return false
+    }
+    func checkIfEmailAlreadyExists(completitionHandler:@escaping (User?) -> ())
+    {
+        let ref = Database.database().reference().child("Users")
+        let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: emailTextField.text ?? "")
+        query.observe(.value) { (snap) in
+            if snap.value is NSNull
+            {
+                completitionHandler(nil)
+            }
+        }
+        query.observeSingleEvent(of:.childAdded, with: { (snap) in
+            if let dictionary = snap.value as? [String:Any]
+            {
+                let user = User(dictionary: dictionary)
+                completitionHandler(user)
+            }
+            else
+            {
+                completitionHandler(nil)
+            }
+        }) { (err) in
+            
+        }
     }
     func isValidForm(completitionHandler: @escaping (Bool) -> ())
     {
@@ -538,6 +577,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             validateUserName { (validUser) in
                 if !validUser
                 {
+                    self.ignoreExistanceValidationAfterClicking = false
                     completitionHandler(false)
                 }
                 else
@@ -548,10 +588,21 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                         {
                             if self.isValidPhoneNumber
                             {
-                                completitionHandler(true)
+                                self.checkIfEmailAlreadyExists(completitionHandler: { (user) in
+                                    if user == nil
+                                    {
+                                        self.emailTextField.requiredLabel.isHidden = true
+                                        completitionHandler(true)
+                                    }
+                                    else
+                                    {
+                                        self.ignoreExistanceValidationAfterClicking = false;                                        completitionHandler(false)
+                                    }
+                                })
                             }
                             else
                             {
+                                self.ignoreExistanceValidationAfterClicking = false
                                 completitionHandler(false)
                                 if self.phoneNumber.text == ""
                                 {
@@ -565,11 +616,13 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                         }
                         else
                         {
+                            self.ignoreExistanceValidationAfterClicking = false
                             completitionHandler(false)
                         }
                     }
                     else
                     {
+                        self.ignoreExistanceValidationAfterClicking = false
                         completitionHandler(false)
                     }
                 }
@@ -577,7 +630,15 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         }
         else
         {
+            
+            self.ignoreExistanceValidationAfterClicking = false
             ProgressHUD.showError("You must accept terms and conditions")
         }
+    }
+    func goToHomePage()
+    {
+        ProgressHUD.dismiss()
+        let tabbar = MainTabBarController()
+        self.navigationController?.pushViewController(tabbar, animated: true)
     }
 }

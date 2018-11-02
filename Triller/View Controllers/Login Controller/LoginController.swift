@@ -29,7 +29,6 @@ class LoginController: UIViewController
         scv.showsVerticalScrollIndicator = false
         scv.showsHorizontalScrollIndicator = false
         scv.bounces = false
-        //scv.contentInsetAdjustmentBehavior = .automatic
         return scv
     }()
     let forgotPasswordLabel:UILabel = {

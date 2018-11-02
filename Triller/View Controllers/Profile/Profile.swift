@@ -111,6 +111,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
             post.user = user
         }
         cell.post = post
+        cell.homeController = self
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

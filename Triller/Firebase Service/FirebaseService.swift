@@ -184,7 +184,8 @@ class FirebaseService
                 dictionary.forEach({ (key,value) in
                     if let dict = value as? [String:Any]
                     {
-                        let audioPost = AudioPost(user: user, dictionary: dict)
+                        var audioPost = AudioPost(user: user, dictionary: dict)
+                        audioPost.audioKey = key
                         audioPosts.append(audioPost)
                     }
                 })

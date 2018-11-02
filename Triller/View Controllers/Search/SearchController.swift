@@ -103,9 +103,6 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     func setupNavigationController()
     {
         self.tabBarController?.navigationController?.navigationBar.isHidden = true
-        //navigationController?.navigationBar.isTranslucent = false
-        // navigationController?.navigationBar.prefersLargeTitles = true
-        //navigationItem.title = "Search"
     }
     func setupCollectionView()
     {

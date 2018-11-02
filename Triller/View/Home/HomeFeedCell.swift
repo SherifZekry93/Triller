@@ -12,7 +12,6 @@ import AVKit
 import MediaPlayer
 import Firebase
 import ProgressHUD
-
 class HomeFeedCell: UICollectionViewCell {
     var post:AudioPost?{
         didSet{
@@ -33,7 +32,7 @@ class HomeFeedCell: UICollectionViewCell {
             
             attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
             userNameTimeLabel.attributedText = attributedText
-          
+            
             //timeLabel.text = "00:\(Int(duration))"
             //set caption Label
             if post.audioNote != ""
@@ -63,10 +62,11 @@ class HomeFeedCell: UICollectionViewCell {
         return label
     }()
     
-    let menuButton:UIButton = {
+    lazy var menuButton:UIButton = {
         let button = UIButton()
         button.setTitle("•••", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.addTarget(self, action: #selector(handlePostMenu), for: .touchUpInside)
         return button
     }()
     
@@ -77,12 +77,16 @@ class HomeFeedCell: UICollectionViewCell {
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(playEpisode), for: .touchUpInside)
         button.imageView?.contentMode = .scaleAspectFill
+        button.backgroundColor = .clear
         return button
     }()
     
-    let recordSlider:UISlider = {
+    lazy var recordSlider:UISlider = {
         let slider = UISlider()
         slider.thumbTintColor = .red
+        slider.addTarget(self, action: #selector(handleVideoTimeSeekSlider), for: .valueChanged)
+        slider.isEnabled = false
+        slider.thumbTintColor = .gray
         return slider
     }()
     
@@ -152,6 +156,7 @@ class HomeFeedCell: UICollectionViewCell {
         containerView.addSubview(bottomStack)
         containerView.addSubview(controlsStack)
         containerView.addSubview(menuButton)
+        //addSubview(spinnerView!)
         backgroundColor = .lightGray
         containerView.anchorToView(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 8, bottom: 0, right: 8))
         containerView.addSubview(topStackView)
@@ -166,13 +171,12 @@ class HomeFeedCell: UICollectionViewCell {
         likeButton.anchorToView( size: .init(width: 40, height: 40))
         commentButton.anchorToView(size: .init(width: 40, height: 40))
         playButton.anchorToView(size:.init(width: 40, height: 0))
+        //self.spinnerView = SpinnerView()
+        //self.insertSubview(self.spinnerView!, belowSubview: self.playButton)
+        //self.spinnerView?.anchorToView(top: self.playButton.topAnchor, leading: self.playButton.leadingAnchor, bottom: self.playButton.bottomAnchor, trailing: self.playButton.trailingAnchor)
+        //spinnerView?.isUserInteractionEnabled = false
+        //spinnerView?.alpha = 0
     }
-   
-   /* var player:AVAudioPlayer = {
-        let avPlayer = AVAudioPlayer()
-        // avPlayer.automaticallyWaitsToMinimizeStalling = true
-        return avPlayer
-    }()*/
     fileprivate func setupAudioSession()
     {
         do
@@ -190,19 +194,54 @@ class HomeFeedCell: UICollectionViewCell {
         player.automaticallyWaitsToMinimizeStalling = false
         return player
     }()
+    var firstTimePlayer = false
     @objc func playEpisode()
     {
+        if !firstTimePlayer
+        {
+            downloadAndPlaySound()
+        }
+        else
+        {
+            let currentTime = CMTimeGetSeconds(player.currentTime())
+            let duration = CMTimeGetSeconds(player.currentItem?.duration ?? CMTimeMake(value: 1, timescale: 1))
+            if currentTime == duration
+            {
+                player.seek(to: .zero)
+                player.play()
+                return
+            }
+            else
+            {
+                if player.timeControlStatus == .paused
+                {
+                    player.play()
+                    playButton.setImage(#imageLiteral(resourceName: "ic_action_pause"), for: .normal)
+                }
+                else if player.timeControlStatus == .playing
+                {
+                    player.pause()
+                    playButton.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
+                }
+            }
+            
+        }
+    }
+    func downloadAndPlaySound()
+    {
+        ProgressHUD.show()
+        //spinnerView?.alpha = 1
+        firstTimePlayer = true
         guard let postURL = post?.audioURL else {return}
         guard let playURL = URL(string: postURL) else {return}
         CustomAvPlayer.shared.loadSoundUsingSoundURL(url: playURL) { (data) in
             if let data = data
             {
-                
                 guard var toPlayURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-                toPlayURL.appendPathComponent("sound.m4a") // or whatever extension the video is
+                toPlayURL.appendPathComponent("sound.m4a")
                 do
                 {
-                    try data.write(to: toPlayURL) // assuming video is of Data type
+                    try data.write(to: toPlayURL)
                 }
                 catch
                 {
@@ -211,6 +250,8 @@ class HomeFeedCell: UICollectionViewCell {
                 let item = AVPlayerItem(url: toPlayURL)
                 self.player.replaceCurrentItem(with: item)
                 self.player.play()
+                self.recordSlider.isEnabled = true
+                self.recordSlider.thumbTintColor = .red
             }
             else
             {
@@ -218,6 +259,7 @@ class HomeFeedCell: UICollectionViewCell {
             }
         }
     }
+    //var spinnerView:SpinnerView?
     //MARK:- Player Observers
     fileprivate func playerObservers()
     {
@@ -227,29 +269,24 @@ class HomeFeedCell: UICollectionViewCell {
         player.addBoundaryTimeObserver(forTimes: times, queue: .main) {
             [weak self] in
             self?.playButton.setImage(#imageLiteral(resourceName: "ic_action_pause"), for: .normal)
-            //self?.enableDisableControls(enable: true)
-            //self?.playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
-            //self?.miniPlayerPlayPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
-            //self?.modifyImageView(1)
+            ProgressHUD.dismiss()
         }
         let interval = CMTimeMake(value: 1, timescale: 2)
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) {(time) in
             let duration = time.toDisplayString()
-//            guard let currentDuration = self.post?.audioDuration else {
-//                return}
             guard let fullTime =  self.player.currentItem?.duration.toDisplayString() else {return}
+            let realDuration = self.post!.audioDuration / 1000
+            let formattedTime = String(format: "%02d", Int(realDuration))
             
-//            let realAudioDuration = currentDuration / 1000
-            self.timeLabel.text = "\(duration) / \(fullTime)"
-            //self.timeLabel.text = "\(duration):\(round(realAudioDuration))"
+            self.timeLabel.text = "\(duration) / 00:\(formattedTime)"
             self.updatePlayerSlider()
-            if duration == fullTime
+            if duration == fullTime && self.recordSlider.value == 1
             {
                 self.playButton.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
-                self.recordSlider.value = 0
             }
         }
     }
+    
     func updatePlayerSlider()
     {
         let currentTime = CMTimeGetSeconds(player.currentTime())
@@ -257,6 +294,7 @@ class HomeFeedCell: UICollectionViewCell {
         let percentage = currentTime / duration
         recordSlider.value = Float(percentage)
     }
+    
     func enableDisableControls(enable:Bool)
     {
         if enable
@@ -266,7 +304,7 @@ class HomeFeedCell: UICollectionViewCell {
         }
         else
         {
-           // self.activityIndicator.startAnimating()
+            // self.activityIndicator.startAnimating()
         }
         
         //playPauseButton.isEnabled = enable
@@ -278,7 +316,36 @@ class HomeFeedCell: UICollectionViewCell {
         //rewind15Button.isEnabled = enable
         
         //miniPlayerPlayPauseButton.isEnabled = enable
+        
         //miniPlayerFastforward15Button.isEnabled = enable
+    }
+    
+    @objc func handleVideoTimeSeekSlider()
+    {
+        if let duration = player.currentItem?.duration
+        {
+            let totalSeconds = duration.seconds
+            let value = Float(recordSlider.value) * Float(totalSeconds)
+            let cmTime = CMTime(value: CMTimeValue(value), timescale: 1)
+            player.seek(to: cmTime, completionHandler: { (completed) in
+                self.player.play()
+            })
+        }
+    }
+    
+    @objc func handlePostMenu()
+    {
         
     }
+    
+    func showEditShare()
+    {
+        
+    }
+    
+    func showReportShare()
+    {
+        
+    }
+    
 }

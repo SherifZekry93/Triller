@@ -63,17 +63,23 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         super.viewDidLoad()
         setupCollectionView()
         setupAudioSession()
+        
         if hashTag == nil
         {
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
             fetchFollowing(uid: currentUserID)
         }
+        let name = NSNotification.Name(rawValue: "FeedUpdated")
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: name, object: nil)
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
     }
     override func viewWillAppear(_ animated: Bool) {
         if hashTag == nil
         {
-            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-            fetchFollowing(uid: currentUserID)
+           // guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+           // fetchFollowing(uid: currentUserID)
         }
     }
     func fetchFollowing(uid:String)
@@ -81,6 +87,8 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         setupNavigationController()
         FirebaseService.shared.fetchFollowingPosts(uid: uid) { (allAudioPosts) in
             self.audioPosts = allAudioPosts
+           self.collectionView?.refreshControl?.endRefreshing()
+
         }
     }
     func fetchPostsForHashtag(hashTag:HashTag)
@@ -118,9 +126,9 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     {
         collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.backgroundColor = .lightGray
-        collectionView.bounces = false
+        //collectionView.bounces = false
         collectionView.showsHorizontalScrollIndicator = false
-        
+        collectionView.showsVerticalScrollIndicator = false
     }
     func setupNavigationController()
     {
@@ -205,5 +213,16 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     @objc func actionSheetBackgroundTapped() {
         dismiss(animated: true, completion: nil)
     }
-    
+    @objc func handleUpdateFeed()
+    {
+        handleRefresh()
+    }
+    @objc func handleRefresh()
+    {
+        if hashTag == nil
+        {
+             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+             fetchFollowing(uid: currentUserID)
+        }
+    }
 }

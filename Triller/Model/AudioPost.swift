@@ -8,6 +8,7 @@
 
 import Foundation
 struct AudioPost {
+    var audioKey:String
     let audioDuration:Double
     let audioName:String
     let audioURL:String
@@ -24,5 +25,6 @@ struct AudioPost {
         self.creationDate = Date(timeIntervalSince1970: date)
         self.uid = dictionary["uid"] as? String ?? ""
         self.user = user
+        self.audioKey = ""
     }
 }

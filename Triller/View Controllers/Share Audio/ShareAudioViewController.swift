@@ -19,7 +19,7 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
         audioNote.layer.cornerRadius = 4
         audioNote.layer.borderColor = UIColor.lightGray.cgColor
         audioNote.layer.borderWidth = 1.2
-        audioNote.text = "Placeholder"
+        audioNote.text = "Trill Title.."
         audioNote.textColor = UIColor.lightGray
         audioNote.font = UIFont.systemFont(ofSize: 16)
         return audioNote
@@ -69,7 +69,7 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
     func textViewDidEndEditing(_ textView: UITextView)
     {
         if textView.text.isEmpty {
-            textView.text = "Placeholder"
+            textView.text = "Trill Title.."
             textView.textColor = UIColor.lightGray
         }
     }
@@ -125,7 +125,9 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
                 }
                 guard let urlValue = url?.absoluteString else {return}
                 let reference = Database.database().reference().child("AudioPosts").childByAutoId()
-                let values = ["audioDuration":self.getAudioInSeconds(finalPath:  finalPath),"audioName":uploadFileName,"audioNote":self.audioNoteTextField.text ?? "","audioUri":urlValue                     ,"creationDate":Date().timeIntervalSince1970,"uid":currentID] as [String : Any]
+                let title = self.audioNoteTextField.text == "Trill Title.." ? "": self.audioNoteTextField.text ?? ""
+                
+                let values = ["audioDuration":self.getAudioInSeconds(finalPath:  finalPath),"audioName":uploadFileName,"audioNote":title,"audioUri":urlValue                     ,"creationDate":Date().timeIntervalSince1970,"uid":currentID] as [String : Any]
                 reference.updateChildValues(values, withCompletionBlock: { (err, ref) in
                     if err != nil
                     {
