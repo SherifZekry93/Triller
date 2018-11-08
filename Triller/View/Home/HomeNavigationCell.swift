@@ -15,16 +15,19 @@ class HomeNavigationCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFit
        return image
     }()
+    
     let logoImage:UIImageView = {
        let image = UIImageView()
         image.image = #imageLiteral(resourceName: "logo-empty")
         image.contentMode = .scaleAspectFit
         return image
     }()
+    
     lazy var stackContainer:UIStackView = {
        let stack = UIStackView(arrangedSubviews: [logoImage,fillingView,menuImage])
        return stack
     }()
+    
     let fillingView = UIView()
     override init(frame: CGRect)
     {

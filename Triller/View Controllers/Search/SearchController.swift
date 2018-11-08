@@ -57,7 +57,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     }
     func getHashTags()
     {
-        FirebaseService.shared.getAllHashTags { (hashtags) in
+        FirebaseService.getAllHashTags { (hashtags) in
             self.allHashTags = hashtags
             self.filteredHashTags = hashtags
             self.collectionView.reloadData()
@@ -66,7 +66,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     func getAllUsers()
     {
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-        FirebaseService.shared.getAllUsers { (users) in
+        FirebaseService.getAllUsers { (users) in
             self.allUsers = users.filter({ (user) -> Bool in
                 return user.uid != currentUserID
             })

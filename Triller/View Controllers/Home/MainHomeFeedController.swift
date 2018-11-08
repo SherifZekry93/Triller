@@ -5,14 +5,40 @@
 //  Created by Sherif  Wagih on 10/14/18.
 //  Copyright © 2018 Sherif  Wagih. All rights reserved.
 //
-
 import UIKit
 import AVKit
 import MediaPlayer
 import Firebase
 import ProgressHUD
-class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout
+class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegate
 {
+    func viewProfile(gesture:UITapGestureRecognizer)
+    {
+        let layout = UICollectionViewFlowLayout()
+        let profileController = MainProfileController(collectionViewLayout:layout)
+        let indexPath = getIndex(gesture: gesture)
+        profileController.user = audioPosts?[indexPath.item].user;
+        navigationController?.pushViewController(profileController, animated: true)
+    }
+    
+    func viewComments(gesture:UITapGestureRecognizer)
+    {
+        self.tabBarController?.tabBar.isHidden = true
+        //self.tabBarController?.tabBar.transform = translate
+        let layout = UICollectionViewFlowLayout()
+        let commentsController = CommentsController(collectionViewLayout:layout)
+        let indexPath = getIndex(gesture: gesture)
+        guard let post = audioPosts?[indexPath.item] else {return}
+        commentsController.post = post//audioPosts[indexPath.item]
+        navigationController?.pushViewController(commentsController, animated: true)
+    }
+    
+    func getIndex(gesture:UIGestureRecognizer) -> IndexPath
+    {
+    let location = gesture.location(in: collectionView)
+    guard let indexPath = collectionView.indexPathForItem(at: location) else {return IndexPath()}
+        return indexPath
+    }
     
     var player:AVAudioPlayer = {
         let avPlayer = AVAudioPlayer()
@@ -63,7 +89,6 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         super.viewDidLoad()
         setupCollectionView()
         setupAudioSession()
-        
         if hashTag == nil
         {
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
@@ -75,25 +100,22 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
+    
     override func viewWillAppear(_ animated: Bool) {
-        if hashTag == nil
-        {
-           // guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-           // fetchFollowing(uid: currentUserID)
-        }
+       self.tabBarController?.tabBar.isHidden = false
     }
+    
     func fetchFollowing(uid:String)
     {
         setupNavigationController()
-        FirebaseService.shared.fetchFollowingPosts(uid: uid) { (allAudioPosts) in
+        FirebaseService.fetchFollowingPosts(uid: uid) { (allAudioPosts) in
             self.audioPosts = allAudioPosts
-           self.collectionView?.refreshControl?.endRefreshing()
-
+            self.collectionView?.refreshControl?.endRefreshing()
         }
     }
     func fetchPostsForHashtag(hashTag:HashTag)
     {
-        FirebaseService.shared.getPostsByHashtag(hashtag: hashTag) { (allPosts) in
+        FirebaseService.getPostsByHashtag(hashtag: hashTag) { (allPosts) in
             self.audioPosts = allPosts
         }
     }
@@ -110,13 +132,14 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         dummyCell.post = audioPosts?[indexPath.item]
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
-        let height = estimatedsize.height//max(185, estimatedsize.height)
+        let height = estimatedsize.height
         return CGSize(width: view.frame.width, height: height)
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for:indexPath) as! HomeFeedCell
         let post = audioPosts?[indexPath.item]
         cell.post = post
+        cell.delegate = self
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -154,20 +177,15 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         }
     }
     /*func playSound()
-    {
-        let url:String = "https://firebasestorage.googleapis.com/v0/b/trill-8aa7b.appspot.com/o/d6gdQK4xZPZkj6i8UKvF6ON3IVA3%2FAudioPosts%2FTrill_Audio_rWUxfQZDUE3VNttjOWeKinVIJpw1jml_1525701682431.mp3?alt=media&token=2376eb8b-2969-4c22-99b3-487611b8d09c"
-        guard let actualURL = URL(string: url) else {return}
-        let item = AVPlayerItem(url: actualURL)
-        player = AVPlayer(playerItem: item)
-        player?.play()
-    }*/
+     {
+     let url:String = "https://firebasestorage.googleapis.com/v0/b/trill-8aa7b.appspot.com/o/d6gdQK4xZPZkj6i8UKvF6ON3IVA3%2FAudioPosts%2FTrill_Audio_rWUxfQZDUE3VNttjOWeKinVIJpw1jml_1525701682431.mp3?alt=media&token=2376eb8b-2969-4c22-99b3-487611b8d09c"
+     guard let actualURL = URL(string: url) else {return}
+     let item = AVPlayerItem(url: actualURL)
+     player = AVPlayer(playerItem: item)
+     player?.play()
+     }*/
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let layout = UICollectionViewFlowLayout()
-        let profileController = MainProfileController(collectionViewLayout:layout)
-        profileController.user = audioPosts?[indexPath.item].user;
-        navigationController?.pushViewController(profileController, animated: true)
-        
+       
     }
     
     @objc func handleShowEditProfile()
@@ -175,14 +193,14 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         let alert = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
         
         alert.view.frame = CGRect(x: alert.view.frame.origin.x, y: self.view.frame.height / 2, width: alert.view.frame.width, height: alert.view.frame.height);
-
+        
         let editAction = UIAlertAction(title: "Edit Profile", style: .default) { (action) in
             let editProfileController = EditProfileViewController()
             self.navigationController?.pushViewController(editProfileController, animated: true)
         }
         let signOutAction = UIAlertAction(title: "Signout", style: .default) { (action) in
             let signOutAlert = UIAlertController(title: nil, message: "Are you sure you want to Logout?", preferredStyle: UIAlertController.Style.alert)
-
+            
             signOutAlert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (Action) in
                 do
                 {
@@ -204,7 +222,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         alert.addAction(editAction)
         alert.addAction(signOutAction)
         present(alert, animated: true){
-             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+            alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))
             
         }
@@ -221,8 +239,8 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     {
         if hashTag == nil
         {
-             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-             fetchFollowing(uid: currentUserID)
+            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+            fetchFollowing(uid: currentUserID)
         }
     }
 }

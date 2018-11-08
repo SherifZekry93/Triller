@@ -347,6 +347,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             }
         }
     }
+    
     @objc func getCountryCode() -> String
     {
         guard let phone = self.phoneNumber.getFormattedPhoneNumber(format: .International) else {return ""}
@@ -395,7 +396,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                     else
                     {
                         
-                        FirebaseService.shared.getUserBy(userName: username.lowercased()) { (user) in
+                        FirebaseService.getUserBy(userName: username.lowercased()) { (user) in
                             if user != nil
                             {
                                 if self.ignoreExistanceValidationAfterClicking == false

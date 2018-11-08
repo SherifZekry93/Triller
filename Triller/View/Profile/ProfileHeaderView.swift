@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Kingfisher
+import SDWebImage
 import Firebase
 class ProfileHeaderCell: BaseCell{
     var posts:[AudioPost]?{
@@ -31,7 +31,8 @@ class ProfileHeaderCell: BaseCell{
             setupSpeakerButton()
             guard let user = user else {return}
             guard let picURL = URL(string:user.picture_path) else {return}
-            profilePicture.kf.setImage(with: picURL, placeholder: UIImage(named: "profile-imag"))
+            profilePicture.sd_setImage(with: picURL, completed: nil)
+            //profilePicture.sd_setImage(with: picURL, placeholder: UIImage(named: "profile-imag"))
             profilePicture.contentMode = .scaleAspectFill
             //set full name label and status
             let attributedText = NSMutableAttributedString(string: "\(user.full_name)\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])

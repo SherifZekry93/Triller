@@ -14,7 +14,27 @@ protocol ProfileViewStartScrolling
 {
     func didScroll(imageView:UIImageView)
 }
-class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout{
+class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegate{
+    func viewProfile(gesture: UITapGestureRecognizer) {
+        
+    }
+    
+    func viewComments(gesture: UITapGestureRecognizer) {
+        self.tabBarController?.tabBar.isHidden = true
+        //self.tabBarController?.tabBar.transform = translate
+        let layout = UICollectionViewFlowLayout()
+        let commentsController = CommentsController(collectionViewLayout:layout)
+        let indexPath = getIndex(gesture: gesture)
+        let post = posts[indexPath.item]
+        commentsController.post = post
+        navigationController?.pushViewController(commentsController, animated: true)
+    }
+    func getIndex(gesture:UIGestureRecognizer) -> IndexPath
+    {
+        let location = gesture.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: location) else {return IndexPath()}
+        return indexPath
+    }
     var player:AVPlayer = {
         let avPlayer = AVPlayer()
         avPlayer.automaticallyWaitsToMinimizeStalling = false
@@ -33,7 +53,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         {
             posts.removeAll()
             guard let user = user else {return}
-            FirebaseService.shared.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
+            FirebaseService.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
                 self.posts = allAudios
                 self.collectionView.reloadData()
             })
@@ -54,12 +74,16 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     func fetchUserUsinguid()
     {
         let uid = self.uid ?? Auth.auth().currentUser?.uid ?? ""
-        FirebaseService.shared.fetchUserByuid(uid:uid, completitionHandler: { (user) in
+        FirebaseService.fetchUserByuid(uid:uid, completitionHandler: { (user) in
             self.user = user
         })
     }
     
-   
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
+    }
     func setupCustomNavigationBar()
     {
         guard let height = UIApplication.shared.keyWindow?.safeAreaInsets.top else {return}
@@ -105,7 +129,8 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ProfilePostCell
-        var post = posts[indexPath.item]
+        cell.delegate = self
+        let post = posts[indexPath.item]
         if let user = user
         {
             post.user = user
@@ -125,15 +150,6 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     }
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        /*if let startFrame = headerImage?.superview?.convert((headerImage?.frame)!, to: collectionView.superview)
-        {
-            //headerImage?.frame = CGRect(x: 50, y: 100, width: 200, height: 200)
-            //headerImage?.image = #imageLiteral(resourceName: "ic_action_comment")
-        }*/
-        //headerImage?.contentMode = .scaleAspectFill
-
-        //let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-       // layout?.sectionHeadersPinToVisibleBounds = true
     }
     
 }

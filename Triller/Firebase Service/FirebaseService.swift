@@ -9,8 +9,8 @@ import UIKit
 import Firebase
 class FirebaseService
 {
-    static let shared = FirebaseService()
-    func getAllHashTags(completitionHandler:@escaping ([HashTag]) -> ())
+    //static let shared = FirebaseService()
+    class func getAllHashTags(completitionHandler:@escaping ([HashTag]) -> ())
     {
         var allHashtags = [HashTag]()
         let ref = Database.database().reference().child("HashTags")
@@ -31,7 +31,7 @@ class FirebaseService
         }) { (err) in
         }
     }
-    func getAllUsers(completitionHandler:@escaping ([User])->())
+    class func getAllUsers(completitionHandler:@escaping ([User])->())
     {
         var allUsers = [User]()
         let ref = Database.database().reference().child("Users")
@@ -79,7 +79,7 @@ class FirebaseService
         }*/
         
     }*/
-    func getNotificationByuid(uid:String,completitionHandler:@escaping ([MyNotification]?) -> ())
+    class func getNotificationByuid(uid:String,completitionHandler:@escaping ([MyNotification]?) -> ())
     {
         var allNotifications = [MyNotification]()
         let ref = Database.database().reference().child("notification")
@@ -119,7 +119,7 @@ class FirebaseService
             }
         })
     }
-    func fetchUserByuid(uid:String,completitionHandler:@escaping (User) -> ())
+    class func fetchUserByuid(uid:String,completitionHandler:@escaping (User) -> ())
     {
         let ref = Database.database().reference().child("Users").child(uid)
         ref.keepSynced(true)
@@ -133,7 +133,7 @@ class FirebaseService
             
         }
     }
-    func fetchFollowingPosts(uid:String,completitionHandler:@escaping ([AudioPost]) -> ())
+    class func fetchFollowingPosts(uid:String,completitionHandler:@escaping ([AudioPost]) -> ())
     {
         var allAudioPosts = [AudioPost]()
         let ref = Database.database().reference().child("following").child(uid)
@@ -171,7 +171,7 @@ class FirebaseService
         }
         
     }
-    func fetchPostusinguid(user:User,completitionHandler:@escaping ([AudioPost]) -> ())
+    class func fetchPostusinguid(user:User,completitionHandler:@escaping ([AudioPost]) -> ())
     {
         var audioPosts = [AudioPost]()
         let ref = Database.database().reference().child("AudioPosts")
@@ -184,7 +184,7 @@ class FirebaseService
                 dictionary.forEach({ (key,value) in
                     if let dict = value as? [String:Any]
                     {
-                        var audioPost = AudioPost(user: user, dictionary: dict)
+                        let audioPost = AudioPost(user: user, dictionary: dict)
                         audioPost.audioKey = key
                         audioPosts.append(audioPost)
                     }
@@ -195,7 +195,7 @@ class FirebaseService
             
         }
     }
-    func getPostsByHashtag(hashtag:HashTag,completitionHandler:@escaping ([AudioPost]) -> ())
+    class func getPostsByHashtag(hashtag:HashTag,completitionHandler:@escaping ([AudioPost]) -> ())
     {
         var audioPosts = [AudioPost]()
         let ref = Database.database().reference().child("HashTags").child(hashtag.hashTagName)
@@ -214,13 +214,13 @@ class FirebaseService
             
         }
     }
-    func fetchHashTagPost(user:User,dictionary:[String:Any],completitionHandler:(AudioPost) -> ())
+    class func fetchHashTagPost(user:User,dictionary:[String:Any],completitionHandler:(AudioPost) -> ())
     {
         let audioPost = AudioPost(user: user, dictionary: dictionary)
         completitionHandler(audioPost)
     }
     
-    func getUserBy(userName:String,completitionHandler:@escaping (User?) -> ())
+    class func getUserBy(userName:String,completitionHandler:@escaping (User?) -> ())
     {
         let ref = Database.database().reference().child("Users")
         if userName != ""
@@ -248,7 +248,7 @@ class FirebaseService
         }
     }
     
-    func getUserBy(phoneNumber:String,completitionHandler:@escaping (User?) -> ())
+    class func getUserBy(phoneNumber:String,completitionHandler:@escaping (User?) -> ())
     {
         let ref = Database.database().reference().child("Users")
         if phoneNumber != ""
@@ -283,6 +283,32 @@ class FirebaseService
             }) { (err) in
                 
             }
+        }
+    }
+    class func getCommentsByPostID(post:AudioPost,completitioinHandler:@escaping ([Comment]) ->())
+    {
+        var allComments = [Comment]()
+        let ref = Database.database().reference().child("Comments")
+        ref.child(post.audioKey).observe(.value, with: { (snap) in
+            if let dictioinaries = snap.value as? [String:Any]
+            {
+                dictioinaries.forEach({ (key,value) in
+                    if let dict = value as? [String:Any]
+                    {
+                        guard let uid = dict["uid"] as? String else {return}
+                        fetchUserByuid(uid: uid, completitionHandler: { (user) in
+                            let comment = Comment(key: key, user: user, dictionary: dict)
+                            allComments.append(comment)
+                            if allComments.count == dictioinaries.count
+                            {
+                                completitioinHandler(allComments)
+                            }
+                        })
+                    }
+                })
+            }
+        }) { (err) in
+            
         }
     }
 }

@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Kingfisher
+//import Kingfisher
+import SDWebImage
 class NotificationCell: UICollectionViewCell
 {
     var notification:MyNotification?
@@ -20,7 +21,8 @@ class NotificationCell: UICollectionViewCell
             
             if let url = URL(string: notification.user.picture_path)
             {
-                profileImage.kf.setImage(with: url, placeholder: UIImage(named: "profile-imag"))
+                profileImage.sd_setImage(with: url, completed: nil)
+                //profileImage.kf.setImage(with: url, placeholder: UIImage(named: "profile-imag"))
             }
             
         }

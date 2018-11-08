@@ -24,7 +24,7 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
     }
     func loadNotificationByuid(uid:String)
     {
-         FirebaseService.shared.getNotificationByuid(uid: uid) { (allNotifications) in
+         FirebaseService.getNotificationByuid(uid: uid) { (allNotifications) in
             if let notifications = allNotifications
             {
                 self.notifications = notifications

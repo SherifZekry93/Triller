@@ -13,20 +13,12 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
     func audioRecorderController(_ controller: IQAudioRecorderViewController, didFinishWithAudioAtPath filePath: String) {
         let someV = ShareAudioViewController()
         someV.filePath = filePath
-        //navigatonController
-/*        self.dismiss(animated: true) {
-            self.navigationController?.pushViewController(someV, animated: true)
-        }*/
-        //present
         present(UINavigationController(rootViewController: someV), animated: true) {
               self.dismiss(animated: true)
         }
        
     }
     func audioRecorderControllerDidCancel(_ controller: IQAudioRecorderViewController) {
-        //let view = UIViewController()
-        //view.view.backgroundColor = .purple
-        //navigationController?.pushViewController(view, animated: true)
         dismiss(animated: true, completion: nil)
     }
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {

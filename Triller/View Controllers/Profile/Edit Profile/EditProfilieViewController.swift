@@ -224,7 +224,6 @@ class EditProfileViewController: UIViewController
         let femaleAction = UIAlertAction(title: "Arabic", style: .default) { (action) in
             self.languageTextField.text = "Arabic"
         }
-        
         alert.addAction(maleAction)
         alert.addAction(femaleAction)
         present(alert, animated: true){

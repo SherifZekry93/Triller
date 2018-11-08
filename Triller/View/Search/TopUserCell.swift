@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Kingfisher
+//import Kingfisher
 class TopUserCell: UICollectionViewCell {
     var user:User?{
         didSet{
@@ -15,7 +15,7 @@ class TopUserCell: UICollectionViewCell {
             if let url = URL(string: user.picture_path)
             {
                 let image = #imageLiteral(resourceName: "profile-imag")
-                profileHashTagImage.kf.setImage(with: url, placeholder: image)
+                profileHashTagImage.sd_setImage(with: url, completed: nil)
             }
             userNameHashTagLabel.text = user.user_name
         }

@@ -7,34 +7,36 @@
 //
 
 import UIKit
-import Kingfisher
+import SDWebImage
 import AVKit
 import MediaPlayer
 import Firebase
 import ProgressHUD
+
+protocol tappedProfileOrNameLabelOrCommentsDelegate
+{
+    func viewProfile(gesture:UITapGestureRecognizer)
+    func viewComments(gesture:UITapGestureRecognizer)
+}
+
 class HomeFeedCell: UICollectionViewCell {
-    var post:AudioPost?{
+    var isHeader:Bool = false
+    var delegate:tappedProfileOrNameLabelOrCommentsDelegate?
+    var post:MediaItem?{
         didSet{
-            guard let post = post else {return}
-            if let url = URL(string: post.user.picture_path)
+            postDateLabel.text = post?.creationDate.timeAgoDisplay()
+            if let url = URL(string: post?.user?.picture_path ?? "")
             {
                 let image = #imageLiteral(resourceName: "profile-imag")
-                profileImage.kf.setImage(with: url, placeholder: image)
+                profileImage.sd_setImage(with: url, completed: nil)
+                //profileImage.kf.setImage(with: url, placeholder: image)
             }
             //set username and date
-            let attributedText = NSMutableAttributedString(string: post.user.full_name, attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 18)])
-            
-            attributedText.append(NSAttributedString(string: "\n\(post.creationDate.timeAgoDisplay())", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),NSAttributedString.Key.foregroundColor:UIColor.gray]))
-            
-            let paragraphStyle = NSMutableParagraphStyle()
-            
-            paragraphStyle.lineSpacing = 2
-            
-            attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
-            userNameTimeLabel.attributedText = attributedText
-            
-            //timeLabel.text = "00:\(Int(duration))"
-            //set caption Label
+            userName.text = post?.user?.full_name
+            let duration = post?.audioDuration ?? 0
+            let formattedTime = String(format: "%02d", Int(duration  / 1000))
+            self.timeLabel.text = "00:00 / 00:\(formattedTime)"
+            guard let post = post as? AudioPost else {return}
             if post.audioNote != ""
             {
                 postTitle.text = post.audioNote
@@ -43,25 +45,43 @@ class HomeFeedCell: UICollectionViewCell {
             {
                 postTitle.textAlignment = .right
             }
-            let duration = post.audioDuration / 1000
-            let formattedTime = String(format: "%02d", Int(duration))
-            self.timeLabel.text = "00:00 / 00:\(formattedTime)"//String(format: "00:%02d", post.audioDuration)
-            
         }
     }
     
-    let profileImage:UIImageView = {
+    lazy var profileImage:UIImageView = {
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "profile-imag")
+       image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewUserProfile)))
+        image.isUserInteractionEnabled = true
         return image
     }()
     
-    let userNameTimeLabel:UILabel = {
+    lazy var userName:UILabel = {
         let label = UILabel()
         label.numberOfLines = -1
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewUserProfile)))
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = .black
         return label
     }()
     
+    let postDateLabel:UILabel = {
+        let label = UILabel()
+        label.numberOfLines = -1
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
+    
+    lazy var usernameTimeStack : UIStackView = {
+       let stack = UIStackView(arrangedSubviews: [userName,postDateLabel])
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.spacing = 0
+        stack.alignment = .top
+        return stack
+    }()
     lazy var menuButton:UIButton = {
         let button = UIButton()
         button.setTitle("•••", for: .normal)
@@ -99,17 +119,18 @@ class HomeFeedCell: UICollectionViewCell {
     let likeButton:UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "love"), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleToFill
         return button
     }()
-    let commentButton:UIButton = {
+    lazy var commentButton:UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleToFill
+        button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewComments)))
         return button
     }()
     lazy var topStackView:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [profileImage,userNameTimeLabel])
+        let stack = UIStackView(arrangedSubviews: [profileImage,usernameTimeStack])
         stack.distribution = .fill//Equally
         stack.spacing = 12
         return stack
@@ -129,7 +150,6 @@ class HomeFeedCell: UICollectionViewCell {
     let postTitle:UILabel = {
         let title = UILabel()
         title.text = nil
-        // title.text = "Hello How are \n you are you alright"
         title.font = UIFont.systemFont(ofSize: 17)
         title.numberOfLines = -1
         return title
@@ -147,35 +167,71 @@ class HomeFeedCell: UICollectionViewCell {
         setupAudioSession()
         playerObservers()
     }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    lazy var playAllButton:UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "ic_action_play").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setTitle("Play All", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.backgroundColor = .white
+        button.isEnabled = true
+        return button
+    }()
+    
+    let bottomSeparator:UIView = {
+        let separator = UIView()
+        separator.backgroundColor = .lightGray
+        return separator
+    }()
+    
     func setupViews()
     {
+        backgroundColor = .lightGray
         addSubview(containerView)
+        containerView.addSubview(topStackView)
+        containerView.addSubview(menuButton)
+        containerView.addSubview(postTitle)
         containerView.addSubview(bottomStack)
         containerView.addSubview(controlsStack)
-        containerView.addSubview(menuButton)
-        //addSubview(spinnerView!)
-        backgroundColor = .lightGray
-        containerView.anchorToView(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 8, bottom: 0, right: 8))
-        containerView.addSubview(topStackView)
+        if isHeader
+        {
+          setupHeaderViews()
+        }
+        //setup contaner view
+        containerView.anchorToView(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top:0,left:8,bottom:0,right:8))
+        //setup Top Stack
         topStackView.anchorToView(top: containerView.topAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: containerView.trailingAnchor, padding: .init(top: 12, left: 12, bottom: 0, right: 62), size: .init(width: 0, height: 50))
-        profileImage.anchorToView(size: .init(width: 50, height: 0))
-        menuButton.anchorToView(top: userNameTimeLabel.topAnchor, leading: nil, bottom: nil, trailing:containerView.trailingAnchor, padding: .init(top: -12, left: 5, bottom: 5, right: 5), size: .init(width: 40, height: 40))
-        containerView.addSubview(postTitle)
-        postTitle.anchorToView(top: topStackView.bottomAnchor, leading: topStackView.leadingAnchor, bottom: bottomStack.topAnchor, trailing: menuButton.trailingAnchor,padding: .init(top: 5, left: 0, bottom: 5, right: 0))
-        bottomStack.anchorToView(top: postTitle.bottomAnchor, leading: postTitle.leadingAnchor, bottom: controlsStack.topAnchor, trailing: postTitle.trailingAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 35))
-        playButton.anchorToView(size:.init(width: 35, height: 0))
-        controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: containerView.bottomAnchor, trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 0), size: .init(width: 120, height: 30))
-        likeButton.anchorToView( size: .init(width: 40, height: 40))
-        commentButton.anchorToView(size: .init(width: 40, height: 40))
-        playButton.anchorToView(size:.init(width: 40, height: 0))
-        //self.spinnerView = SpinnerView()
-        //self.insertSubview(self.spinnerView!, belowSubview: self.playButton)
-        //self.spinnerView?.anchorToView(top: self.playButton.topAnchor, leading: self.playButton.leadingAnchor, bottom: self.playButton.bottomAnchor, trailing: self.playButton.trailingAnchor)
-        //spinnerView?.isUserInteractionEnabled = false
-        //spinnerView?.alpha = 0
+         profileImage.anchorToView(size: .init(width: 50, height: 0))
+        //setup menu Button
+          menuButton.anchorToView(top: usernameTimeStack.topAnchor, leading: nil, bottom: nil, trailing:containerView.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 5, right: 5), size: .init(width: 40, height: 40))
+        
+        //post Title
+          postTitle.anchorToView(top: topStackView.bottomAnchor, leading: topStackView.leadingAnchor, bottom: bottomStack.topAnchor, trailing: menuButton.trailingAnchor,padding: .init(top: 5, left: 0, bottom: 5, right: 0))
+        //setup bottom stack
+
+       bottomStack.anchorToView(top: postTitle.bottomAnchor, leading: postTitle.leadingAnchor, bottom: controlsStack.topAnchor, trailing: postTitle.trailingAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 35))
+        playButton.anchorToView(size:.init(width: 35, height: 35))
+
+        //setup controls stack
+        controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: isHeader ?bottomSeparator.topAnchor : bottomAnchor   , trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 20), size: .init(width: 100, height: 30))
+        likeButton.anchorToView( size: .init(width: 30, height: 30))
+        commentButton.anchorToView(size: .init(width: 30, height: 30))
+    }
+    
+    func setupHeaderViews()
+    {
+        containerView.addSubview(bottomSeparator)
+        containerView.addSubview(playAllButton)
+        //bottom separator setup
+        bottomSeparator.anchorToView(top: controlsStack.bottomAnchor, leading: leadingAnchor, bottom: playAllButton.topAnchor, trailing: trailingAnchor, padding: .init(top: 12, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 2))
+        //play all button
+        playAllButton.anchorToView(top: bottomSeparator.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 40))
+
     }
     fileprivate func setupAudioSession()
     {
@@ -347,5 +403,12 @@ class HomeFeedCell: UICollectionViewCell {
     {
         
     }
-    
+    @objc func viewUserProfile(gesture:UITapGestureRecognizer)
+    {
+        delegate?.viewProfile(gesture:gesture)
+    }
+    @objc func viewComments(gesture:UITapGestureRecognizer)
+    {
+        delegate?.viewComments(gesture: gesture)
+    }
 }

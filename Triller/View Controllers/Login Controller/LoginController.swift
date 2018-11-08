@@ -53,6 +53,7 @@ class LoginController: UIViewController
         userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
         userName.textIcon.tintColor = .white
         userName.customLabelPlaceHolder.text = "Username/Email/Mobile"
+        userName.requiredLabel.text = "required"
         return userName
     }()
     
@@ -197,28 +198,26 @@ extension LoginController
             else if userNameEmailTextField.isNumber
             {
             userNameEmailTextField.remove(at: userNameEmailTextField.startIndex)
-                FirebaseService.shared.getUserBy(phoneNumber: userNameEmailTextField) { (user) in
+                FirebaseService.getUserBy(phoneNumber: userNameEmailTextField) { (user) in
                     if let user = user
                     {
                         
                         self.view.endEditing(true)
-                    self.finalLoginToFirebase(email: user.email, password: password)
+                        self.finalLoginToFirebase(email: user.email, password: password)
                     }
                     else
                     {
                         //ProgressHUD.dismiss()
                         self.view.endEditing(true)
                         ProgressHUD.showError("number not found")
-                        //self.showToast(message: "number not found")
                     }
                 }
             }
             else
             {
-                FirebaseService.shared.getUserBy(userName: userNameEmailTextField) { (user) in
+                FirebaseService.getUserBy(userName: userNameEmailTextField) { (user) in
                     if let user = user
                     {
-                        //SVProgressHUD.dismiss()
                         self.view.endEditing(true)
                         self.finalLoginToFirebase(email: user.email, password: password)
                     }

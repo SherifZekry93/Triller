@@ -12,7 +12,7 @@ target 'Triller' do
   pod 'Firebase/Storage'
   pod 'Firebase/Auth'
   pod 'ProgressHUD'
-  pod 'Kingfisher'
+  pod 'SDWebImage'
   pod 'XLPagerTabStrip'
   pod 'IQAudioRecorderController'
 end
