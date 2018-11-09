@@ -83,7 +83,7 @@ class FirebaseService
     {
         var allNotifications = [MyNotification]()
         let ref = Database.database().reference().child("notification")
-        let query = ref.queryOrdered(byChild: "to").queryEqual(toValue: "hdcDPY8gSENKkM0Fw31zDbCLdSQ2")
+        let query = ref.queryOrdered(byChild: "to").queryEqual(toValue: uid)
         query.keepSynced(true)
         query.observeSingleEvent(of:.value,with:{snapshot in
             if snapshot.value is NSNull {

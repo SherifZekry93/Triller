@@ -115,12 +115,14 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
             self.collectionView?.refreshControl?.endRefreshing()
         }
     }
+    
     func fetchPostsForHashtag(hashTag:HashTag)
     {
         FirebaseService.getPostsByHashtag(hashtag: hashTag) { (allPosts) in
             self.audioPosts = allPosts
         }
     }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return audioPosts?.count  ?? 0

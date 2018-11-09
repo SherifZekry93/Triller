@@ -53,7 +53,11 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
                 filteredHashTags = allHashTags
             }
         }
-        self.collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            self.collectionView.collectionViewLayout.invalidateLayout()
+            self.collectionView.layoutSubviews()
+        }
     }
     func getHashTags()
     {
@@ -134,11 +138,12 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
     {
-        self.filteredUsers = allUsers
-        self.filteredHashTags = allHashTags
+        //DispatchQueue.main.async {
+        self.filteredUsers = self.allUsers
+        self.filteredHashTags = self.allHashTags
         self.collectionView.reloadData()
+        //}
     }
-    
     let horizontalLine = UIView()
     func setupMenuBar()
     {
