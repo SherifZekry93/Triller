@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1000"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3E3C9424B645C3766FC281B3AB4BD58A"
+               BlueprintIdentifier = "4318AFB7310549F55106EC02842EFC14"
                BuildableName = "XLPagerTabStrip.bundle"
                BlueprintName = "XLPagerTabStrip-XLPagerTabStrip"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3E3C9424B645C3766FC281B3AB4BD58A"
+            BlueprintIdentifier = "4318AFB7310549F55106EC02842EFC14"
             BuildableName = "XLPagerTabStrip.bundle"
             BlueprintName = "XLPagerTabStrip-XLPagerTabStrip"
             ReferencedContainer = "container:Pods.xcodeproj">

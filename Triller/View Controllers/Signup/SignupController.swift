@@ -305,8 +305,10 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
-    @objc func handleCreateAccount()
+    @objc func handleCreateAccount( sender:UIButton)
     {
+        ProgressHUD.show()
+        sender.isEnabled = false
         ignoreExistanceValidationAfterClicking = true
         
         isValidForm { (formIsValid) in
@@ -316,19 +318,21 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                     if err != nil
                     {
                         ProgressHUD.showError(err?.localizedDescription)
+                        sender.isEnabled = true
                         return
                     }
-                    guard let currentUserInfo = result?.user else {return}
+                //    guard let currentUserInfo = result?.user else {return}
                     guard let currentUserID = Auth.auth().currentUser?.uid else {return}
                     guard let fullPhone = self.phoneNumber.getFormattedPhoneNumber(format: .E164) else {return}
                     guard let currentAppLanguage = NSLocale.current.languageCode else {return}
-                    currentUserInfo.getIDToken(completion: { (token, err) in
+                   // currentUserInfo.getIDToken(completion: { (token, err) in
                         if err != nil
                         {
                             ProgressHUD.showError(err?.localizedDescription)
+                            sender.isEnabled = true
                         }
                         let privateData = ["birth_date":"","gender":"","language":currentAppLanguage,"phone_number":fullPhone,"register_date":Date().timeIntervalSince1970] as [String : Any]
-                        let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber() ?? "","phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text ?? "","user_token":token ?? ""] as [String : Any]
+                        let allValues = ["email":self.emailTextField.text!,"full_name":"","full_phone":fullPhone,"location":"","phone":self.phoneNumber.getRawPhoneNumber() ?? "","phone_country":self.getCountryCode(),"picture":"","picture_path":"","private_data":privateData,"profile_is_private":false,"status":"","uid":currentUserID,"user_name":self.userNameTextField.text ?? "","user_token":Messaging.messaging().fcmToken ?? ""] as [String : Any]
                         
                         let toUpdateValues = [currentUserID:allValues]; Database.database().reference().child("Users").updateChildValues(toUpdateValues, withCompletionBlock: { (err, ref) in
                             if err != nil
@@ -340,7 +344,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                             {
                                 self.goToHomePage()
                             }
-                        })
+                      //  })
                     })
                 }
                 
@@ -355,6 +359,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         print(String(arr[0]))
         return String(arr[0])
     }
+    
     @objc func validateUserNameOnChange()
     {
         self.validateUserName { (valid) in
@@ -636,6 +641,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             ProgressHUD.showError("You must accept terms and conditions")
         }
     }
+    //will be changed to go to fill in the rest of the info page
     func goToHomePage()
     {
         ProgressHUD.dismiss()

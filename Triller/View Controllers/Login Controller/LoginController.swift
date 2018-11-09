@@ -201,13 +201,11 @@ extension LoginController
                 FirebaseService.getUserBy(phoneNumber: userNameEmailTextField) { (user) in
                     if let user = user
                     {
-                        
                         self.view.endEditing(true)
                         self.finalLoginToFirebase(email: user.email, password: password)
                     }
                     else
                     {
-                        //ProgressHUD.dismiss()
                         self.view.endEditing(true)
                         ProgressHUD.showError("number not found")
                     }
@@ -267,6 +265,7 @@ extension LoginController
         Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
             if err != nil
             {
+              //  print(err)
                 ProgressHUD.showError(err?.localizedDescription)
                 return
             }

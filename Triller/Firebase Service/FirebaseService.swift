@@ -225,7 +225,7 @@ class FirebaseService
         let ref = Database.database().reference().child("Users")
         if userName != ""
         {
-            let query = ref.queryOrdered(byChild: "user_name").queryEqual(toValue: userName)
+            let query = ref.queryOrdered(byChild: "user_name").queryEqual(toValue: userName.lowercased())
             query.observe(.value) { (snap) in
                 if snap.value is NSNull
                 {

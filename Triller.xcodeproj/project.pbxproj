@@ -10,6 +10,7 @@
 		7E15E6E0217CC28A009851BB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6DF217CC28A009851BB /* Date.swift */; };
 		7E15E6E2217D86B9009851BB /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6E1217D86B9009851BB /* CMTime.swift */; };
 		7E2E93CB217C400800B298B5 /* MyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E93CA217C400800B298B5 /* MyNotification.swift */; };
+		7E6ADD1421955791009DB373 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E6ADD1321955791009DB373 /* GoogleService-Info.plist */; };
 		7E80F08A218DF7C6007AFBD2 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E80F089218DF7C6007AFBD2 /* CommentCell.swift */; };
 		7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */; };
 		7E90C6B62184C3B90090B320 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90C6B52184C3B90090B320 /* AudioRecorder.swift */; };
@@ -19,7 +20,6 @@
 		7EA4FC28217937DD00D481A1 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4FC27217937DD00D481A1 /* NotificationCell.swift */; };
 		7EA5BAC0217AF21200EFC458 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BABF217AF21200EFC458 /* Profile.swift */; };
 		7EA5BAC4217AF29D00EFC458 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BAC3217AF29D00EFC458 /* FirebaseService.swift */; };
-		7EA5BAC8217AF3C000EFC458 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EA5BAC7217AF3C000EFC458 /* GoogleService-Info.plist */; };
 		7EA5BACA217AF42700EFC458 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BAC9217AF42700EFC458 /* Comment.swift */; };
 		7EA5BACC217AF46700EFC458 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BACB217AF46700EFC458 /* User.swift */; };
 		7EA5BACE217AF9F100EFC458 /* AudioPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA5BACD217AF9F100EFC458 /* AudioPost.swift */; };
@@ -68,6 +68,7 @@
 		7E15E6DF217CC28A009851BB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		7E15E6E1217D86B9009851BB /* CMTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		7E2E93CA217C400800B298B5 /* MyNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNotification.swift; sourceTree = "<group>"; };
+		7E6ADD1321955791009DB373 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E80F089218DF7C6007AFBD2 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		7E90C6B52184C3B90090B320 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
@@ -77,7 +78,6 @@
 		7EA4FC27217937DD00D481A1 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		7EA5BABF217AF21200EFC458 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		7EA5BAC3217AF29D00EFC458 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
-		7EA5BAC7217AF3C000EFC458 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7EA5BAC9217AF42700EFC458 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		7EA5BACB217AF46700EFC458 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7EA5BACD217AF9F100EFC458 /* AudioPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPost.swift; sourceTree = "<group>"; };
@@ -115,6 +115,7 @@
 		7EF2855A217FA46300D7F2F7 /* PhotoSelectoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectoCell.swift; sourceTree = "<group>"; };
 		7EF2855C217FA4B900D7F2F7 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
 		7EF55413218AFEFC0046658D /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
+		7EF71A7C21954BD500C00EE9 /* Triller.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Triller.entitlements; sourceTree = "<group>"; };
 		7EF91DBC21785CED00BD42CA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		7EF9FDC7218D7B0400A51B20 /* CommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsController.swift; sourceTree = "<group>"; };
 		7EF9FDCA218D7D4000A51B20 /* CommentsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsHeader.swift; sourceTree = "<group>"; };
@@ -229,18 +230,19 @@
 		7ECE81882172768000895EDA /* Triller */ = {
 			isa = PBXGroup;
 			children = (
+				7EF71A7C21954BD500C00EE9 /* Triller.entitlements */,
 				7EA5BAC2217AF28C00EFC458 /* Firebase Service */,
 				7EF91DBB21785CCD00BD42CA /* View Controllers */,
 				7ECE81B92173213000895EDA /* Extensions */,
 				7ECE81B3217320C200895EDA /* View */,
 				7ECE81B2217320BC00895EDA /* Model */,
 				7ECE81902172768100895EDA /* Assets.xcassets */,
+				7E6ADD1321955791009DB373 /* GoogleService-Info.plist */,
 				7ECE819B2172859800895EDA /* MainTabBarController.swift */,
 				7ECE81892172768000895EDA /* AppDelegate.swift */,
 				7ECE818D2172768000895EDA /* Main.storyboard */,
 				7ECE81922172768100895EDA /* LaunchScreen.storyboard */,
 				7ECE81952172768100895EDA /* Info.plist */,
-				7EA5BAC7217AF3C000EFC458 /* GoogleService-Info.plist */,
 			);
 			path = Triller;
 			sourceTree = "<group>";
@@ -425,6 +427,7 @@
 				7ECE81832172767F00895EDA /* Frameworks */,
 				7ECE81842172767F00895EDA /* Resources */,
 				8AB68DECC4A9A4CA66212516 /* [CP] Embed Pods Frameworks */,
+				9B056681FB621CDCFC1C045D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -448,6 +451,11 @@
 					7ECE81852172767F00895EDA = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 1000;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -475,9 +483,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ECE81942172768100895EDA /* LaunchScreen.storyboard in Resources */,
+				7E6ADD1421955791009DB373 /* GoogleService-Info.plist in Resources */,
 				7ECE81912172768100895EDA /* Assets.xcassets in Resources */,
 				7ECE818F2172768000895EDA /* Main.storyboard in Resources */,
-				7EA5BAC8217AF3C000EFC458 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,10 +500,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FlagPhoneNumber/FlagPhoneNumber.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQAudioRecorderController/IQAudioRecorderController.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SCSiriWaveformView/SCSiriWaveformView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
@@ -506,10 +518,14 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlagPhoneNumber.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQAudioRecorderController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSiriWaveformView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
@@ -520,6 +536,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B056681FB621CDCFC1C045D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-resources.sh",
+				"${PODS_ROOT}/FirebaseInvites/Resources/GINInviteResources.bundle",
+				"${PODS_ROOT}/FirebaseInvites/Resources/GPPACLPickerResources.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GINInviteResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GPPACLPickerResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B51BE24CB71CD073691CC487 /* [CP] Check Pods Manifest.lock */ = {
@@ -739,15 +777,16 @@
 			baseConfigurationReference = 9D05883BE0856E0493DA7E6E /* Pods-Triller.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Triller/Triller.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GUS473JQDG;
+				DEVELOPMENT_TEAM = 968U57PY3R;
 				INFOPLIST_FILE = Triller/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Trill;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Edusoft.Trill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -759,15 +798,16 @@
 			baseConfigurationReference = 34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Triller/Triller.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GUS473JQDG;
+				DEVELOPMENT_TEAM = 968U57PY3R;
 				INFOPLIST_FILE = Triller/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Trill;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Edusoft.Trill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

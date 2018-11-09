@@ -6,13 +6,23 @@ target 'Triller' do
   use_frameworks!
 
   # Pods for Triller
-  pod 'Firebase/Core'
   pod 'FlagPhoneNumber'
-  pod 'Firebase/Database'
-  pod 'Firebase/Storage'
-  pod 'Firebase/Auth'
   pod 'ProgressHUD'
   pod 'SDWebImage'
   pod 'XLPagerTabStrip'
   pod 'IQAudioRecorderController'
+  pod 'Firebase/Core' 
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth' 
+  pod 'Firebase/Crash' 
+  pod 'Firebase/Database' 
+  pod 'Firebase/DynamicLinks' 
+  pod 'Firebase/Invites'
+  pod 'Firebase/Messaging' 
+  pod 'Firebase/Performance'
+  pod 'Firebase/RemoteConfig'
+  pod 'Firebase/Storage' 
+  pod 'FirebaseInstanceID'
 end
+
+

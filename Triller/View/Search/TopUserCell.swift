@@ -14,7 +14,7 @@ class TopUserCell: UICollectionViewCell {
             guard let user = user else {return}
             if let url = URL(string: user.picture_path)
             {
-                let image = #imageLiteral(resourceName: "profile-imag")
+            //    let image = #imageLiteral(resourceName: "profile-imag")
                 profileHashTagImage.sd_setImage(with: url, completed: nil)
             }
             userNameHashTagLabel.text = user.user_name

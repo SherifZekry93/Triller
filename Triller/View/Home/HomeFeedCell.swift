@@ -27,7 +27,7 @@ class HomeFeedCell: UICollectionViewCell {
             postDateLabel.text = post?.creationDate.timeAgoDisplay()
             if let url = URL(string: post?.user?.picture_path ?? "")
             {
-                let image = #imageLiteral(resourceName: "profile-imag")
+              //  let image = #imageLiteral(resourceName: "profile-imag")
                 profileImage.sd_setImage(with: url, completed: nil)
                 //profileImage.kf.setImage(with: url, placeholder: image)
             }
