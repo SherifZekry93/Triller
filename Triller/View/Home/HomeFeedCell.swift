@@ -13,7 +13,7 @@ import MediaPlayer
 import Firebase
 import ProgressHUD
 
-protocol tappedProfileOrNameLabelOrCommentsDelegate
+protocol tappedProfileOrNameLabelOrCommentsDelegateOrPlay
 {
     func viewProfile(gesture:UITapGestureRecognizer)
     func viewComments(gesture:UITapGestureRecognizer)
@@ -21,7 +21,7 @@ protocol tappedProfileOrNameLabelOrCommentsDelegate
 
 class HomeFeedCell: UICollectionViewCell {
     var isHeader:Bool = false
-    var delegate:tappedProfileOrNameLabelOrCommentsDelegate?
+    var delegate:tappedProfileOrNameLabelOrCommentsDelegateOrPlay?
     var post:MediaItem?{
         didSet{
             postDateLabel.text = post?.creationDate.timeAgoDisplay()
@@ -319,7 +319,6 @@ class HomeFeedCell: UICollectionViewCell {
     //MARK:- Player Observers
     fileprivate func playerObservers()
     {
-        //enableDisableControls(enable: false)
         let time = CMTimeMake(value: 1,timescale: 3)
         let times = [NSValue(time:time)]
         player.addBoundaryTimeObserver(forTimes: times, queue: .main) {

@@ -10,7 +10,7 @@ import AVKit
 import MediaPlayer
 import Firebase
 import ProgressHUD
-class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegate
+class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegateOrPlay
 {
     func viewProfile(gesture:UITapGestureRecognizer)
     {
@@ -109,7 +109,9 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     {
         setupNavigationController()
         FirebaseService.fetchFollowingPosts(uid: uid) { (allAudioPosts) in
-            self.audioPosts = allAudioPosts
+            self.audioPosts = allAudioPosts.sorted(by: { (post1, post2) -> Bool in
+                return post1.creationDate > post2.creationDate
+            })
             self.collectionView?.refreshControl?.endRefreshing()
         }
     }

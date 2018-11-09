@@ -14,14 +14,17 @@ protocol ProfileViewStartScrolling
 {
     func didScroll(imageView:UIImageView)
 }
-class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegate{
+class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegateOrPlay{
+    func playSound(slider: UISlider, url: URL) {
+        
+    }
+    
     func viewProfile(gesture: UITapGestureRecognizer) {
         
     }
     
     func viewComments(gesture: UITapGestureRecognizer) {
         self.tabBarController?.tabBar.isHidden = true
-        //self.tabBarController?.tabBar.transform = translate
         let layout = UICollectionViewFlowLayout()
         let commentsController = CommentsController(collectionViewLayout:layout)
         let indexPath = getIndex(gesture: gesture)
@@ -40,9 +43,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         avPlayer.automaticallyWaitsToMinimizeStalling = false
         return avPlayer
     }()
-   
     
-
     let cellID = "cellID"
     let profileHeaderID = "profileHeaderID"
     var headerImage:UIImageView?
@@ -145,7 +146,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         dummyCell.post = posts[indexPath.item]
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
-        let height = estimatedsize.height//max(150, estimatedsize.height)
+        let height = estimatedsize.height
         return CGSize(width: view.frame.width, height: height)
     }
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {

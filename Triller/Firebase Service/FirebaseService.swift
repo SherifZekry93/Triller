@@ -292,6 +292,7 @@ class FirebaseService
         ref.child(post.audioKey).observe(.value, with: { (snap) in
             if let dictioinaries = snap.value as? [String:Any]
             {
+                allComments.removeAll()
                 dictioinaries.forEach({ (key,value) in
                     if let dict = value as? [String:Any]
                     {

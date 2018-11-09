@@ -15,6 +15,8 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
     func audioRecorderController(_ controller: IQAudioRecorderViewController, didFinishWithAudioAtPath filePath: String) {
         dismiss(animated: true) {
             self.uploadAudio(filePath:filePath)
+            guard let post = self.post else {return}
+            self.getCommentsByPostID(post: post)
         }
     }
     
@@ -87,7 +89,6 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
         dismiss(animated: true, completion: nil)
     }
     
-    
     var comments:[Comment]?{
         didSet{
             self.collectionView.reloadData()
@@ -124,7 +125,7 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
     func setupRecordingButton()
     {
         self.view.addSubview(recordingButton)
-        recordingButton.anchorToView(top: nil, leading: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), size:CGSize(width: 40, height: 40))
+        recordingButton.anchorToView(top: nil, leading: nil, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 50, bottom: 20, right: 20), size:CGSize(width: 40, height: 40))
     }
     
     func setupCollectionView()
@@ -175,7 +176,9 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
     func getCommentsByPostID(post:AudioPost)
     {
         FirebaseService.getCommentsByPostID(post: post) { (allComments) in
-            self.comments = allComments
+            self.comments = allComments.sorted(by: { (comment1, comment2) -> Bool in
+                return comment1.creationDate > comment2.creationDate
+            })
             self.collectionView.reloadData()
         }
     }
