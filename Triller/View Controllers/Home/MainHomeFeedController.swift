@@ -169,6 +169,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         navigationItem.rightBarButtonItem = UIBarButtonItem(image:rightbarImage, style: .plain, target: self, action:#selector(handleShowEditProfile))
         navigationItem.rightBarButtonItem?.tintColor  = .black
     }
+    
     fileprivate func setupAudioSession()
     {
         do

@@ -82,11 +82,11 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     {
         super.viewDidLoad()
         setupCollectionView()
-        setupCustomNavigationBar()
+        /*setupCustomNavigationBar()
         if user == nil
         {
             fetchUserUsinguid()
-        }
+        }*/
     }
     
     func fetchUserUsinguid()
@@ -102,9 +102,9 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
     }
-    override func viewWillDisappear(_ animated: Bool) {
+   /* override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
-    }
+    }*/
     func setupCustomNavigationBar()
     {
         guard let height = UIApplication.shared.keyWindow?.safeAreaInsets.top else {return}
