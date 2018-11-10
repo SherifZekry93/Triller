@@ -144,6 +144,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         let post = audioPosts?[indexPath.item]
         cell.post = post
         cell.delegate = self
+        cell.homeFeedController = self
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

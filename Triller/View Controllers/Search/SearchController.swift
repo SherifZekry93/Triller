@@ -73,13 +73,16 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     {
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         FirebaseService.getAllUsers { (users) in
+            
             self.allUsers = users.filter({ (user) -> Bool in
                 return user.uid != currentUserID
             })
+            
             self.filteredUsers = users
             self.collectionView.reloadData()
         }
     }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()

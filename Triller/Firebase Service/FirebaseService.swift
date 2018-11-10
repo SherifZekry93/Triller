@@ -140,6 +140,10 @@ class FirebaseService
         ref.keepSynced(true)
         DispatchQueue.global(qos: .userInitiated).async {
             ref.observe(.childAdded, with: { (snap) in
+                if snap.value is NSNull
+                {
+                    completitionHandler(allAudioPosts)
+                }
                 guard let dictionary = snap.value as? [String:Any] else {return}
                 let followinguid = dictionary["following_uid"] as? String ?? ""
                 self.fetchUserByuid(uid:followinguid, completitionHandler: { (user) in

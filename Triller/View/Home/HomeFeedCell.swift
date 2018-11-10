@@ -22,6 +22,7 @@ protocol tappedProfileOrNameLabelOrCommentsDelegateOrPlay
 class HomeFeedCell: UICollectionViewCell {
     var isHeader:Bool = false
     var delegate:tappedProfileOrNameLabelOrCommentsDelegateOrPlay?
+    var homeFeedController:MainHomeFeedController?
     var post:MediaItem?{
         didSet{
             postDateLabel.text = post?.creationDate.timeAgoDisplay()
@@ -253,6 +254,10 @@ class HomeFeedCell: UICollectionViewCell {
     var firstTimePlayer = false
     @objc func playEpisode()
     {
+        if  let homeController = homeFeedController
+        {
+            pauseAllPlayers(homeController: homeController)
+        }
         if !firstTimePlayer
         {
             downloadAndPlaySound()
@@ -282,6 +287,18 @@ class HomeFeedCell: UICollectionViewCell {
             }
             
         }
+        
+    }
+    func pauseAllPlayers(homeController:UICollectionViewController)
+    {
+        homeController.collectionView.indexPathsForVisibleItems.forEach({ (indexPath) in
+            let cell = homeController.collectionView.cellForItem(at: indexPath) as? HomeFeedCell
+            if cell?.player.timeControlStatus != .paused && cell?.post?.audioURL != post?.audioURL
+            {
+                cell?.player.pause()
+                cell?.playButton.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
+            }
+        })
     }
     func downloadAndPlaySound()
     {

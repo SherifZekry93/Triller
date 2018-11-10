@@ -54,15 +54,10 @@ class ProfilePostCell: HomeFeedCell {
     @objc func actionSheetBackgroundTapped() {
         self.homeController?.dismiss(animated: true, completion: nil)
     }
-    override func playEpisode() {
-        self.homeController?.collectionView.indexPathsForVisibleItems.forEach({ (indexPath) in
-            let cell = self.homeController?.collectionView.cellForItem(at: indexPath) as? HomeFeedCell
-            if cell?.player.timeControlStatus != .paused
-            {
-                cell?.player.pause()
-                cell?.playButton.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
-            }
-        })
-        super.playEpisode()
+    override func playEpisode()
+    {
+         super.playEpisode()
+         guard let homeController = homeController else {return}
+         super.pauseAllPlayers(homeController: homeController)
     }
 }
