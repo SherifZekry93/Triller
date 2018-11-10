@@ -265,7 +265,6 @@ extension LoginController
         Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
             if err != nil
             {
-              //  print(err)
                 ProgressHUD.showError(err?.localizedDescription)
                 return
             }

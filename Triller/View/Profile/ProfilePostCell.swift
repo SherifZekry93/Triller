@@ -49,12 +49,20 @@ class ProfilePostCell: HomeFeedCell {
         self.homeController?.present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))
-            
         }
-        
     }
     @objc func actionSheetBackgroundTapped() {
         self.homeController?.dismiss(animated: true, completion: nil)
     }
-    
+    override func playEpisode() {
+        self.homeController?.collectionView.indexPathsForVisibleItems.forEach({ (indexPath) in
+            let cell = self.homeController?.collectionView.cellForItem(at: indexPath) as? HomeFeedCell
+            if cell?.player.timeControlStatus != .paused
+            {
+                cell?.player.pause()
+                cell?.playButton.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
+            }
+        })
+        super.playEpisode()
+    }
 }

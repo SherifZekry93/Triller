@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E0D6869219636FF0064CDDB /* Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0D6868219636FF0064CDDB /* Speaker.swift */; };
 		7E15E6E0217CC28A009851BB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6DF217CC28A009851BB /* Date.swift */; };
 		7E15E6E2217D86B9009851BB /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6E1217D86B9009851BB /* CMTime.swift */; };
 		7E2E93CB217C400800B298B5 /* MyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E93CA217C400800B298B5 /* MyNotification.swift */; };
 		7E6ADD1421955791009DB373 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E6ADD1321955791009DB373 /* GoogleService-Info.plist */; };
+		7E6ADD172195D515009DB373 /* ListenersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6ADD162195D515009DB373 /* ListenersViewController.swift */; };
+		7E6ADD1A2195D58C009DB373 /* ListenerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6ADD192195D58C009DB373 /* ListenerCell.swift */; };
+		7E6ADD1C2195E44A009DB373 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6ADD1B2195E44A009DB373 /* Listener.swift */; };
 		7E80F08A218DF7C6007AFBD2 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E80F089218DF7C6007AFBD2 /* CommentCell.swift */; };
 		7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */; };
 		7E90C6B62184C3B90090B320 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90C6B52184C3B90090B320 /* AudioRecorder.swift */; };
@@ -30,6 +34,7 @@
 		7EAE3AFE217F5F88008C1B02 /* EditProfilieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE3AFD217F5F88008C1B02 /* EditProfilieViewController.swift */; };
 		7EAE3B00217F639C008C1B02 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE3AFF217F639C008C1B02 /* AlertViewController.swift */; };
 		7EB8E276217722D400903704 /* HomeNavigationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8E275217722D400903704 /* HomeNavigationCell.swift */; };
+		7EC2A1452196194C001ED2DB /* SpeakerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2A1442196194C001ED2DB /* SpeakerViewController.swift */; };
 		7ECE818A2172768000895EDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE81892172768000895EDA /* AppDelegate.swift */; };
 		7ECE818F2172768000895EDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE818D2172768000895EDA /* Main.storyboard */; };
 		7ECE81912172768100895EDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE81902172768100895EDA /* Assets.xcassets */; };
@@ -65,10 +70,14 @@
 /* Begin PBXFileReference section */
 		34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.release.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.release.xcconfig"; sourceTree = "<group>"; };
 		40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Triller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E0D6868219636FF0064CDDB /* Speaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speaker.swift; sourceTree = "<group>"; };
 		7E15E6DF217CC28A009851BB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		7E15E6E1217D86B9009851BB /* CMTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		7E2E93CA217C400800B298B5 /* MyNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNotification.swift; sourceTree = "<group>"; };
 		7E6ADD1321955791009DB373 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7E6ADD162195D515009DB373 /* ListenersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenersViewController.swift; sourceTree = "<group>"; };
+		7E6ADD192195D58C009DB373 /* ListenerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerCell.swift; sourceTree = "<group>"; };
+		7E6ADD1B2195E44A009DB373 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
 		7E80F089218DF7C6007AFBD2 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		7E8E8C9D2177D96E00D6F771 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		7E90C6B52184C3B90090B320 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
@@ -88,6 +97,7 @@
 		7EAE3AFD217F5F88008C1B02 /* EditProfilieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfilieViewController.swift; sourceTree = "<group>"; };
 		7EAE3AFF217F639C008C1B02 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		7EB8E275217722D400903704 /* HomeNavigationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationCell.swift; sourceTree = "<group>"; };
+		7EC2A1442196194C001ED2DB /* SpeakerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerViewController.swift; sourceTree = "<group>"; };
 		7ECE81862172768000895EDA /* Triller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECE81892172768000895EDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ECE818E2172768000895EDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -141,6 +151,22 @@
 				40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E6ADD152195D503009DB373 /* Listeners */ = {
+			isa = PBXGroup;
+			children = (
+				7E6ADD162195D515009DB373 /* ListenersViewController.swift */,
+			);
+			path = Listeners;
+			sourceTree = "<group>";
+		};
+		7E6ADD182195D57E009DB373 /* Listeners */ = {
+			isa = PBXGroup;
+			children = (
+				7E6ADD192195D58C009DB373 /* ListenerCell.swift */,
+			);
+			path = Listeners;
 			sourceTree = "<group>";
 		};
 		7E90C6B42184C33E0090B320 /* Audio Recorder */ = {
@@ -209,6 +235,14 @@
 			path = "Edit Profile";
 			sourceTree = "<group>";
 		};
+		7EC2A1432196187E001ED2DB /* Speakers */ = {
+			isa = PBXGroup;
+			children = (
+				7EC2A1442196194C001ED2DB /* SpeakerViewController.swift */,
+			);
+			path = Speakers;
+			sourceTree = "<group>";
+		};
 		7ECE817D2172767F00895EDA = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +290,8 @@
 				7EA5BACF217AFB1600EFC458 /* HashTag.swift */,
 				7E2E93CA217C400800B298B5 /* MyNotification.swift */,
 				7E9C85B1218FCB3700094347 /* MediaItem.swift */,
+				7E6ADD1B2195E44A009DB373 /* Listener.swift */,
+				7E0D6868219636FF0064CDDB /* Speaker.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -263,6 +299,7 @@
 		7ECE81B3217320C200895EDA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7E6ADD182195D57E009DB373 /* Listeners */,
 				7EF9FDC9218D7C4600A51B20 /* Comments */,
 				7EF28559217FA44800D7F2F7 /* PhotoSelector */,
 				7ECE81D42173ED1D00895EDA /* Profile */,
@@ -375,6 +412,8 @@
 		7EF91DBB21785CCD00BD42CA /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7EC2A1432196187E001ED2DB /* Speakers */,
+				7E6ADD152195D503009DB373 /* Listeners */,
 				7EF9FDC6218D7AF400A51B20 /* Comments */,
 				7E90C6B72184DA590090B320 /* Share Audio */,
 				7E90C6B42184C33E0090B320 /* Audio Recorder */,
@@ -427,7 +466,6 @@
 				7ECE81832172767F00895EDA /* Frameworks */,
 				7ECE81842172767F00895EDA /* Resources */,
 				8AB68DECC4A9A4CA66212516 /* [CP] Embed Pods Frameworks */,
-				9B056681FB621CDCFC1C045D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -500,10 +538,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FlagPhoneNumber/FlagPhoneNumber.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQAudioRecorderController/IQAudioRecorderController.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework",
@@ -518,10 +553,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlagPhoneNumber.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQAudioRecorderController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressHUD.framework",
@@ -536,28 +568,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9B056681FB621CDCFC1C045D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-resources.sh",
-				"${PODS_ROOT}/FirebaseInvites/Resources/GINInviteResources.bundle",
-				"${PODS_ROOT}/FirebaseInvites/Resources/GPPACLPickerResources.bundle",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GINInviteResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GPPACLPickerResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Triller/Pods-Triller-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B51BE24CB71CD073691CC487 /* [CP] Check Pods Manifest.lock */ = {
@@ -585,6 +595,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EC2A1452196194C001ED2DB /* SpeakerViewController.swift in Sources */,
+				7E0D6869219636FF0064CDDB /* Speaker.swift in Sources */,
 				7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */,
 				7EA5BAC0217AF21200EFC458 /* Profile.swift in Sources */,
 				7EF9FDC8218D7B0400A51B20 /* CommentsController.swift in Sources */,
@@ -624,9 +636,12 @@
 				7EA5BACA217AF42700EFC458 /* Comment.swift in Sources */,
 				7ECE81D62173ED4100895EDA /* ProfileHeaderView.swift in Sources */,
 				7EA5BAD2217B0E5E00EFC458 /* AllUsersCell.swift in Sources */,
+				7E6ADD1A2195D58C009DB373 /* ListenerCell.swift in Sources */,
 				7ECE81BB2173219D00895EDA /* TopUserCell.swift in Sources */,
 				7E2E93CB217C400800B298B5 /* MyNotification.swift in Sources */,
 				7EAE3B00217F639C008C1B02 /* AlertViewController.swift in Sources */,
+				7E6ADD1C2195E44A009DB373 /* Listener.swift in Sources */,
+				7E6ADD172195D515009DB373 /* ListenersViewController.swift in Sources */,
 				7E90C6B92184DA770090B320 /* ShareAudioViewController.swift in Sources */,
 				7E15E6E0217CC28A009851BB /* Date.swift in Sources */,
 				7ECE81CE2173D6E000895EDA /* NotificationHeaderCell.swift in Sources */,
@@ -715,6 +730,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -757,6 +773,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -768,6 +785,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -781,7 +799,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 968U57PY3R;
 				INFOPLIST_FILE = Triller/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -802,7 +820,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 968U57PY3R;
 				INFOPLIST_FILE = Triller/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

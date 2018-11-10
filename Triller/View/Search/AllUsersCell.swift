@@ -12,11 +12,7 @@ class AllUsersCell: UICollectionViewCell,UICollectionViewDelegate,UICollectionVi
     let cellID = "cellID"
     var allUsers:[User]?{
         didSet{
-            DispatchQueue.main.async {
             self.collectionView.reloadData()
-            self.collectionView.collectionViewLayout.invalidateLayout()
-            self.collectionView.layoutSubviews()
-            }
        }
     }
     var homeController:SearchController?

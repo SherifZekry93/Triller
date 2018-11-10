@@ -6,14 +6,20 @@
 //  Copyright © 2018 Sherif  Wagih. All rights reserved.
 //
 
+protocol ViewUserDetails
+{
+    func viewListeners()
+    func viewSpeakers()
+}
 import UIKit
 import SDWebImage
 import Firebase
 class ProfileHeaderCell: BaseCell{
+    var viewUserDetailsdelegate:ViewUserDetails?
+    
     var posts:[AudioPost]?{
         didSet{
             guard let posts = posts else {return}
-            //set trillsattributedText
             let trillsattributedText = NSMutableAttributedString(string: "\(posts.count)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
             trillsattributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
             let trillsparagraphStyle = NSMutableParagraphStyle()
@@ -23,6 +29,7 @@ class ProfileHeaderCell: BaseCell{
             trillsLabel.textAlignment = .center
         }
     }
+    
     var user : User?{
         didSet
         {
@@ -87,7 +94,7 @@ class ProfileHeaderCell: BaseCell{
         label.textAlignment = .center
         return label
     }()
-    let speakerLabel:UILabel = {
+    lazy var speakerLabel:UILabel = {
         let label = UILabel()
         let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
         attributedText.append(NSAttributedString(string: "Speaker", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
@@ -98,11 +105,15 @@ class ProfileHeaderCell: BaseCell{
         label.attributedText = attributedText
         label.numberOfLines = -1
         label.textAlignment = .center
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleViewSpeakers)))
         return label
     }()
     
-    let listenersLabel:UILabel = {
+    lazy var listenersLabel:UILabel = {
         let label = UILabel()
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleViewListeners)))
         let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
         attributedText.append(NSAttributedString(string: "Listeners", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         
@@ -311,7 +322,7 @@ class ProfileHeaderCell: BaseCell{
     
     func setupListenerButton()
     {
-        DispatchQueue.main.async {
+       // DispatchQueue.main.async {
             guard let currentID = self.user?.uid else {return}
         let ref = Database.database().reference().child("followers").child(currentID)
         ref.observe(.value, with: { (snapshot: DataSnapshot) in
@@ -325,7 +336,7 @@ class ProfileHeaderCell: BaseCell{
             self.listenersLabel.textAlignment = .center
         })
         
-        }
+     //   }
     }
     func setupSpeakerButton()
     {
@@ -346,5 +357,12 @@ class ProfileHeaderCell: BaseCell{
 
        // }
     }
-    
+    @objc func handleViewListeners()
+    {
+        viewUserDetailsdelegate?.viewListeners()
+    }
+    @objc func handleViewSpeakers()
+    {
+        viewUserDetailsdelegate?.viewSpeakers()
+    }
 }

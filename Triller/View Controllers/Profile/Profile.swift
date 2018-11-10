@@ -10,11 +10,28 @@ import UIKit
 import Firebase
 import AVKit
 import ProgressHUD
+
 protocol ProfileViewStartScrolling
 {
     func didScroll(imageView:UIImageView)
 }
-class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegateOrPlay{
+
+class MainProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegateOrPlay,ViewUserDetails{
+    func viewListeners()
+    {
+        let layout = UICollectionViewFlowLayout()
+        let listeners = ListenersViewController(collectionViewLayout:layout)
+        listeners.user = user
+        navigationController?.pushViewController(listeners, animated: true)
+    }
+    
+    func viewSpeakers() {
+        let layout = UICollectionViewFlowLayout()
+        let speakers = SpeakerViewController(collectionViewLayout:layout)
+        speakers.user = user
+        navigationController?.pushViewController(speakers, animated: true)
+    }
+    
     func playSound(slider: UISlider, url: URL) {
         
     }
@@ -85,6 +102,9 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
     func setupCustomNavigationBar()
     {
         guard let height = UIApplication.shared.keyWindow?.safeAreaInsets.top else {return}
@@ -118,6 +138,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         header.user = user
         header.posts = posts
         headerImage = header.profilePicture
+        header.viewUserDetailsdelegate = self
         return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
