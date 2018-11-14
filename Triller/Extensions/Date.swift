@@ -54,4 +54,13 @@ extension Date {
         }
         return "\(quotient) \(unit)\(quotient == 1 ? "" : "s") ago"
     }
+        var millisecondsSince1970:Double {
+            return Double((self.timeIntervalSince1970))
+        }
+        
+        init(milliseconds:Int) {
+            self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
+        }
+    
+
 }

@@ -305,12 +305,11 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
-    @objc func handleCreateAccount( sender:UIButton)
+    @objc func handleCreateAccount(sender:UIButton)
     {
         ProgressHUD.show()
         sender.isEnabled = false
         ignoreExistanceValidationAfterClicking = true
-        
         isValidForm { (formIsValid) in
             if formIsValid
             {
@@ -321,7 +320,6 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                         sender.isEnabled = true
                         return
                     }
-                //    guard let currentUserInfo = result?.user else {return}
                     guard let currentUserID = Auth.auth().currentUser?.uid else {return}
                     guard let fullPhone = self.phoneNumber.getFormattedPhoneNumber(format: .E164) else {return}
                     guard let currentAppLanguage = NSLocale.current.languageCode else {return}
@@ -636,7 +634,6 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         }
         else
         {
-            
             self.ignoreExistanceValidationAfterClicking = false
             ProgressHUD.showError("You must accept terms and conditions")
         }
@@ -645,7 +642,9 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     func goToHomePage()
     {
         ProgressHUD.dismiss()
-        let tabbar = MainTabBarController()
-        self.navigationController?.pushViewController(tabbar, animated: true)
+        let completeSignUp = CompleteSignUp()
+        self.navigationController?.pushViewController(completeSignUp, animated: true)
+        //let tabbar = MainTabBarController()
+        //self.navigationController?.pushViewController(tabbar, animated: true)
     }
 }

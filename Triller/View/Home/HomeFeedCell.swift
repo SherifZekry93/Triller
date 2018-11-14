@@ -25,6 +25,9 @@ class HomeFeedCell: UICollectionViewCell {
     var homeFeedController:MainHomeFeedController?
     var post:MediaItem?{
         didSet{
+            setupHasLiked()
+            setupLikesCount()
+            setupCommentsCount()
             postDateLabel.text = post?.creationDate.timeAgoDisplay()
             if let url = URL(string: post?.user?.picture_path ?? "")
             {
@@ -117,15 +120,16 @@ class HomeFeedCell: UICollectionViewCell {
         return label
     }()
     
-    let likeButton:UIButton = {
+    lazy var likeButton:UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "love"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
         button.imageView?.contentMode = .scaleToFill
+        button.addTarget(self, action: #selector(likeThisPost), for: .touchUpInside)
         return button
     }()
     lazy var commentButton:UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "ic_action_comment"), for: .normal)
         button.imageView?.contentMode = .scaleToFill
         button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewComments)))
         return button
@@ -137,7 +141,7 @@ class HomeFeedCell: UICollectionViewCell {
         return stack
     }()
     lazy var controlsStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [likeButton,commentButton])
+        let stack = UIStackView(arrangedSubviews: [likesStack,commentsStack])
         stack.spacing = 40
         return stack
     }()
@@ -159,6 +163,17 @@ class HomeFeedCell: UICollectionViewCell {
     lazy var bottomStack:UIStackView = {
         let stack = UIStackView(arrangedSubviews: [playButton,recordSlider,timeLabel])
         stack.spacing = 4
+        return stack
+    }()
+    lazy var likesStack:UIStackView = {
+       let stack = UIStackView(arrangedSubviews: [likeButton,likesLabel])
+        stack.spacing = 8
+        return stack
+    }()
+    
+    lazy var commentsStack:UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [commentButton,commentsLabel])
+        stack.spacing = 8
         return stack
     }()
     
@@ -189,7 +204,16 @@ class HomeFeedCell: UICollectionViewCell {
         separator.backgroundColor = .lightGray
         return separator
     }()
-    
+    let likesLabel:UILabel = {
+       let label = UILabel()
+        label.text = "0"
+        return label
+    }()
+    let commentsLabel:UILabel = {
+        let label = UILabel()
+        label.text = "0"
+        return label
+    }()
     func setupViews()
     {
         backgroundColor = .lightGray
@@ -219,7 +243,9 @@ class HomeFeedCell: UICollectionViewCell {
         playButton.anchorToView(size:.init(width: 35, height: 35))
 
         //setup controls stack
-        controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: isHeader ?bottomSeparator.topAnchor : bottomAnchor   , trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 20), size: .init(width: 100, height: 30))
+        controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: isHeader ?bottomSeparator.topAnchor : bottomAnchor   , trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 20), size: .init(width: 160, height: 30))
+        
+        
         likeButton.anchorToView( size: .init(width: 30, height: 30))
         commentButton.anchorToView(size: .init(width: 30, height: 30))
     }
@@ -246,7 +272,7 @@ class HomeFeedCell: UICollectionViewCell {
             print("Error setting session")
         }
     }
-    let player:AVPlayer = {
+    var player:AVPlayer = {
         let player = AVPlayer()
         player.automaticallyWaitsToMinimizeStalling = false
         return player
@@ -320,6 +346,7 @@ class HomeFeedCell: UICollectionViewCell {
                 {
                     
                 }
+                
                 let item = AVPlayerItem(url: toPlayURL)
                 self.player.replaceCurrentItem(with: item)
                 self.player.play()
@@ -426,5 +453,74 @@ class HomeFeedCell: UICollectionViewCell {
     @objc func viewComments(gesture:UITapGestureRecognizer)
     {
         delegate?.viewComments(gesture: gesture)
+    }
+    override func prepareForReuse()
+    {
+        super.prepareForReuse()
+    }
+    func setupLikesCount()
+    {
+        guard let postId = post?.audioKey else {return}
+        let ref = Database.database().reference().child("Likes").child(postId)
+        ref.observe(.value, with: { (snapshot: DataSnapshot) in
+            let numberOfLikes = snapshot.childrenCount
+            self.likesLabel.text = "\(numberOfLikes)"
+        })
+    }
+    func setupCommentsCount()
+    {
+        guard let postId = post?.audioKey else {return}
+        let ref = Database.database().reference().child("Comments").child(postId)
+        ref.observe(.value, with: { (snapshot: DataSnapshot) in
+            let numberOfComments = snapshot.childrenCount
+            self.commentsLabel.text = "\(numberOfComments)"
+        })
+    }
+    @objc func likeThisPost()
+    {
+        guard let post = post else {return}
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        let ref = Database.database().reference().child("Likes").child(post.audioKey)
+        if likeButton.imageView?.image == #imageLiteral(resourceName: "ic_action_like")
+        {
+            let values = [currentID:"liked"]
+            self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
+            ref.updateChildValues(values) { (err, ref) in
+                if err != nil
+                {
+                    self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
+                    ProgressHUD.showError("Err Liking Post")
+                    return
+                }
+            }
+        }
+        else
+        {
+            self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
+            ref.child(currentID).removeValue { (err, ref) in
+                if err != nil
+                {
+                    self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
+                    ProgressHUD.showError("something went wrong")
+                    return
+                }
+            }
+        }
+    }
+    func setupHasLiked()
+    {
+        guard let post = post else {return}
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        let ref = Database.database().reference().child("Likes").child(post.audioKey).child(currentID)
+        ref.observe(.value) { (snap) in
+            if snap.value is NSNull
+            {
+                self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
+            }
+            else
+            {
+                self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
+            }
+        }
     }
 }

@@ -31,6 +31,7 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
         }
         return true
     }
+    
     let customBackGroundView = UIView()
     override func viewDidLoad()
     {
@@ -58,6 +59,10 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         customBackGroundView.removeFromSuperview()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        createCustomStatusBar(color: .blue)
     }
     private var popGesture: UIGestureRecognizer?
     

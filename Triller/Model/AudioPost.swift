@@ -13,8 +13,10 @@ class AudioPost:MediaItem {
     //let creationDate:Date
     //let uid:String
     //var user:User
+   // var hasLiked:Bool = false
     var audioNote:String = ""
-    init(user:User,dictionary:[String:Any]) {
+    init(user:User,dictionary:[String:Any])
+    {
         super.init()
         self.audioDuration = dictionary["audioDuration"] as? Double ?? 0
         self.audioName = dictionary["audioName"] as? String ?? ""

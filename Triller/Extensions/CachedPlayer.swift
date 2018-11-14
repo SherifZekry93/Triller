@@ -15,7 +15,7 @@ class CustomAvPlayer
     var soundURL:String?
     func loadSoundUsingSoundURL(url:URL, completitionHandler: @escaping (Data?) -> ())
     {
-            if let soundCached = audioCache.object(forKey: url as AnyObject) as? Data
+        if let soundCached = audioCache.object(forKey: url as AnyObject) as? Data
             {
                 print("download from cache")
                 completitionHandler(soundCached)
@@ -27,7 +27,6 @@ class CustomAvPlayer
                     completitionHandler(nil)
                     return
                 }
-                print("Download from server")
                 DispatchQueue.main.async
                 {
                     guard let data = data else {return}

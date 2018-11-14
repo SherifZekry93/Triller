@@ -20,7 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate,UNUserNo
         //let layout = UICollectionViewFlowLayout()
         if Auth.auth().currentUser != nil
         {
-            
+           // let homeFeed = CompleteSignUp()
+          //  window?.rootViewController = homeFeed
+            //actual code
             let homeFeed = MainTabBarController()
             window?.rootViewController = UINavigationController(rootViewController:   homeFeed)
         }

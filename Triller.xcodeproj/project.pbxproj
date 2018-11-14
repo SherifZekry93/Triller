@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E0ABFF221974D9A002B7D57 /* CompleteSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0ABFF121974D9A002B7D57 /* CompleteSignUp.swift */; };
 		7E0D6869219636FF0064CDDB /* Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0D6868219636FF0064CDDB /* Speaker.swift */; };
 		7E15E6E0217CC28A009851BB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6DF217CC28A009851BB /* Date.swift */; };
 		7E15E6E2217D86B9009851BB /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6E1217D86B9009851BB /* CMTime.swift */; };
@@ -70,6 +71,7 @@
 /* Begin PBXFileReference section */
 		34558C351DE6248C967BF6E8 /* Pods-Triller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Triller.release.xcconfig"; path = "Pods/Target Support Files/Pods-Triller/Pods-Triller.release.xcconfig"; sourceTree = "<group>"; };
 		40D01EDF4E6B8083F0A9F833 /* Pods_Triller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Triller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E0ABFF121974D9A002B7D57 /* CompleteSignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSignUp.swift; sourceTree = "<group>"; };
 		7E0D6868219636FF0064CDDB /* Speaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speaker.swift; sourceTree = "<group>"; };
 		7E15E6DF217CC28A009851BB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		7E15E6E1217D86B9009851BB /* CMTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				7EA4FC25217934A200D481A1 /* SignupController.swift */,
+				7E0ABFF121974D9A002B7D57 /* CompleteSignUp.swift */,
 			);
 			path = Signup;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				7E0D6869219636FF0064CDDB /* Speaker.swift in Sources */,
 				7ECE81D32173EABE00895EDA /* BaseCell.swift in Sources */,
 				7EA5BAC0217AF21200EFC458 /* Profile.swift in Sources */,
+				7E0ABFF221974D9A002B7D57 /* CompleteSignUp.swift in Sources */,
 				7EF9FDC8218D7B0400A51B20 /* CommentsController.swift in Sources */,
 				7ECE81AE2173201B00895EDA /* HashTagCell.swift in Sources */,
 				7E8E8C9E2177D96E00D6F771 /* CustomTextField.swift in Sources */,

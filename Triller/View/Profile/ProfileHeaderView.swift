@@ -37,12 +37,15 @@ class ProfileHeaderCell: BaseCell{
             setupListenerButton()
             setupSpeakerButton()
             guard let user = user else {return}
-            guard let picURL = URL(string:user.picture_path) else {return}
-            profilePicture.sd_setImage(with: picURL, completed: nil)
+            if let picURL = URL(string:user.picture_path)
+            {
+                profilePicture.sd_setImage(with: picURL, completed: nil)
+            }
+            //else {return}
             //profilePicture.sd_setImage(with: picURL, placeholder: UIImage(named: "profile-imag"))
             profilePicture.contentMode = .scaleAspectFill
             //set full name label and status
-            let attributedText = NSMutableAttributedString(string: "\(user.full_name)\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
+            let attributedText = NSMutableAttributedString(string: "\(user.full_name == "" ? "Trill User" : user.full_name)\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
             attributedText.append(NSAttributedString(string: "\(user.status == "" ? "No Status": user.status)", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 3
@@ -51,6 +54,7 @@ class ProfileHeaderCell: BaseCell{
             userNameStatusLabel.textAlignment = .center
         }
     }
+    
     let profilePicture:UIImageView = {
         let iv = UIImageView()
         iv.image = #imageLiteral(resourceName: "profile-imag")
@@ -61,6 +65,7 @@ class ProfileHeaderCell: BaseCell{
         iv.layer.borderWidth = 3
         return iv
     }()
+    
     lazy var followUnfollowImage:UIImageView = {
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "button_add")
@@ -69,10 +74,11 @@ class ProfileHeaderCell: BaseCell{
         image.isHidden = true
         return image
     }()
+    
     let userNameStatusLabel:UILabel = {
         let label = UILabel()
         label.numberOfLines = -1
-        let attributedText = NSMutableAttributedString(string: "Sherif Zekry\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
+        let attributedText = NSMutableAttributedString(string: "Trill User\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
         attributedText.append(NSAttributedString(string: "No Status", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 3
@@ -120,9 +126,8 @@ class ProfileHeaderCell: BaseCell{
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
-      //  self.listenersLabel.attributedText = attributedText
-      //  self.listenersLabel.textAlignment = .center
         label.numberOfLines = -1
+        label.attributedText = attributedText
         label.textAlignment = .center
         return label
     }()
@@ -323,7 +328,7 @@ class ProfileHeaderCell: BaseCell{
     func setupListenerButton()
     {
        // DispatchQueue.main.async {
-            guard let currentID = self.user?.uid else {return}
+        guard let currentID = self.user?.uid else {return}
         let ref = Database.database().reference().child("followers").child(currentID)
         ref.observe(.value, with: { (snapshot: DataSnapshot) in
             let attributedText = NSMutableAttributedString(string: "\(snapshot.childrenCount)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])

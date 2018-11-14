@@ -15,6 +15,7 @@ class MediaItem {
     var creationDate:Date
     var uid:String
     var user:User?
+    var hasLiked:Bool = false
     init() {
         self.audioKey = ""
         self.audioDuration = 0

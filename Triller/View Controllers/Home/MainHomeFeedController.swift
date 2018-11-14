@@ -101,7 +101,8 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         collectionView.refreshControl = refreshControl
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
        self.tabBarController?.tabBar.isHidden = false
     }
     
@@ -110,7 +111,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         setupNavigationController()
         FirebaseService.fetchFollowingPosts(uid: uid) { (allAudioPosts) in
             self.audioPosts = allAudioPosts.sorted(by: { (post1, post2) -> Bool in
-                return post1.creationDate > post2.creationDate
+                return post1.creationDate.compare(post2.creationDate) == .orderedDescending
             })
             self.collectionView?.refreshControl?.endRefreshing()
         }
@@ -202,6 +203,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         
         let editAction = UIAlertAction(title: "Edit Profile", style: .default) { (action) in
             let editProfileController = EditProfileViewController()
+            
             self.navigationController?.pushViewController(editProfileController, animated: true)
         }
         let signOutAction = UIAlertAction(title: "Signout", style: .default) { (action) in

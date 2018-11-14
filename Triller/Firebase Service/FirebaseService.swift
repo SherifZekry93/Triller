@@ -293,10 +293,16 @@ class FirebaseService
     {
         var allComments = [Comment]()
         let ref = Database.database().reference().child("Comments")
+        ref.keepSynced(true)
         ref.child(post.audioKey).observe(.value, with: { (snap) in
+            allComments.removeAll()
+            if snap.value is NSNull
+            {
+                completitioinHandler(allComments)
+                return
+            }
             if let dictioinaries = snap.value as? [String:Any]
             {
-                allComments.removeAll()
                 dictioinaries.forEach({ (key,value) in
                     if let dict = value as? [String:Any]
                     {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ProgressHUD
 extension EditProfileViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate
 {
     
@@ -14,10 +15,13 @@ extension EditProfileViewController:UIImagePickerControllerDelegate,UINavigation
     {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+            ProgressHUD.show()
             self.openCamera()
+            
         }))
         
         alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+            ProgressHUD.show()
             self.openGallery()
         }))
         
@@ -29,12 +33,15 @@ extension EditProfileViewController:UIImagePickerControllerDelegate,UINavigation
     func openCamera()
     {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            ProgressHUD.dismiss()
             imagePickerController.sourceType = .camera
             imagePickerController.allowsEditing = false
             self.present(imagePickerController, animated: true, completion: nil)
         }
         else
         {
+            
+            ProgressHUD.dismiss()
             let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -42,7 +49,10 @@ extension EditProfileViewController:UIImagePickerControllerDelegate,UINavigation
     }
     func openGallery()
     {
+        
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            ProgressHUD.dismiss()
+
             imagePickerController.delegate = self
             imagePickerController.allowsEditing = true
             imagePickerController.sourceType = .photoLibrary
@@ -50,12 +60,14 @@ extension EditProfileViewController:UIImagePickerControllerDelegate,UINavigation
         }
         else
         {
+            ProgressHUD.dismiss()
             let alert  = UIAlertController(title: "Warning", message: "You don't have permission to access gallery.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        imageWasChanged = true
         if let editedImage = info[.editedImage] as? UIImage
         {
             profilePicture.image = editedImage.withRenderingMode(.alwaysOriginal)
@@ -69,6 +81,5 @@ extension EditProfileViewController:UIImagePickerControllerDelegate,UINavigation
         profilePicture.layer.borderColor = UIColor(white: 0.98, alpha: 1).cgColor
         profilePicture.layer.borderWidth = 2
         dismiss(animated: true, completion: nil)
-        
     }
 }

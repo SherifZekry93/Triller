@@ -56,11 +56,10 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         self.collectionView.reloadData()
     }
     override func viewWillAppear(_ animated: Bool) {
-        //DispatchQueue.main.async {
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.navigationController?.navigationBar.isHidden = true
         self.view.layoutIfNeeded()
-        //}
+        
     }
     func getHashTags()
     {

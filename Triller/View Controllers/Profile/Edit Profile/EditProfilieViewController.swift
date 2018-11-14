@@ -7,17 +7,23 @@
 //
 
 import UIKit
+import Firebase
+import ProgressHUD
+import SDWebImage
 class EditProfileViewController: UIViewController
 {
-   
+    var imageWasChanged = false
+    
+    
     lazy var profilePicture:UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "profile-imag")
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill//Fit
         image.layer.borderColor = UIColor(white: 0.95, alpha: 1).cgColor
         image.isUserInteractionEnabled = true
         image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openPhotoSelector)))
-
+        image.layer.cornerRadius = 60
+        image.clipsToBounds = true
         return image
     }()
     let changeProfileLabel:UILabel = {
@@ -39,7 +45,6 @@ class EditProfileViewController: UIViewController
     
     let fullNameText:CustomTextField = {
         let text = CustomTextField()
-        text.text = "Text Field"
         text.customLabelPlaceHolder.text = "Full Name"
         text.isEditProfile = true
         text.customLabelPlaceHolder.textColor = .red
@@ -97,7 +102,7 @@ class EditProfileViewController: UIViewController
         let text = CustomTextField()
         text.customLabelPlaceHolder.text = "Email"
         text.isEnabled = false
-        text.text = "Somedump@email.com"
+        text.text = "some-mail@mail.com"
         text.isEditProfile = true
         return text
     }()
@@ -106,7 +111,7 @@ class EditProfileViewController: UIViewController
         let text = CustomTextField()
         text.customLabelPlaceHolder.text = "Phone Number"
         text.isEnabled = false
-        text.text = "01551256252"
+        text.text = "Phone..."
         text.isEditProfile = true
         return text
     }()
@@ -130,12 +135,13 @@ class EditProfileViewController: UIViewController
     }()
     
     let selectGenderButton:UIButton = {
-       let button = UIButton()
-       button.backgroundColor = .white
-       button.addTarget(self, action: #selector(showGenderSelection), for: .touchUpInside)
-       button.alpha = 0.1
-       return button
+        let button = UIButton()
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(showGenderSelection), for: .touchUpInside)
+        button.alpha = 0.1
+        return button
     }()
+    
     let selectLanguageButton:UIButton = {
         let button = UIButton()
         //button.alpha = 1
@@ -148,12 +154,53 @@ class EditProfileViewController: UIViewController
         let scroll = UIScrollView()
         return scroll
     }()
-    
+    var user:User?{
+        didSet{
+            guard let user = user else {return}
+            fullNameText.text = user.full_name
+            statusText.text = user.status
+            emailTextField.text = user.email
+            phoneTextField.text = "0" + user.phone
+            genderTextField.text = user.private_data.gender
+            print(user.picture_path)
+            guard let actualPath = URL(string: user.picture_path) else {return}
+            profilePicture.sd_setImage(with: actualPath, completed: nil)
+            guard let currentAppLanguage = NSLocale.current.languageCode else {return}
+            if user.private_data.language == ""
+            {
+                if currentAppLanguage == "en"
+                {
+                    languageTextField.text = "English"
+                }
+                else if currentAppLanguage == "ar"
+                {
+                    languageTextField.text = "Arabic"
+                }
+            }
+            else
+            {
+                if user.private_data.language == "en"
+                {
+                    languageTextField.text = "English"
+                }
+                else if user.private_data.language == "ar"
+                {
+                    languageTextField.text = "Arabic"
+                }
+            }
+        }
+    }
     override func viewDidLoad()
     {
         super.viewDidLoad()
         view.backgroundColor = UIColor(white: 0.98, alpha: 1)
         setupViews()
+        setupNavigationItem()
+        guard let uid =  Auth.auth().currentUser?.uid else {return}
+        FirebaseService.fetchUserByuid(uid: uid) { (user) in
+            self.user = user
+        }
+        fullNameText.becomeFirstResponder()
     }
     let fullPageContainerView:UIView = {
         let view = UIView()
@@ -179,10 +226,14 @@ class EditProfileViewController: UIViewController
         view.addSubview(selectLanguageButton)
         selectLanguageButton.anchorToView(top: languageTextField.topAnchor, leading: languageTextField.leadingAnchor, bottom: languageTextField.bottomAnchor, trailing: languageTextField.trailingAnchor)
     }
+    func setupNavigationItem()
+    {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(handleConfirmEdit))
+    }
     override func viewDidLayoutSubviews()
     {
         super.viewDidLayoutSubviews()
-        self.scrollView.contentSize = CGSize(width: 0, height: 1000)
+        self.scrollView.contentSize = CGSize(width: 0, height: 850)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -207,7 +258,6 @@ class EditProfileViewController: UIViewController
         present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))
-            
         }
     }
     @objc func actionSheetBackgroundTapped()
@@ -232,4 +282,67 @@ class EditProfileViewController: UIViewController
             
         }
     }
+    @objc func handleConfirmEdit()
+    {
+        ProgressHUD.show()
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        if imageWasChanged
+        {
+            let imageName = "profile-image.png"
+            let uploadFilePath = "\(currentUserID)/UserImege/\(imageName)"
+            let storageRef = Storage.storage().reference(withPath:uploadFilePath)
+            guard let image = self.profilePicture.image else {return}
+            guard let uploadData = image.jpegData(compressionQuality: 0.5) else {return}
+            storageRef.putData(uploadData, metadata: nil) { (data, err) in
+                if err != nil
+                {
+                    ProgressHUD.showError("Failed to update data")
+                    return
+                }
+                storageRef.downloadURL(completion: { (url, err) in
+                    if err != nil
+                    {
+                        ProgressHUD.showError("Failed To update data")
+                        return
+                    }
+                    guard let url = url else {return}
+                    self.uploadNewUserInfo(url: url.absoluteString)
+                })
+            }
+        }
+        
+        else
+        {
+            guard let user = self.user else {return}
+            let picturePath = user.picture_path
+            uploadNewUserInfo(url: picturePath)
+        }
+        
+    }
+    func uploadNewUserInfo(url:String)
+    {
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        guard let currentAppLanguage = NSLocale.current.languageCode else {return}
+        guard let user = self.user else {return}
+        let gender = self.genderTextField.text ?? ""
+        let fullName = self.fullNameText.text ?? ""
+        let status = self.statusText.text ?? ""
+        
+        let privateData = ["birth_date":user.private_data.birth_date.millisecondsSince1970,"gender":gender,"language":currentAppLanguage,"phone_number":user.private_data.phone_number,"register_date":user.private_data.register_date.millisecondsSince1970] as [String : Any]
+        let allValues = ["email":user.email,"full_name":fullName,"full_phone":user.full_phone,"location":"","phone":user.phone,"phone_country":user.phone_country,"picture":"profile-image.png","picture_path":url,"private_data":privateData,"profile_is_private":false,"status":status,"uid":currentUserID,"user_name":user.user_name,"user_token":Messaging.messaging().fcmToken ?? ""] as [String : Any]
+        
+        let toUpdateValues = [currentUserID:allValues]; Database.database().reference().child("Users").updateChildValues(toUpdateValues, withCompletionBlock: { (err, ref) in
+            if err != nil
+            {
+                ProgressHUD.showError(err?.localizedDescription)
+                return
+            }
+            else
+            {
+                ProgressHUD.showSuccess("Updated!")
+            }
+        })
+
+    }
 }
+

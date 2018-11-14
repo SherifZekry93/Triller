@@ -13,14 +13,19 @@ import ProgressHUD
 class CommentsController: UICollectionViewController,UICollectionViewDelegateFlowLayout,IQAudioRecorderViewControllerDelegate {
     
     func audioRecorderController(_ controller: IQAudioRecorderViewController, didFinishWithAudioAtPath filePath: String) {
+        ProgressHUD.show("Posting")
         dismiss(animated: true) {
-            self.uploadAudio(filePath:filePath)
-            guard let post = self.post else {return}
-            self.getCommentsByPostID(post: post)
+            self.uploadAudio(filePath: filePath, completed: { (isCompleted) in
+                if isCompleted
+                {
+                    self.comments.removeAll()
+                    guard let post = self.post else {return}
+                    self.getComments(post: post)
+                }
+            })
         }
     }
-    
-    private func uploadAudio(filePath:String)
+    private func uploadAudio(filePath:String,completed:@escaping (Bool) -> ())
     {
         guard let currentID = Auth.auth().currentUser?.uid else {return}
         guard let finalPath = URL(string: "file:///\(filePath)") else {return};
@@ -33,7 +38,7 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
         let task = storageRef.putFile(from: finalPath, metadata: metaData, completion: {
             meta, error in
             if error != nil{
-                print("Error uploading File")
+                ProgressHUD.showError("Error Uploading Audio")
                 return
             }
             storageRef.downloadURL(completion: { (url, err) in
@@ -54,28 +59,35 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
                         return
                     }
                     print("Uploaded successfully")
-                    self.dismiss(animated: true, completion: nil)
+                    self.dismiss(animated: true){
+                        ProgressHUD.dismiss()
+                    }
                 })
             })
         })
-        
+
         task.observe(.success, handler: {
             snap in
             switch snap.status{
             case .success:
-                print("File Uploaded")
                 ProgressHUD.dismiss()
+                completed(true)
             case .failure:
                 print("Failed")
+                completed(false)
             default:
                 print("default")
             }
         })
         task.observe(.progress, handler: {
             snap in
-            ProgressHUD.show("Posting")
         })
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        ProgressHUD.dismiss()
+    }
+    
     func getAudioInSeconds(finalPath:URL) -> Double
     {
         let audioAsset = AVURLAsset.init(url: finalPath, options: nil)
@@ -89,15 +101,11 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
         dismiss(animated: true, completion: nil)
     }
     
-    var comments:[Comment]?{
-        didSet{
-            self.collectionView.reloadData()
-        }
-    }
+    var comments:[Comment] = [Comment]()
     var post:AudioPost?{
         didSet{
             guard let post = post else {return}
-            getCommentsByPostID(post: post)
+            getComments(post: post)
         }
     }
     enum CellName:String {
@@ -108,8 +116,8 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        setupCollectionView()
         setupRecordingButton()
+        setupCollectionView()
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barTintColor = .white
     }
@@ -143,13 +151,13 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return comments?.count ?? 0
+        return comments.count// ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 260)
         let dummyCell = CommentCell(frame: frame)
-        dummyCell.post = comments?[indexPath.item]
+        dummyCell.post = comments[indexPath.item]
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
         let height = estimatedsize.height
@@ -160,7 +168,11 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellName.Cell.rawValue, for: indexPath) as! CommentCell
-        cell.post = comments?[indexPath.item]
+        cell.post = comments[indexPath.item]
+        cell.firstTimePlayer = false
+        cell.recordSlider.value = 0
+        cell.recordSlider.isEnabled = false
+        cell.recordSlider.thumbTintColor = .gray
         return cell
     }
     
@@ -173,13 +185,15 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
         let height = estimatedsize.height
         return CGSize(width: view.frame.width, height: height)
     }
-    func getCommentsByPostID(post:AudioPost)
+    func getComments(post:AudioPost)
     {
+        ProgressHUD.show("loading")
         FirebaseService.getCommentsByPostID(post: post) { (allComments) in
             self.comments = allComments.sorted(by: { (comment1, comment2) -> Bool in
-                return comment1.creationDate > comment2.creationDate
+                return comment1.creationDate.compare(comment2.creationDate) == .orderedDescending
             })
             self.collectionView.reloadData()
+            ProgressHUD.dismiss()
         }
     }
     @objc func startRecordingComment()

@@ -55,11 +55,11 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         guard let indexPath = collectionView.indexPathForItem(at: location) else {return IndexPath()}
         return indexPath
     }
-    var player:AVPlayer = {
-        let avPlayer = AVPlayer()
-        avPlayer.automaticallyWaitsToMinimizeStalling = false
-        return avPlayer
-    }()
+//    var player:AVPlayer = {
+//        let avPlayer = AVPlayer()
+//        avPlayer.automaticallyWaitsToMinimizeStalling = false
+//        return avPlayer
+//    }()
     
     let cellID = "cellID"
     let profileHeaderID = "profileHeaderID"
@@ -72,7 +72,9 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
             posts.removeAll()
             guard let user = user else {return}
             FirebaseService.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
-                self.posts = allAudios
+                self.posts = allAudios.sorted(by: { (post1, post2) -> Bool in
+                    return post1.creationDate.compare(post2.creationDate) == .orderedDescending
+                })
                 self.collectionView.reloadData()
             })
         }
@@ -82,11 +84,11 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     {
         super.viewDidLoad()
         setupCollectionView()
-        /*setupCustomNavigationBar()
+        setupCustomNavigationBar()
         if user == nil
         {
             fetchUserUsinguid()
-        }*/
+        }
     }
     
     func fetchUserUsinguid()
@@ -102,9 +104,6 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
     }
-   /* override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = false
-    }*/
     func setupCustomNavigationBar()
     {
         guard let height = UIApplication.shared.keyWindow?.safeAreaInsets.top else {return}
@@ -170,8 +169,4 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         let height = estimatedsize.height
         return CGSize(width: view.frame.width, height: height)
     }
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-    }
-    
 }

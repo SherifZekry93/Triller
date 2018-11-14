@@ -14,14 +14,14 @@ class SpeakerViewController:UICollectionViewController,UICollectionViewDelegateF
     var allSpeakers = [Speaker]()
     var user:User?{
         didSet{
-            
+            getAllSpeakers()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        getAllSpeakers()
+        //getAllSpeakers()
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allSpeakers.count
