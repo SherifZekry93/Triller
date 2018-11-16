@@ -39,10 +39,18 @@ class ProfileHeaderCell: BaseCell{
             guard let user = user else {return}
             if let picURL = URL(string:user.picture_path)
             {
-                profilePicture.sd_setImage(with: picURL, completed: nil)
+                profilePicture.sd_setImage(with: picURL) { (_, err, _, _) in
+                    if err != nil
+                    {
+                        self.profilePicture.image =   #imageLiteral(resourceName: "profile-imag")
+                    }
+                }
+               // profilePicture.sd_setImage(with: picURL, completed: nil)
             }
-            //else {return}
-            //profilePicture.sd_setImage(with: picURL, placeholder: UIImage(named: "profile-imag"))
+            else
+            {
+                profilePicture.image =   #imageLiteral(resourceName: "profile-imag")
+            }
             profilePicture.contentMode = .scaleAspectFill
             //set full name label and status
             let attributedText = NSMutableAttributedString(string: "\(user.full_name == "" ? "Trill User" : user.full_name)\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)])
@@ -57,7 +65,9 @@ class ProfileHeaderCell: BaseCell{
     
     let profilePicture:UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "profile-imag")
+        iv.sd_setIndicatorStyle(.gray)
+        iv.sd_setShowActivityIndicatorView(true)
+       // iv.image = #imageLiteral(resourceName: "profile-imag")
         iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 65
         iv.clipsToBounds = true
@@ -87,6 +97,7 @@ class ProfileHeaderCell: BaseCell{
         label.textAlignment = .center
         return label
     }()
+    
     let trillsLabel:UILabel = {
         let label = UILabel()
         label.numberOfLines = -1
@@ -100,6 +111,7 @@ class ProfileHeaderCell: BaseCell{
         label.textAlignment = .center
         return label
     }()
+    
     lazy var speakerLabel:UILabel = {
         let label = UILabel()
         let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
@@ -107,7 +119,6 @@ class ProfileHeaderCell: BaseCell{
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
-        
         label.attributedText = attributedText
         label.numberOfLines = -1
         label.textAlignment = .center
@@ -259,6 +270,7 @@ class ProfileHeaderCell: BaseCell{
                             return
                         }
                         self.followUnfollowImage.isUserInteractionEnabled = true
+                        self.updateNotification(type: "3")
                     })
                 }
             }
@@ -272,8 +284,7 @@ class ProfileHeaderCell: BaseCell{
                 guard let childNode = snap.value as? [String:Any] else {return}
                 childNode.forEach({ (key,value) in
                     if self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add"){
-
-                    ref.child(key).removeValue()
+                        ref.child(key).removeValue()
                     }
                     let followerRef = Database.database().reference().child("followers").child(userID)
                     let queryFollowers = followerRef.queryOrdered(byChild: "follower_uid").queryEqual(toValue: currentID)
@@ -282,6 +293,7 @@ class ProfileHeaderCell: BaseCell{
                         childs?.forEach({ (key,value) in
                             if self.followUnfollowImage.image == #imageLiteral(resourceName: "button_add"){
                                 followerRef.child(key).removeValue()
+                                self.removeNotification()
                             }
                         })
                         self.followUnfollowImage.isUserInteractionEnabled = true
@@ -369,5 +381,45 @@ class ProfileHeaderCell: BaseCell{
     @objc func handleViewSpeakers()
     {
         viewUserDetailsdelegate?.viewSpeakers()
+    }
+    func updateNotification(type:String)
+    {
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        guard let user = user else {return}
+        let values = ["creationDate" : Date().timeIntervalSince1970, "fromUser" : currentID,"hashID":"","to":user.uid,type:type] as [String : Any]
+        let ref = Database.database().reference().child("notification").childByAutoId()
+        ref.updateChildValues(values) { (err, ref) in
+            if err != nil
+            {
+                print("hello")
+                return
+            }
+            print("posted notificatoion")
+        }
+    }
+    func removeNotification()
+    {
+        //let ref = Database.database().reference().child("notification").queryOrdered(byChild: "from")
+       //guard let user = user else {return}
+       //loadNotificationByuid(uid: user.uid, delete:true)
+    }
+    var notifications:[MyNotification]?
+    func loadNotificationByuid(uid:String,delete:Bool)
+    {
+        FirebaseService.getNotificationByuid(uid: uid) { (allNotifications) in
+            if let notifications = allNotifications
+            {
+                self.notifications = notifications
+                if delete
+                {
+                    self.notifications?.forEach({ (noti) in
+                        if noti.to == self.user?.uid && noti.type == "3" && noti.fromUser == Auth.auth().currentUser?.uid
+                        {
+                            Database.database().reference().child("notification").child(noti.notificationID).removeValue()
+                        }
+                    })
+                }
+            }
+        }
     }
 }

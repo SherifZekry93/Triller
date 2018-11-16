@@ -16,9 +16,9 @@ class AllHashTags: AllUsersCell
             collectionView.reloadData()
         }
     }
-    override init(frame: CGRect) {
+    override init(frame: CGRect)
+    {
         super.init(frame:frame)
-
     }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let hashtag = allHashTags?[indexPath.item] else {return}
@@ -26,6 +26,7 @@ class AllHashTags: AllUsersCell
         let homeController = MainHomeFeedController(collectionViewLayout:layout);
         homeController.hashTag = hashtag;
         self.homeController?.navigationController?.pushViewController(homeController, animated: true)
+//        self.homeController?.tabBarController?.tabBar.isHidden = true
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

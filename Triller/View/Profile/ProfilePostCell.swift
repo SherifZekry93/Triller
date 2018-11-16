@@ -43,7 +43,6 @@ class ProfilePostCell: HomeFeedCell {
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
         }
-        
         alert.addAction(deleteAction)
         alert.addAction(shareAction)
         self.homeController?.present(alert, animated: true){

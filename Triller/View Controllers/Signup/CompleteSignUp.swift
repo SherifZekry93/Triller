@@ -8,6 +8,7 @@
 
 import UIKit
 import ProgressHUD
+import Firebase
 class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate
 {
     var imageWasChanged = false
@@ -88,6 +89,7 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
         next.setTitleColor(.white, for: .normal)
         next.layer.cornerRadius = 20
         next.titleLabel?.font = UIFont.systemFont(ofSize: 19)
+        next.addTarget(self, action: #selector(handleEscape), for: .touchUpInside)
         return next
     }()
     lazy var buttonsStack:UIStackView = {
@@ -145,7 +147,6 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             ProgressHUD.dismiss()
-            
             imagePickerController.delegate = self
             imagePickerController.allowsEditing = true
             imagePickerController.sourceType = .photoLibrary
@@ -163,10 +164,22 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
         let scroll = UIScrollView()
         return scroll
     }()
+    var user:User?
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        fetchUserUsingUid()
+        
     }
+    
+    func fetchUserUsingUid()
+    {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        FirebaseService.fetchUserByuid(uid: uid) { (user) in
+            self.user = user
+        }
+    }
+    
     func setupViews()
     {
         view.backgroundColor = .white
@@ -186,6 +199,83 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
     }
     @objc func handleAddingData()
     {
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        if imageWasChanged
+        {
+            let imageName = "profile-image.png"
+            let uploadFilePath = "\(currentUserID)/UserImege/\(imageName)"
+            let storageRef = Storage.storage().reference(withPath:uploadFilePath)
+            guard let image = self.profilePicture.image else {return}
+            guard let uploadData = image.jpegData(compressionQuality: 0.5) else {return}
+            storageRef.putData(uploadData, metadata: nil) { (data, err) in
+                if err != nil
+                {
+                    ProgressHUD.showError("Failed to update data")
+                    return
+                }
+                storageRef.downloadURL(completion: { (url, err) in
+                    if err != nil
+                    {
+                        ProgressHUD.showError("Failed To update data")
+                        return
+                    }
+                    guard let url = url else {return}
+                    self.uploadNewUserInfo(url: url.absoluteString)
+                })
+            }
+        }
+            
+        else
+        {
+            guard let user = self.user else {return}
+            let picturePath = user.picture_path
+            uploadNewUserInfo(url: picturePath)
+        }
         
+    }
+    func uploadNewUserInfo(url:String)
+    {
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        guard let currentAppLanguage = NSLocale.current.languageCode else {return}
+        guard let user = self.user else {return}
+        //let gender = self.genderTextField.text ?? ""
+        let fullName = self.fullNameText.text ?? ""
+        let status = self.statusText.text ?? ""
+        let privateData = ["birth_date":user.private_data.birth_date.millisecondsSince1970,"gender":"","language":currentAppLanguage,"phone_number":user.private_data.phone_number,"register_date":user.private_data.register_date.millisecondsSince1970] as [String : Any]
+        let allValues = ["email":user.email,"full_name":fullName,"full_phone":user.full_phone,"location":"","phone":user.phone,"phone_country":user.phone_country,"picture":"profile-image.png","picture_path":url,"private_data":privateData,"profile_is_private":false,"status":status,"uid":currentUserID,"user_name":user.user_name,"user_token":Messaging.messaging().fcmToken ?? ""] as [String : Any]
+        
+        let toUpdateValues = [currentUserID:allValues]; Database.database().reference().child("Users").updateChildValues(toUpdateValues, withCompletionBlock: { (err, ref) in
+            if err != nil
+            {
+                ProgressHUD.showError(err?.localizedDescription)
+                return
+            }
+            else
+            {
+                self.handleEscape()
+            }
+        })
+        
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        imageWasChanged = true
+        if let editedImage = info[.editedImage] as? UIImage
+        {
+            profilePicture.image = editedImage.withRenderingMode(.alwaysOriginal)
+        }
+        else if let originalImage = info[.originalImage] as? UIImage
+        {
+            profilePicture.image = originalImage.withRenderingMode(.alwaysOriginal)
+        }
+        profilePicture.layer.cornerRadius = profilePicture.frame.height / 2
+        profilePicture.clipsToBounds = true
+        profilePicture.layer.borderColor = UIColor(white: 0.98, alpha: 1).cgColor
+        profilePicture.layer.borderWidth = 2
+        dismiss(animated: true, completion: nil)
+    }
+    @objc func handleEscape()
+    {
+        let tabbar = MainTabBarController()
+        self.navigationController?.pushViewController(tabbar, animated: true)
     }
 }

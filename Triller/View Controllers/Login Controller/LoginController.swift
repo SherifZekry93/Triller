@@ -31,15 +31,17 @@ class LoginController: UIViewController
         scv.bounces = false
         return scv
     }()
-    let forgotPasswordLabel:UILabel = {
+    lazy var forgotPasswordLabel:UILabel = {
         let label = UILabel()
         label.text = "Forgot Password?"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18)
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleForgetPassword)))
+        label.isUserInteractionEnabled = true
         return label
     }()
-    let languageLabel:UILabel = {
+    /*let languageLabel:UILabel = {
         let label = UILabel()
         label.text = "العربية"
         label.textColor = .white
@@ -47,7 +49,7 @@ class LoginController: UIViewController
         label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()
-    
+    */
     let userNameTextField:CustomTextField = {
         let userName = CustomTextField()
         userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
@@ -92,7 +94,7 @@ class LoginController: UIViewController
     }()
     
     lazy var controlsStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,reduceSpacingStackView,forgotPasswordLabel,languageLabel])
+        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,reduceSpacingStackView,forgotPasswordLabel/*,languageLabel*/])
         stack.axis = .vertical
         stack.spacing = 37.5
         return stack
@@ -164,7 +166,8 @@ class LoginController: UIViewController
     override func viewWillLayoutSubviews()
     {
         super.viewWillLayoutSubviews()
-        scrollView.contentSize = CGSize(width: 0, height: 450)
+        //original height is 450
+        scrollView.contentSize = CGSize(width: 0, height: 400)
     }
     func addKeyboardObserver()
     {
@@ -270,5 +273,48 @@ extension LoginController
             }
             self.goToHomePage()
         }
+    }
+    @objc func handleForgetPassword()
+    {
+        let alert = UIAlertController(title: "Enter your e-mail", message: nil, preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.placeholder = "mail@mail.com"//text = "Some default text"
+        }
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            // Force unwrapping because we know it exists.
+            if let  textField = alert?.textFields?[0]
+            {
+                guard let email = textField.text else {return}
+                if self.isValidEmail(testStr: email)
+                {
+                    Auth.auth().sendPasswordReset(withEmail: email)
+                    { error in
+                        if error != nil
+                        {
+                            ProgressHUD.showError(error?.localizedDescription)
+                            return
+                        }
+                        self.showToast(message: "Check your mail!")
+                    }
+
+                }
+                else
+                {
+                    ProgressHUD.showError("Incorrect E-mail Format")
+                }
+//                guard let user = self.user else {return}
+//                guard let newPassword = self.passwordTextField.text else {return}
+//                self.changePassword(email: user.email, currentPassword: textField.text ?? "" , newPassword: newPassword, completion: { (err) in
+//                })
+            }
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+
     }
 }

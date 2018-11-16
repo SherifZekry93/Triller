@@ -14,8 +14,16 @@ class TopUserCell: UICollectionViewCell {
             guard let user = user else {return}
             if let url = URL(string: user.picture_path)
             {
-            //    let image = #imageLiteral(resourceName: "profile-imag")
-                profileHashTagImage.sd_setImage(with: url, completed: nil)
+                profileHashTagImage.sd_setImage(with: url) { (image, err, cache, url) in
+                    if err != nil
+                    {
+                        self.profileHashTagImage.image = #imageLiteral(resourceName: "profile-imag")
+                    }
+                }
+            }
+            else
+            {
+                self.profileHashTagImage.image = #imageLiteral(resourceName: "profile-imag")
             }
             userNameHashTagLabel.text = user.user_name
         }
@@ -31,7 +39,8 @@ class TopUserCell: UICollectionViewCell {
     
     let profileHashTagImage:UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "profile-imag")
+        image.sd_setIndicatorStyle(.gray)
+        image.sd_showActivityIndicatorView()
         image.layer.cornerRadius = 20
         image.clipsToBounds = true
         return image
@@ -63,5 +72,8 @@ class TopUserCell: UICollectionViewCell {
         profileHashTagImage.anchorToView(size:.init(width: 40, height: 40))
         separator.anchorToView(leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 32, bottom: 0, right: 0), size: .init(width: 0, height: 1))
         
+    }
+    override func prepareForReuse() {
+        //profileHashTagImage.image = nil
     }
 }

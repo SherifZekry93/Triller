@@ -8,6 +8,10 @@
 
 import UIKit
 class CommentCell: HomeFeedCell {
+    override func setupViews() {
+        isComment = true
+        super.setupViews()
+    }
 //    var comment:Comment?{
 //        didSet{
 //            guard let comment = comment else {return}

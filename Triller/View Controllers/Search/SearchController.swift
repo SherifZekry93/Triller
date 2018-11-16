@@ -64,6 +64,9 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     func getHashTags()
     {
         FirebaseService.getAllHashTags { (hashtags) in
+            hashtags.forEach({ (hash) in
+                print(hash.hashTagName)
+            })
             self.allHashTags = hashtags
             self.filteredHashTags = hashtags
             self.collectionView.reloadData()
@@ -116,6 +119,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
     }
     func setupCollectionView()
     {
+        
         collectionView?.backgroundColor = .white
         collectionView?.isPagingEnabled = true
         let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
@@ -125,6 +129,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         collectionView?.register(AllHashTags.self, forCellWithReuseIdentifier: hashTagCellID)
         cellIDS = [commentCellID,hashTagCellID]
         collectionView.bounces = false
+        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let height = navigationController?.navigationBar.frame.height  ?? 0

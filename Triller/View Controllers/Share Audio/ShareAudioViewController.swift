@@ -11,7 +11,12 @@ import AVFoundation
 import ProgressHUD
 import Firebase
 class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRecorderDelegate,UITextViewDelegate {
-    
+    var hashTagName:String?{
+        didSet{
+            audioNoteTextField.text = hashTagName
+            audioNoteTextField.textColor = UIColor.black
+        }
+    }
     var filePath:String?
     
     let audioNoteTextField:UITextView = {
@@ -40,14 +45,14 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
         return slider
     }()
     
-    let timeLabel:UILabel = {
+    /*let timeLabel:UILabel = {
         let label = UILabel()
         label.text = "00:00"
         return label
     }()
-    
+    */
     lazy var playStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [playButton,recordSlider,timeLabel])
+        let stack = UIStackView(arrangedSubviews: [playButton,recordSlider/*,timeLabel*/])
         stack.spacing = 4
         return stack
     }()
@@ -114,7 +119,7 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
         let task = storageRef.putFile(from: finalPath, metadata: metaData, completion: {
             meta, error in
             if error != nil{
-                print("Error uploading File")
+                ProgressHUD.showError("Error uploading File")
                 return
             }
             storageRef.downloadURL(completion: { (url, err) in
@@ -134,7 +139,25 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
                         ProgressHUD.showError(err?.localizedDescription)
                         return
                     }
-                    print("Uploaded successfully")
+                    let arr = self.audioNoteTextField.text.findMentionText()
+                    arr.forEach({ (hashTagName) in
+                        
+                        let dbChild = hashTagName.replacingOccurrences(of: "#", with: "", options: .literal, range:
+                        nil);
+                        if dbChild != ""
+                        {
+                             let ref = Database.database().reference().child("HashTags").child(dbChild)
+                            ref.childByAutoId().updateChildValues(values, withCompletionBlock: { (err, ref) in
+                            if err != nil
+                            {
+                                ProgressHUD.showError("Error updatiing sound! ")
+                                return
+                            }
+                            print("updated hashtags")
+                        })
+                        }
+                    })
+                   
                     self.dismiss(animated: true, completion: nil)
                 })
             })
@@ -148,6 +171,7 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
          case .success:
          print("File Uploaded")
             ProgressHUD.dismiss()
+        
          case .failure:
          print("Failed")
          default:
@@ -183,10 +207,11 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
         guard let finalPath = URL(string: "file:///\(Path)") else {return};
         do
         {
-        self.player = try AVAudioPlayer(contentsOf: finalPath)
-        self.player.prepareToPlay()
-        self.player.volume = 1
-        self.player.play()
+            self.player = try AVAudioPlayer(contentsOf: finalPath)
+            self.player.prepareToPlay()
+            self.player.volume = 1
+            self.player.play()
+            self.playButton.setImage(#imageLiteral(resourceName: "ic_action_pause"), for: .normal)
         }
         catch
         {

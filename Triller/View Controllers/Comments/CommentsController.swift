@@ -11,7 +11,7 @@ import IQAudioRecorderController
 import Firebase
 import ProgressHUD
 class CommentsController: UICollectionViewController,UICollectionViewDelegateFlowLayout,IQAudioRecorderViewControllerDelegate {
-    
+    var hashTagName:String = ""
     func audioRecorderController(_ controller: IQAudioRecorderViewController, didFinishWithAudioAtPath filePath: String) {
         ProgressHUD.show("Posting")
         dismiss(animated: true) {
@@ -183,7 +183,7 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
         let height = estimatedsize.height
-        return CGSize(width: view.frame.width, height: height)
+        return CGSize(width: view.frame.width, height: height + 20)
     }
     func getComments(post:AudioPost)
     {

@@ -52,7 +52,6 @@ extension EditProfileViewController:UIImagePickerControllerDelegate,UINavigation
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             ProgressHUD.dismiss()
-
             imagePickerController.delegate = self
             imagePickerController.allowsEditing = true
             imagePickerController.sourceType = .photoLibrary

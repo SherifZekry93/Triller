@@ -10,8 +10,6 @@ import UIKit
 class CommentsHeader: HomeFeedCell {
     
     override func setupViews() {
-//        containerView.backgroundColor = .white
-//        backgroundColor = .white
         isHeader = true
         super.setupViews()
         playAllButton.addTarget(self, action: #selector(playAllComments), for: .touchUpInside)

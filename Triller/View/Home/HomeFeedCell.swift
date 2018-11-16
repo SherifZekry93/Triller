@@ -20,18 +20,20 @@ protocol tappedProfileOrNameLabelOrCommentsDelegateOrPlay
 }
 
 class HomeFeedCell: UICollectionViewCell {
+    var hashTagName:String = ""
+    var isComment = false
     var isHeader:Bool = false
     var delegate:tappedProfileOrNameLabelOrCommentsDelegateOrPlay?
     var homeFeedController:MainHomeFeedController?
     var post:MediaItem?{
         didSet{
-            setupHasLiked()
+          setupHasLiked()
             setupLikesCount()
             setupCommentsCount()
             postDateLabel.text = post?.creationDate.timeAgoDisplay()
             if let url = URL(string: post?.user?.picture_path ?? "")
             {
-              //  let image = #imageLiteral(resourceName: "profile-imag")
+                //  let image = #imageLiteral(resourceName: "profile-imag")
                 profileImage.sd_setImage(with: url, completed: nil)
                 //profileImage.kf.setImage(with: url, placeholder: image)
             }
@@ -55,7 +57,7 @@ class HomeFeedCell: UICollectionViewCell {
     lazy var profileImage:UIImageView = {
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "profile-imag")
-       image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewUserProfile)))
+        image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewUserProfile)))
         image.isUserInteractionEnabled = true
         return image
     }()
@@ -79,7 +81,7 @@ class HomeFeedCell: UICollectionViewCell {
     }()
     
     lazy var usernameTimeStack : UIStackView = {
-       let stack = UIStackView(arrangedSubviews: [userName,postDateLabel])
+        let stack = UIStackView(arrangedSubviews: [userName,postDateLabel])
         stack.axis = .vertical
         stack.distribution = .fill
         stack.spacing = 0
@@ -166,7 +168,7 @@ class HomeFeedCell: UICollectionViewCell {
         return stack
     }()
     lazy var likesStack:UIStackView = {
-       let stack = UIStackView(arrangedSubviews: [likeButton,likesLabel])
+        let stack = UIStackView(arrangedSubviews: [likeButton,likesLabel])
         stack.spacing = 8
         return stack
     }()
@@ -205,7 +207,7 @@ class HomeFeedCell: UICollectionViewCell {
         return separator
     }()
     let likesLabel:UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "0"
         return label
     }()
@@ -225,29 +227,31 @@ class HomeFeedCell: UICollectionViewCell {
         containerView.addSubview(controlsStack)
         if isHeader
         {
-          setupHeaderViews()
+            setupHeaderViews()
         }
         //setup contaner view
         containerView.anchorToView(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top:0,left:8,bottom:0,right:8))
         //setup Top Stack
         topStackView.anchorToView(top: containerView.topAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: containerView.trailingAnchor, padding: .init(top: 12, left: 12, bottom: 0, right: 62), size: .init(width: 0, height: 50))
-         profileImage.anchorToView(size: .init(width: 50, height: 0))
+        profileImage.anchorToView(size: .init(width: 50, height: 0))
         //setup menu Button
-          menuButton.anchorToView(top: usernameTimeStack.topAnchor, leading: nil, bottom: nil, trailing:containerView.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 5, right: 5), size: .init(width: 40, height: 40))
+        menuButton.anchorToView(top: usernameTimeStack.topAnchor, leading: nil, bottom: nil, trailing:containerView.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 5, right: 5), size: .init(width: 40, height: 40))
         
         //post Title
-          postTitle.anchorToView(top: topStackView.bottomAnchor, leading: topStackView.leadingAnchor, bottom: bottomStack.topAnchor, trailing: menuButton.trailingAnchor,padding: .init(top: 5, left: 0, bottom: 5, right: 0))
+        postTitle.anchorToView(top: topStackView.bottomAnchor, leading: topStackView.leadingAnchor, bottom: bottomStack.topAnchor, trailing: menuButton.trailingAnchor,padding: .init(top: 5, left: 0, bottom: 5, right: 0))
         //setup bottom stack
-
-       bottomStack.anchorToView(top: postTitle.bottomAnchor, leading: postTitle.leadingAnchor, bottom: controlsStack.topAnchor, trailing: postTitle.trailingAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 35))
+        
+        bottomStack.anchorToView(top: postTitle.bottomAnchor, leading: postTitle.leadingAnchor, bottom: isComment ? bottomAnchor : controlsStack.topAnchor, trailing: postTitle.trailingAnchor, padding: .init(top: 5, left: 0, bottom:0, right: 0), size: .init(width: 0, height: 35))
         playButton.anchorToView(size:.init(width: 35, height: 35))
-
+        
         //setup controls stack
-        controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: isHeader ?bottomSeparator.topAnchor : bottomAnchor   , trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 20), size: .init(width: 160, height: 30))
-        
-        
-        likeButton.anchorToView( size: .init(width: 30, height: 30))
-        commentButton.anchorToView(size: .init(width: 30, height: 30))
+        controlsStack.isHidden = isComment
+        if !isComment
+        {
+            controlsStack.anchorToView(top: bottomStack.bottomAnchor, leading: bottomStack.leadingAnchor, bottom: isHeader ?bottomSeparator.topAnchor : bottomAnchor   , trailing:nil, padding: .init(top: 0, left: 20, bottom: 12, right: 20), size: .init(width: 180, height: isComment ? 0 : 40))
+            likeButton.anchorToView( size: .init(width: 40, height: isComment ? 0 : 40))
+            commentButton.anchorToView(size: .init(width: 40, height: isComment ? 0 : 40))
+        }
     }
     
     func setupHeaderViews()
@@ -258,7 +262,7 @@ class HomeFeedCell: UICollectionViewCell {
         bottomSeparator.anchorToView(top: controlsStack.bottomAnchor, leading: leadingAnchor, bottom: playAllButton.topAnchor, trailing: trailingAnchor, padding: .init(top: 12, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 2))
         //play all button
         playAllButton.anchorToView(top: bottomSeparator.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 40))
-
+        
     }
     fileprivate func setupAudioSession()
     {
@@ -330,7 +334,6 @@ class HomeFeedCell: UICollectionViewCell {
     {
         ProgressHUD.show()
         //spinnerView?.alpha = 1
-        firstTimePlayer = true
         guard let postURL = post?.audioURL else {return}
         guard let playURL = URL(string: postURL) else {return}
         CustomAvPlayer.shared.loadSoundUsingSoundURL(url: playURL) { (data) in
@@ -341,12 +344,12 @@ class HomeFeedCell: UICollectionViewCell {
                 do
                 {
                     try data.write(to: toPlayURL)
+                    self.firstTimePlayer = true
                 }
                 catch
                 {
                     
                 }
-                
                 let item = AVPlayerItem(url: toPlayURL)
                 self.player.replaceCurrentItem(with: item)
                 self.player.play()
@@ -434,14 +437,89 @@ class HomeFeedCell: UICollectionViewCell {
     
     @objc func handlePostMenu()
     {
-        
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        if currentID == post?.uid
+        {
+            showDeleteShare()
+        }
+        else
+        {
+            showEditShare()
+        }
     }
     
     func showEditShare()
     {
+        let alert = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
         
+        alert.view.frame = CGRect(x: alert.view.frame.origin.x, y:
+            self.homeFeedController?.view.frame.height ?? 0 / 2, width: alert.view.frame.width, height: alert.view.frame.height);
+        
+       /* let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
+            self.homeFeedController?.showToast(message: "Coming Soon!!")
+        }*/
+        let reportAction = UIAlertAction(title: "Report", style: .default) { (action) in
+            self.homeFeedController?.showToast(message: "We received your report!")
+        }
+        //alert.addAction(shareAction)
+        alert.addAction(reportAction)
+        self.homeFeedController?.present(alert, animated: true){
+            alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+            alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.sheetBackgroundTapped)))
+        }
     }
-    
+    func showDeleteShare()
+    {
+        let alert = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
+        
+        alert.view.frame = CGRect(x: alert.view.frame.origin.x, y:
+            self.homeFeedController?.view.frame.height ?? 0 / 2, width: alert.view.frame.width, height: alert.view.frame.height);
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .default) { (action) in
+            let deleteAlert = UIAlertController(title: nil, message: "Are you sure you want to delete this?", preferredStyle: UIAlertController.Style.alert)
+            
+            deleteAlert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (Action) in
+                guard let post = self.post else {return}
+                print(post.audioKey)
+                let ref = Database.database().reference() ;                  ref.child("AudioPosts").child(post.audioKey).removeValue { (err, ref) in
+                    if err != nil
+                    {
+                        ProgressHUD.showError(err?.localizedDescription)
+                        return
+                    }
+                    
+                    self.homeFeedController?.collectionView.reloadData()
+                };
+
+               if self.hashTagName != ""
+               {ref.child("HashTags").child(self.hashTagName).child(post.audioKey).removeValue(completionBlock: { (err, ref) in
+                    if err != nil
+                    {
+                        ProgressHUD.showError(err?.localizedDescription)
+                        return
+                    }
+                    print("deleted from hashtag as well.")
+                })
+                }
+            }))
+            
+            deleteAlert.addAction(UIAlertAction(title: "No", style: .destructive, handler: { (alert) in
+                self.homeFeedController?.dismiss(animated: true, completion: nil)
+            }))
+            self.homeFeedController?.present(deleteAlert, animated: true, completion: nil)
+        }
+        let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
+        }
+        alert.addAction(deleteAction)
+        alert.addAction(shareAction)
+        self.homeFeedController?.present(alert, animated: true){
+            alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+            alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.sheetBackgroundTapped)))
+        }
+    }
+    @objc func sheetBackgroundTapped() {
+        self.homeFeedController?.dismiss(animated: true, completion: nil)
+    }
     func showReportShare()
     {
         
@@ -504,12 +582,13 @@ class HomeFeedCell: UICollectionViewCell {
                     ProgressHUD.showError("something went wrong")
                     return
                 }
+                self.updateNotification(type: "1")
             }
         }
     }
     func setupHasLiked()
     {
-        guard let post = post else {return}
+        guard let post = self.post else {return}
         guard let currentID = Auth.auth().currentUser?.uid else {return}
         let ref = Database.database().reference().child("Likes").child(post.audioKey).child(currentID)
         ref.observe(.value) { (snap) in
@@ -519,8 +598,27 @@ class HomeFeedCell: UICollectionViewCell {
             }
             else
             {
-                self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
+                if self.post?.uid == post.uid
+                {
+                    self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
+                }
             }
         }
     }
+    func updateNotification(type:String)
+    {
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        guard let userID = post?.user?.uid,userID != currentID else {return}
+        let values = ["creationDate" : Date().timeIntervalSince1970, "fromUser" : currentID,"hashID":"","to":userID,type:type] as [String : Any]
+        let ref = Database.database().reference().child("notification").childByAutoId()
+        ref.updateChildValues(values) { (err, ref) in
+            if err != nil
+            {
+                print("hello")
+                return
+            }
+            print("posted notificatoion")
+        }
+    }
+
 }

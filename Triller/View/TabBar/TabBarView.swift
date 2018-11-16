@@ -5,13 +5,13 @@
 //  Created by Sherif  Wagih on 10/14/18.
 //  Copyright © 2018 Sherif  Wagih. All rights reserved.
 //
-
+/*
 import UIKit
 
 protocol TabBarScrollDelegate {
     func tabBarScrollTo(index:Int)
-}
-
+}*/
+/*
 class TabBarView: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
 {
     let tabBarCellID = "tabBarCellID"
@@ -158,3 +158,4 @@ class TabBarCell: UICollectionViewCell {
     }
     
 }
+*/

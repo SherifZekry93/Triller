@@ -11,15 +11,6 @@ import Firebase
 import FlagPhoneNumber
 import ProgressHUD
 class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegate {
-    
-    /*  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-     guard range.location == 0 else {
-     return true
-     }
-     let newString = (textView.text as NSString).replacingCharacters(in: range, with: text) as NSString
-     return newString.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines).location != 0
-     }
-     */
     var isValidPhoneNumber:Bool = false
     var ignoreExistanceValidationAfterClicking = false
     func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool)
@@ -427,7 +418,6 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     }
     func isValidUsernameFunction(input: String) -> Bool
     {
-        
         do
         {
             let regex = try NSRegularExpression(pattern: "^[0-9a-z\\_\\-]{5,18}$"
@@ -644,7 +634,6 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         ProgressHUD.dismiss()
         let completeSignUp = CompleteSignUp()
         self.navigationController?.pushViewController(completeSignUp, animated: true)
-        //let tabbar = MainTabBarController()
-        //self.navigationController?.pushViewController(tabbar, animated: true)
+      
     }
 }

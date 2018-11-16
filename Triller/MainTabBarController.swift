@@ -13,6 +13,24 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
     func audioRecorderController(_ controller: IQAudioRecorderViewController, didFinishWithAudioAtPath filePath: String) {
         let someV = ShareAudioViewController()
         someV.filePath = filePath
+        if let nav = self.viewControllers?[1] as? UINavigationController
+        {
+          //  print(nav)
+            if let rootView = nav.viewControllers[0] as? SearchController
+            {
+                guard let home = rootView.navigationController else {return}
+                if home.viewControllers.count >= 2
+                {
+                  if let homeController = home.viewControllers[1] as? MainHomeFeedController
+                {
+                    if let hashTag = homeController.hashTag
+                    {
+                        someV.hashTagName = "#" + hashTag.hashTagName
+                    }
+                }
+                }
+            }
+        }
         present(UINavigationController(rootViewController: someV), animated: true) {
               self.dismiss(animated: true)
         }
@@ -88,10 +106,9 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
         let layout3 = UICollectionViewFlowLayout()
         let notificationNav = UINavigationController(rootViewController: MainNotificationController(collectionViewLayout:layout3) )
         notificationNav.tabBarItem.image = #imageLiteral(resourceName: "icons8-notification-filled-50").withRenderingMode(.alwaysTemplate)
-        notificationNav.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         let layout4 = UICollectionViewFlowLayout()
-        let profileNav =  MainProfileController(collectionViewLayout:layout4)
-        profileNav.tabBarItem.image = #imageLiteral(resourceName: "profile_selected").withRenderingMode(.alwaysOriginal)
+        let profileNav = UINavigationController(rootViewController: MainProfileController(collectionViewLayout:layout4))
+        profileNav.tabBarItem.image = #imageLiteral(resourceName: "profile_selected").withRenderingMode(.alwaysTemplate)
         let recordImage =  UIViewController()
         recordImage.view.backgroundColor = .white
         recordImage.tabBarItem.image = #imageLiteral(resourceName: "microphone").withRenderingMode(.alwaysOriginal)

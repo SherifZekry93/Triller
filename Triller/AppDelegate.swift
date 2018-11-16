@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate,UNUserNo
             window?.rootViewController =  loginController
         }
         Database.database().isPersistenceEnabled = true
-        attemptRegisterForNotification(with:application)
+        //attemptRegisterForNotification(with:application)
         return true
     }
     

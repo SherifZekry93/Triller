@@ -70,6 +70,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         didSet
         {
             posts.removeAll()
+            self.navigationItem.title = user?.user_name
             guard let user = user else {return}
             FirebaseService.fetchPostusinguid(user: user, completitionHandler: { (allAudios) in
                 self.posts = allAudios.sorted(by: { (post1, post2) -> Bool in
@@ -89,6 +90,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         {
             fetchUserUsinguid()
         }
+        
     }
     
     func fetchUserUsinguid()
@@ -102,22 +104,20 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     override func viewWillAppear(_ animated: Bool)
     {
         self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isTranslucent = true
     }
     func setupCustomNavigationBar()
     {
-        guard let height = UIApplication.shared.keyWindow?.safeAreaInsets.top else {return}
-        let navView = UIView()
-        navView.backgroundColor = .green
-        self.view.addSubview(navView)
-        navView.anchorToView(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: 0, height: 50 + height))
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.isTranslucent = false
     }
-    
-    func setupNavigationController()
-    {
-        navigationController?.navigationBar.isTranslucent = true
-    }
-    
     func setupCollectionView()
     {
         collectionView.backgroundColor = .lightGray
@@ -125,7 +125,7 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
         collectionView.register(ProfileHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: profileHeaderID)
         collectionView.bounces = false
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        //collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
     }
     var animatedHeaderImageView:UIView?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

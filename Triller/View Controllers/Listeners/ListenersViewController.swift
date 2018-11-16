@@ -25,7 +25,11 @@ class ListenersViewController: UICollectionViewController,UICollectionViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        navigationController?.navigationBar.isHidden = false
+        DispatchQueue.main.async {
+            
+       self.navigationController?.navigationBar.isHidden = false
+        
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true

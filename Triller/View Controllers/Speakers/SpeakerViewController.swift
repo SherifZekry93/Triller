@@ -21,7 +21,9 @@ class SpeakerViewController:UICollectionViewController,UICollectionViewDelegateF
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        //getAllSpeakers()
+       DispatchQueue.main.async {
+        self.navigationController?.navigationBar.isHidden = false
+        }
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allSpeakers.count
@@ -35,9 +37,6 @@ class SpeakerViewController:UICollectionViewController,UICollectionViewDelegateF
     {
         collectionView.backgroundColor = .white
         collectionView.register(ListenerCell.self, forCellWithReuseIdentifier: cellID)
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = false
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
@@ -60,6 +59,7 @@ class SpeakerViewController:UICollectionViewController,UICollectionViewDelegateF
                     if let dictionary = value as? [String:Any]
                     {
                         guard let uid = dictionary["following_uid"] as? String else {return}
+                        
                         FirebaseService.fetchUserByuid(uid: uid, completitionHandler: { (user) in
                             let follower = Speaker(user: user, dictionary: dictionary, key: key)
                             speakers.append(follower)
@@ -68,6 +68,8 @@ class SpeakerViewController:UICollectionViewController,UICollectionViewDelegateF
                                 completitionHandler(speakers)
                             }
                         })
+                            
+                        
                     }
                 })
             }

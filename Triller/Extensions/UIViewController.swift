@@ -12,7 +12,7 @@ extension UIViewController
     func showToast(message : String)
     {
         guard let bottomAreaHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else {return}
-        let toastLabel = UILabel(frame: CGRect(x: 0, y: self.view.frame.size.height - 50 - bottomAreaHeight, width: view.frame.width, height: 50))
+        let toastLabel = UILabel(frame: CGRect(x: (view.frame.width / 2) - ((view.frame.width - 100) / 2) , y: self.view.frame.size.height - 100 - bottomAreaHeight, width: view.frame.width - 100, height: 30))
         toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         toastLabel.textColor = UIColor.white
         toastLabel.textAlignment = .center;

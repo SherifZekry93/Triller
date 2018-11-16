@@ -17,7 +17,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         let layout = UICollectionViewFlowLayout()
         let profileController = MainProfileController(collectionViewLayout:layout)
         let indexPath = getIndex(gesture: gesture)
-        profileController.user = audioPosts?[indexPath.item].user;
+        profileController.user = audioPosts[indexPath.item].user;
         navigationController?.pushViewController(profileController, animated: true)
     }
     
@@ -28,7 +28,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         let layout = UICollectionViewFlowLayout()
         let commentsController = CommentsController(collectionViewLayout:layout)
         let indexPath = getIndex(gesture: gesture)
-        guard let post = audioPosts?[indexPath.item] else {return}
+        let post = audioPosts[indexPath.item]// else {return}
         commentsController.post = post//audioPosts[indexPath.item]
         navigationController?.pushViewController(commentsController, animated: true)
     }
@@ -68,11 +68,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     }
     
     let cellID = "cellID"
-    var audioPosts:[AudioPost]?{
-        didSet{
-            self.collectionView.reloadData()
-        }
-    }
+    var audioPosts:[AudioPost] = [AudioPost]()
     var uid:String?{
         didSet{
             guard let uid = uid else {return}
@@ -85,14 +81,23 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
             fetchPostsForHashtag(hashTag: hashTag)
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.items?.forEach({ (item) in
+            item.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        })
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        setupAudioSession()
         if hashTag == nil
         {
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
             fetchFollowing(uid: currentUserID)
+        }
+        else
+        {
+            
         }
         let name = NSNotification.Name(rawValue: "FeedUpdated")
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: name, object: nil)
@@ -103,7 +108,19 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     
     override func viewWillAppear(_ animated: Bool)
     {
-       self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        if hashTag != nil
+        {
+            var counter = 0
+            self.tabBarController?.tabBar.items?.forEach({ (item) in
+                counter += 1
+                if counter != 3
+                {
+                    item.imageInsets = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
+                }
+            })
+            
+        }
     }
     
     func fetchFollowing(uid:String)
@@ -113,7 +130,11 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
             self.audioPosts = allAudioPosts.sorted(by: { (post1, post2) -> Bool in
                 return post1.creationDate.compare(post2.creationDate) == .orderedDescending
             })
-            self.collectionView?.refreshControl?.endRefreshing()
+            self.collectionView.reloadData()
+            if self.collectionView.refreshControl?.isRefreshing ?? false
+            {
+                self.collectionView?.refreshControl?.endRefreshing()
+            }
         }
     }
     
@@ -121,20 +142,24 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     {
         FirebaseService.getPostsByHashtag(hashtag: hashTag) { (allPosts) in
             self.audioPosts = allPosts
+            self.collectionView.reloadData()
         }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return audioPosts?.count  ?? 0
+        return audioPosts.count
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 220)
         let dummyCell = HomeFeedCell(frame: frame)
-        dummyCell.post = audioPosts?[indexPath.item]
+        print(audioPosts[indexPath.item].audioNote)
+        dummyCell.post = audioPosts[indexPath.item]
         dummyCell.layoutIfNeeded()
         let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
         let height = estimatedsize.height
@@ -142,10 +167,14 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for:indexPath) as! HomeFeedCell
-        let post = audioPosts?[indexPath.item]
+        let post = audioPosts[indexPath.item]
         cell.post = post
         cell.delegate = self
         cell.homeFeedController = self
+        if let hashTag = hashTag
+        {
+            cell.hashTagName = hashTag.hashTagName
+        }
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -183,16 +212,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
             print("Error setting session")
         }
     }
-    /*func playSound()
-     {
-     let url:String = "https://firebasestorage.googleapis.com/v0/b/trill-8aa7b.appspot.com/o/d6gdQK4xZPZkj6i8UKvF6ON3IVA3%2FAudioPosts%2FTrill_Audio_rWUxfQZDUE3VNttjOWeKinVIJpw1jml_1525701682431.mp3?alt=media&token=2376eb8b-2969-4c22-99b3-487611b8d09c"
-     guard let actualURL = URL(string: url) else {return}
-     let item = AVPlayerItem(url: actualURL)
-     player = AVPlayer(playerItem: item)
-     player?.play()
-     }*/
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
     }
     
     @objc func handleShowEditProfile()
@@ -232,7 +252,6 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))
-            
         }
         
     }
@@ -241,6 +260,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
     }
     @objc func handleUpdateFeed()
     {
+        
         handleRefresh()
     }
     @objc func handleRefresh()
@@ -249,6 +269,11 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         {
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
             fetchFollowing(uid: currentUserID)
+        }
+        else
+        {
+            guard let hash = hashTag else {return}
+            fetchPostsForHashtag(hashTag: hash)
         }
     }
 }
