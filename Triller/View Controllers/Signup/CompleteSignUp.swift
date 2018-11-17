@@ -22,7 +22,7 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
     
     lazy var profilePicture:UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "profile-imag")
+        image.image = UIImage(named: "account")
         image.contentMode = .scaleAspectFill//Fit
         image.layer.borderColor = UIColor(white: 0.95, alpha: 1).cgColor
         image.isUserInteractionEnabled = true
@@ -115,6 +115,7 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
         
         alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
         
+        alert.popoverPresentationController?.sourceView = self.view
         self.present(alert, animated: true, completion: nil)
     }
     

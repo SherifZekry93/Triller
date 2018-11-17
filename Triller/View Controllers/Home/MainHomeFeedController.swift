@@ -249,6 +249,8 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         
         alert.addAction(editAction)
         alert.addAction(signOutAction)
+        alert.popoverPresentationController?.sourceView = self.view
+
         present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))

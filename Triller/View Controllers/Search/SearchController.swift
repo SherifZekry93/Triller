@@ -55,12 +55,13 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         }
         self.collectionView.reloadData()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.navigationController?.navigationBar.isHidden = true
         self.view.layoutIfNeeded()
-        
     }
+    
     func getHashTags()
     {
         FirebaseService.getAllHashTags { (hashtags) in

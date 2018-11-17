@@ -88,5 +88,11 @@ class SpeakerViewController:UICollectionViewController,UICollectionViewDelegateF
             self.collectionView.reloadData()
         }
     }
-
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let layout = UICollectionViewFlowLayout()
+        let profileController = MainProfileController(collectionViewLayout:layout)
+        profileController.user = allSpeakers[indexPath.item].user
+        navigationController?.pushViewController(profileController, animated: true)
+    }
+    
 }

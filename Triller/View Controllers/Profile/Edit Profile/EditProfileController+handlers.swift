@@ -27,6 +27,8 @@ extension EditProfileViewController:UIImagePickerControllerDelegate,UINavigation
         
         alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
         
+        alert.popoverPresentationController?.sourceView = self.view
+
         self.present(alert, animated: true, completion: nil)
     }
     

@@ -291,6 +291,8 @@ class EditProfileViewController: UIViewController
         
         alert.addAction(maleAction)
         alert.addAction(femaleAction)
+        alert.popoverPresentationController?.sourceView = self.view
+
         present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))
@@ -312,6 +314,8 @@ class EditProfileViewController: UIViewController
         }
         alert.addAction(maleAction)
         alert.addAction(femaleAction)
+        alert.popoverPresentationController?.sourceView = self.view
+
         present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))

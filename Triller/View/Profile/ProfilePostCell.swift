@@ -41,10 +41,10 @@ class ProfilePostCell: HomeFeedCell {
             }))
             self.homeController?.present(deleteAlert, animated: true, completion: nil)
         }
-        let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
-        }
+        //let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
+        //}
         alert.addAction(deleteAction)
-        alert.addAction(shareAction)
+        //alert.addAction(shareAction)
         self.homeController?.present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.actionSheetBackgroundTapped)))

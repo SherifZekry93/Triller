@@ -27,7 +27,7 @@ class ListenersViewController: UICollectionViewController,UICollectionViewDelega
         setupCollectionView()
         DispatchQueue.main.async {
             
-       self.navigationController?.navigationBar.isHidden = false
+            self.navigationController?.navigationBar.isHidden = false
         
         }
     }
@@ -39,7 +39,12 @@ class ListenersViewController: UICollectionViewController,UICollectionViewDelega
         cell.user = allFollowers[indexPath.item].user
         return cell
     }
-    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let layout = UICollectionViewFlowLayout()
+        let profileController = MainProfileController(collectionViewLayout:layout)
+        profileController.user = allFollowers[indexPath.item].user
+        navigationController?.pushViewController(profileController, animated: true)
+    }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allFollowers.count
     }

@@ -31,6 +31,7 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
                 }
             }
         }
+        
         present(UINavigationController(rootViewController: someV), animated: true) {
               self.dismiss(animated: true)
         }

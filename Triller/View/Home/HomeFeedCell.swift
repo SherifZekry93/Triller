@@ -27,7 +27,7 @@ class HomeFeedCell: UICollectionViewCell {
     var homeFeedController:MainHomeFeedController?
     var post:MediaItem?{
         didSet{
-          setupHasLiked()
+            setupHasLiked()
             setupLikesCount()
             setupCommentsCount()
             postDateLabel.text = post?.creationDate.timeAgoDisplay()
@@ -59,6 +59,8 @@ class HomeFeedCell: UICollectionViewCell {
         image.image = #imageLiteral(resourceName: "profile-imag")
         image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewUserProfile)))
         image.isUserInteractionEnabled = true
+        image.layer.cornerRadius = 25
+        image.clipsToBounds = true
         return image
     }()
     
@@ -276,11 +278,13 @@ class HomeFeedCell: UICollectionViewCell {
             print("Error setting session")
         }
     }
+    
     var player:AVPlayer = {
         let player = AVPlayer()
         player.automaticallyWaitsToMinimizeStalling = false
         return player
     }()
+    
     var firstTimePlayer = false
     @objc func playEpisode()
     {
@@ -455,14 +459,15 @@ class HomeFeedCell: UICollectionViewCell {
         alert.view.frame = CGRect(x: alert.view.frame.origin.x, y:
             self.homeFeedController?.view.frame.height ?? 0 / 2, width: alert.view.frame.width, height: alert.view.frame.height);
         
-       /* let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
-            self.homeFeedController?.showToast(message: "Coming Soon!!")
-        }*/
+        /* let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
+         self.homeFeedController?.showToast(message: "Coming Soon!!")
+         }*/
         let reportAction = UIAlertAction(title: "Report", style: .default) { (action) in
             self.homeFeedController?.showToast(message: "We received your report!")
         }
         //alert.addAction(shareAction)
         alert.addAction(reportAction)
+        alert.popoverPresentationController?.sourceView = self//.homeFeedController?.view
         self.homeFeedController?.present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.sheetBackgroundTapped)))
@@ -490,9 +495,9 @@ class HomeFeedCell: UICollectionViewCell {
                     
                     self.homeFeedController?.collectionView.reloadData()
                 };
-
-               if self.hashTagName != ""
-               {ref.child("HashTags").child(self.hashTagName).child(post.audioKey).removeValue(completionBlock: { (err, ref) in
+                
+                if self.hashTagName != ""
+                {ref.child("HashTags").child(self.hashTagName).child(post.audioKey).removeValue(completionBlock: { (err, ref) in
                     if err != nil
                     {
                         ProgressHUD.showError(err?.localizedDescription)
@@ -506,6 +511,8 @@ class HomeFeedCell: UICollectionViewCell {
             deleteAlert.addAction(UIAlertAction(title: "No", style: .destructive, handler: { (alert) in
                 self.homeFeedController?.dismiss(animated: true, completion: nil)
             }))
+            deleteAlert.popoverPresentationController?.sourceView = self.homeFeedController?.view//self.homeFeedController?.view
+            
             self.homeFeedController?.present(deleteAlert, animated: true, completion: nil)
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
@@ -540,10 +547,15 @@ class HomeFeedCell: UICollectionViewCell {
     {
         guard let postId = post?.audioKey else {return}
         let ref = Database.database().reference().child("Likes").child(postId)
-        ref.observe(.value, with: { (snapshot: DataSnapshot) in
-            let numberOfLikes = snapshot.childrenCount
-            self.likesLabel.text = "\(numberOfLikes)"
-        })
+       
+            ref.observe(.value, with: { (snapshot: DataSnapshot) in
+                if self.post?.audioKey == postId
+                {
+                    let numberOfLikes = snapshot.childrenCount
+                    self.likesLabel.text = "\(numberOfLikes)"
+                }
+            })
+        
     }
     func setupCommentsCount()
     {
@@ -562,27 +574,32 @@ class HomeFeedCell: UICollectionViewCell {
         if likeButton.imageView?.image == #imageLiteral(resourceName: "ic_action_like")
         {
             let values = [currentID:"liked"]
-            self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
-            ref.updateChildValues(values) { (err, ref) in
-                if err != nil
-                {
-                    self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
-                    ProgressHUD.showError("Err Liking Post")
-                    return
+            if self.post?.audioKey == post.audioKey && self.likeButton.imageView?.image == #imageLiteral(resourceName: "ic_action_like")
+            {
+                self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
+                ref.updateChildValues(values) { (err, ref) in
+                    if err != nil
+                    {
+                        self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
+                        ProgressHUD.showError("Err Liking Post")
+                        return
+                    }
                 }
             }
         }
         else
         {
-            self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
-            ref.child(currentID).removeValue { (err, ref) in
-                if err != nil
-                {
-                    self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
-                    ProgressHUD.showError("something went wrong")
-                    return
+            if self.post?.audioKey == post.audioKey  && self.likeButton.imageView?.image == #imageLiteral(resourceName: "ic_action_liked")
+            {
+                self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
+                ref.child(currentID).removeValue { (err, ref) in
+                    if err != nil
+                    {
+                        self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
+                        ProgressHUD.showError("something went wrong")
+                        return
+                    }
                 }
-                self.updateNotification(type: "1")
             }
         }
     }
@@ -594,11 +611,14 @@ class HomeFeedCell: UICollectionViewCell {
         ref.observe(.value) { (snap) in
             if snap.value is NSNull
             {
-                self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
+                if self.post?.audioKey == post.audioKey
+                {
+                    self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_like"), for: .normal)
+                }
             }
             else
             {
-                if self.post?.uid == post.uid
+                if self.post?.audioKey == post.audioKey
                 {
                     self.likeButton.setImage(#imageLiteral(resourceName: "ic_action_liked"), for: .normal)
                 }
@@ -611,7 +631,8 @@ class HomeFeedCell: UICollectionViewCell {
         guard let userID = post?.user?.uid,userID != currentID else {return}
         let values = ["creationDate" : Date().timeIntervalSince1970, "fromUser" : currentID,"hashID":"","to":userID,type:type] as [String : Any]
         let ref = Database.database().reference().child("notification").childByAutoId()
-        ref.updateChildValues(values) { (err, ref) in
+        ref.updateChildValues(values)
+        { (err, ref) in
             if err != nil
             {
                 print("hello")
@@ -620,5 +641,5 @@ class HomeFeedCell: UICollectionViewCell {
             print("posted notificatoion")
         }
     }
-
+    
 }

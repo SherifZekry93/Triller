@@ -16,7 +16,7 @@ import SDWebImage
 import Firebase
 class ProfileHeaderCell: BaseCell{
     var viewUserDetailsdelegate:ViewUserDetails?
-    
+    var homeController:MainProfileController?
     var posts:[AudioPost]?{
         didSet{
             guard let posts = posts else {return}
@@ -149,30 +149,42 @@ class ProfileHeaderCell: BaseCell{
         return stackView
     }()
     
-    let searchWithNoActive:UIImageView = {
-        let search = UIImageView(image: #imageLiteral(resourceName: "with-notactive"))
+    lazy var searchWithNoActive:UIImageView = {
+        let search = UIImageView(image: #imageLiteral(resourceName: "with-notactive").withRenderingMode(.alwaysTemplate))
+        search.tintColor = .orange
         search.contentMode = .scaleAspectFit
+        search.isUserInteractionEnabled = true
+        //search.tag = 0
+        search.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reloadDataNormally)))
         return search
     }()
     
-    let searchWithActive:UIImageView = {
-        let search = UIImageView(image: #imageLiteral(resourceName: "without-notactive"))
+    lazy var searchWithActive:UIImageView = {
+        let search = UIImageView(image: #imageLiteral(resourceName: "without-notactive").withRenderingMode(.alwaysTemplate))
+        search.tintColor = .orange
         search.contentMode = .scaleAspectFit
+        //search.tag = 1
+        search.isUserInteractionEnabled = true
+        search.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reloadDataAbNormally)))
         return search
     }()
     
     lazy var searchStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [firstBottomStackSeparator, searchWithActive,secondBottomStackSeparator,searchWithNoActive,lastBottomStackSeparator,horizontalBottomStackSeparator])
+        let stack = UIStackView(arrangedSubviews: [firstBottomStackSeparator, searchWithNoActive,secondBottomStackSeparator,searchWithActive,lastBottomStackSeparator,horizontalBottomStackSeparator])
         return stack
     }()
-    let playButton:UIButton = {
+    
+    
+    lazy var playButton:UIButton = {
         let button = UIButton()
         let image = UIImage()
-        button.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
         button.setTitle("Play All", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -15)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -65, bottom: 0, right: 0)
+        button.addTarget(self, action: #selector(playAllSounds), for: .touchUpInside)
         return button
     }()
     lazy var bottomStack:UIStackView = {
@@ -270,7 +282,7 @@ class ProfileHeaderCell: BaseCell{
                             return
                         }
                         self.followUnfollowImage.isUserInteractionEnabled = true
-                        self.updateNotification(type: "3")
+                        //self.updateNotification(type: "3")
                     })
                 }
             }
@@ -419,6 +431,44 @@ class ProfileHeaderCell: BaseCell{
                         }
                     })
                 }
+            }
+        }
+    }
+    @objc func reloadDataNormally()
+    {
+        self.homeController?.isComment = false
+        self.homeController?.collectionView.reloadData()
+    }
+    @objc func reloadDataAbNormally()
+    {
+        self.homeController?.isComment = true
+        self.homeController?.collectionView.reloadData()
+    }
+    @objc func playAllSounds()
+    {
+        if self.playButton.imageView?.image == #imageLiteral(resourceName: "ic_action_play")
+        {
+            playButton.setImage(#imageLiteral(resourceName: "ic_action_pause"), for: .normal)
+            if self.homeController?.player.currentItem == nil
+            {
+                self.homeController?.counter = 0
+                homeController?.playAllSounds()
+            }
+            else
+            {
+                self.homeController?.player.play()
+            }
+        }
+        else
+        {
+            if self.homeController?.player.timeControlStatus != .paused
+            {
+                playButton.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
+                homeController?.player.pause()
+            }
+            if self.homeController?.posts.count == self.homeController?.counter
+            {
+                playButton.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
             }
         }
     }

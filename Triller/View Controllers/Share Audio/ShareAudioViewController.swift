@@ -39,12 +39,12 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
         return button
     }()
     
-    let recordSlider:UISlider = {
+    /*let recordSlider:UISlider = {
         let slider = UISlider()
         slider.thumbTintColor = .red
         return slider
     }()
-    
+    */
     /*let timeLabel:UILabel = {
         let label = UILabel()
         label.text = "00:00"
@@ -52,7 +52,7 @@ class ShareAudioViewController: UIViewController,AVAudioPlayerDelegate,AVAudioRe
     }()
     */
     lazy var playStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [playButton,recordSlider/*,timeLabel*/])
+        let stack = UIStackView(arrangedSubviews: [playButton/*,recordSlider*//*,timeLabel*/])
         stack.spacing = 4
         return stack
     }()
