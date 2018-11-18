@@ -276,6 +276,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         let isSelected = sender.isSelected
         checkButton.setImage(isSelected ? #imageLiteral(resourceName: "Checkbox").withRenderingMode(.alwaysOriginal) : nil, for: .normal)
     }
+    
     @objc func handleAlreadyHaveAnAccount()
     {
         navigationController?.popViewController(animated: true)
@@ -298,12 +299,12 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     }
     @objc func handleCreateAccount(sender:UIButton)
     {
-        ProgressHUD.show()
         sender.isEnabled = false
         ignoreExistanceValidationAfterClicking = true
         isValidForm { (formIsValid) in
             if formIsValid
             {
+                ProgressHUD.show()
                 Auth.auth().createUser(withEmail: self.emailTextField.text ?? "", password: self.passwordTextField.text ?? "") { (result, err) in
                     if err != nil
                     {
@@ -331,12 +332,17 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                             }
                             else
                             {
+                                
                                 self.goToHomePage()
                             }
                       //  })
                     })
                 }
                 
+            }
+            else
+            {
+                sender.isEnabled = true
             }
         }
     }
@@ -596,7 +602,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                             }
                             else
                             {
-                                self.ignoreExistanceValidationAfterClicking = false
+                                self.ignoreExistanceValidationAfterClicking = false;
                                 completitionHandler(false)
                                 if self.phoneNumber.text == ""
                                 {
@@ -626,6 +632,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         {
             self.ignoreExistanceValidationAfterClicking = false
             ProgressHUD.showError("You must accept terms and conditions")
+            completitionHandler(false)
         }
     }
     //will be changed to go to fill in the rest of the info page
