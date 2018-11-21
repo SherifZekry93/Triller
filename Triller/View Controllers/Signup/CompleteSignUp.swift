@@ -34,7 +34,7 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
     
     let changeProfileLabel:UILabel = {
         let label = UILabel()
-        label.text = "Add Your Picture"
+        label.text = NSLocalizedString("Add Your Picture", comment: "") 
         label.textAlignment = .center
         label.isUserInteractionEnabled = true
         label.textColor = .white
@@ -53,14 +53,14 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
  
     let fullNameText:CustomTextField = {
         let text = CustomTextField()
-        text.customLabelPlaceHolder.text = "Full Name"
+        text.customLabelPlaceHolder.text = NSLocalizedString("Full Name", comment: "")
         text.rightView = nil
         return text
     }()
     
     let statusText:CustomTextField = {
         let status = CustomTextField()
-        status.customLabelPlaceHolder.text = "Status"
+        status.customLabelPlaceHolder.text = NSLocalizedString("Status", comment: "")
         status.rightView = nil
         return status
     }()
@@ -207,7 +207,7 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
             let uploadFilePath = "\(currentUserID)/UserImege/\(imageName)"
             let storageRef = Storage.storage().reference(withPath:uploadFilePath)
             guard let image = self.profilePicture.image else {return}
-            guard let uploadData = image.jpegData(compressionQuality: 0.5) else {return}
+            guard let uploadData = image.jpegData(compressionQuality: 0.25) else {return}
             storageRef.putData(uploadData, metadata: nil) { (data, err) in
                 if err != nil
                 {

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import SwipeableTabBarController
+import Firebase
 import IQAudioRecorderController
 class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITabBarControllerDelegate,IQAudioRecorderViewControllerDelegate{
     func audioRecorderController(_ controller: IQAudioRecorderViewController, didFinishWithAudioAtPath filePath: String) {
@@ -55,12 +55,20 @@ class MainTabBarController: UITabBarController,UIGestureRecognizerDelegate,UITab
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.delegate = self
-        setupViewControllers()
-        DispatchQueue.main.async {
-            self.createCustomStatusBar(color: .blue)
+        if Auth.auth().currentUser != nil
+        {
+            self.delegate = self
+            setupViewControllers()
+            DispatchQueue.main.async {
+                self.createCustomStatusBar(color: .blue)
+            }
+            self.tabBar.backgroundColor = UIColor(white: 0.9, alpha: 0.4)
         }
-        self.tabBar.backgroundColor = UIColor(white: 0.9, alpha: 0.4)
+        else
+        {
+            let loginNav = UINavigationController(rootViewController:  LoginController())
+            self.present(loginNav, animated: true, completion: nil)
+        }
     }
     override func viewDidLayoutSubviews() {
         self.navigationController?.navigationBar.isHidden = true

@@ -9,12 +9,22 @@
 import UIKit
 import Firebase
 import UserNotifications
+import MOLH
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate,UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate,UNUserNotificationCenterDelegate, MOLHResetable{
+    func reset() {
+        let rootviewcontroller: UIWindow = ((UIApplication.shared.delegate?.window)!)!
+        let stry = UIStoryboard(name: "Main", bundle: nil)
+        rootviewcontroller.rootViewController = stry.instantiateViewController(withIdentifier: "rootnav")
+        
+    }
+    
     var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        // Override point for customization after application launch.
+        Database.database().isPersistenceEnabled = true
+        MOLH.shared.activate(true)
+       /* // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         //let layout = UICollectionViewFlowLayout()
@@ -30,8 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate,UNUserNo
         {
         let loginController = UINavigationController(rootViewController:   LoginController())
             window?.rootViewController =  loginController
-        }
-        Database.database().isPersistenceEnabled = true
+        }*/
         //attemptRegisterForNotification(with:application)
         return true
     }

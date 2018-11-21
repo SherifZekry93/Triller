@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import ProgressHUD
+import MOLH
 class LoginController: UIViewController
 {
     var bottomAnchorConstraint:NSLayoutConstraint?
@@ -33,7 +34,7 @@ class LoginController: UIViewController
     }()
     lazy var forgotPasswordLabel:UILabel = {
         let label = UILabel()
-        label.text = "Forgot Password?"
+        label.text = NSLocalizedString("Forgot Password?", comment: "")
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18)
@@ -41,35 +42,38 @@ class LoginController: UIViewController
         label.isUserInteractionEnabled = true
         return label
     }()
-    /*let languageLabel:UILabel = {
+    lazy var languageLabel:UILabel = {
         let label = UILabel()
-        label.text = "العربية"
+        label.text = NSLocalizedString("Arabic", comment: "") 
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18)
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(switchLanguages)))
         return label
     }()
-    */
-    let userNameTextField:CustomTextField = {
-        let userName = CustomTextField()
-        userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
+    
+    let userNameTextField:CustomTextFieldTest = {
+        let userName = CustomTextFieldTest()
         userName.textIcon.tintColor = .white
-        userName.customLabelPlaceHolder.text = "Username/Email/Mobile"
-        userName.requiredLabel.text = "required"
+        userName.customLabelPlaceHolder.text = NSLocalizedString("Username/Email/Mobile", comment: "")
+        userName.requiredLabel.text = NSLocalizedString("Required field", comment: "")
         return userName
     }()
     
-    let passwordTextField:CustomTextField = {
-        let password = CustomTextField()
+    let passwordTextField:CustomTextFieldTest = {
+        let password = CustomTextFieldTest()
+        password.textFieldIcon.image = UIImage(named: "comment")?.withRenderingMode(.alwaysTemplate)
         password.isSecureTextEntry = true
-        password.customLabelPlaceHolder.text = "Password"
+        password.customLabelPlaceHolder.text = NSLocalizedString("Password", comment: "")
+        //password.textAlignment = .center
         return password
     }()
     
     let loginButton:UIButton = {
         let login = UIButton()
         login.backgroundColor = .white
-        login.setTitle("Login", for: .normal)
+        login.setTitle(NSLocalizedString("Login", comment: ""), for: .normal)
         login.setTitleColor(.black, for: .normal)
         login.layer.cornerRadius = 20
         login.titleLabel?.font = UIFont.systemFont(ofSize: 19)
@@ -85,7 +89,7 @@ class LoginController: UIViewController
     let signUpButton:UIButton = {
         let signUp = UIButton()
         signUp.backgroundColor = .blue
-        signUp.setTitle("Signup", for: .normal)
+        signUp.setTitle(NSLocalizedString("Signup", comment: ""), for: .normal)
         signUp.setTitleColor(.white, for: .normal)
         signUp.layer.cornerRadius = 20
         signUp.titleLabel?.font = UIFont.systemFont(ofSize: 19)
@@ -94,7 +98,7 @@ class LoginController: UIViewController
     }()
     
     lazy var controlsStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,reduceSpacingStackView,forgotPasswordLabel/*,languageLabel*/])
+        let stack = UIStackView(arrangedSubviews: [userNameTextField,passwordTextField,reduceSpacingStackView,forgotPasswordLabel,languageLabel])
         stack.axis = .vertical
         stack.spacing = 37.5
         return stack
@@ -114,7 +118,7 @@ class LoginController: UIViewController
     
     let orLabel:UILabel = {
         let label = UILabel()
-        label.text = "OR"
+        label.text = NSLocalizedString("OR", comment: "") 
         label.textColor = .white
         label.textAlignment = .center
         return label
@@ -162,12 +166,18 @@ class LoginController: UIViewController
         firstSeparator.anchorToView(size: .init(width:  width, height: 1))
         loginButton.anchorToView(size: .init(width: 0, height: 40))
         signUpButton.anchorToView(size:.init(width: 0, height: 40))
+        setupTextFieldIconsStack()
+    }
+    func setupTextFieldIconsStack()
+    {
+        //userNameLineView.anchorToView(size:.init(width: 0, height: 1))
+        //usernameIcon.anchorToView(size:.init(width: 35, height: 35))
     }
     override func viewWillLayoutSubviews()
     {
         super.viewWillLayoutSubviews()
         //original height is 450
-        scrollView.contentSize = CGSize(width: 0, height: 400)
+        scrollView.contentSize = CGSize(width: 0, height: 420)
     }
     func addKeyboardObserver()
     {
@@ -241,7 +251,7 @@ extension LoginController
         }
         else
         {
-            passwordTextField.requiredLabel.text = "required"
+            passwordTextField.requiredLabel.text = NSLocalizedString("Required field", comment: "")
         }
         
     }
@@ -308,7 +318,7 @@ extension LoginController
                 }
 //                guard let user = self.user else {return}
 //                guard let newPassword = self.passwordTextField.text else {return}
-//                self.changePassword(email: user.email, currentPassword: textField.text ?? "" , newPassword: newPassword, completion: { (err) in
+                //                self.changePassword(email: user.email, currentPassword: textField.text ?? "" , newvarsword: newPassword, completion: { (err) in
 //                })
             }
         }))
@@ -316,5 +326,10 @@ extension LoginController
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
 
+    }
+    @objc func switchLanguages()
+    {
+        MOLH.setLanguageTo(MOLHLanguage.currentAppleLanguage() == "en" ? "ar" : "en")
+        MOLH.reset(transition: .transitionFlipFromRight)
     }
 }

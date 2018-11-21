@@ -17,3 +17,4 @@ class LeftPaddedTextField: UITextField
          return CGRect(x: bounds.origin.x +  5, y: bounds.origin.y, width: bounds.width - 20, height: bounds.height)
     }
 }
+

@@ -24,11 +24,11 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         {
             if phoneNumber.text == ""
             {
-                requiredLabel.text = "Required"
+                requiredLabel.text = NSLocalizedString("Required field", comment: "")
             }
             else
             {
-                requiredLabel.text = "Please enter a valid number"
+                requiredLabel.text = NSLocalizedString("Enter a valid phone number", comment: "")
             }
             isValidPhoneNumber = false
         }
@@ -56,11 +56,11 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         return scv
     }()
     
-    let userNameTextField:CustomTextField = {
-        let userName = CustomTextField()
+    let userNameTextField:CustomTextFieldTest = {
+        let userName = CustomTextFieldTest()
         userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
         userName.textIcon.tintColor = .white
-        userName.customLabelPlaceHolder.text = "Username"
+        userName.customLabelPlaceHolder.text = NSLocalizedString("Username", comment: "");
         userName.addTarget(self, action: #selector(validateUserNameOnChange), for: .editingChanged)
         userName.autocapitalizationType = .none
         userName.requiredLabel.font = UIFont.systemFont(ofSize: 13)
@@ -69,9 +69,9 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         return userName
     }()
     //weak medium strong very strong
-    let passwordTextField:CustomTextField = {
-        let password = CustomTextField()
-        password.customLabelPlaceHolder.text = "Password"
+    let passwordTextField:CustomTextFieldTest = {
+        let password = CustomTextFieldTest()
+        password.customLabelPlaceHolder.text = NSLocalizedString("Password", comment: "")
         password.addTarget(self, action: #selector(handlePasswordTextChange), for: .editingChanged)
         password.isSecureTextEntry = true
         password.rightViewContainer.isHidden = false
@@ -96,8 +96,9 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         termsAndConditions.isUserInteractionEnabled = true
         //termsAndConditions.text = "Terms and Conditions"
         let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]
-        let attributedString = NSMutableAttributedString(string: "I accept ", attributes: [:])
-        attributedString.append(NSAttributedString(string: "Terms and Conditions", attributes: underlineAttribute))
+        let attributedString = NSMutableAttributedString(string: NSLocalizedString("I accept", comment: ""), attributes: [:])
+        attributedString.append(NSAttributedString(string: "  ",attributes:[:]));
+        attributedString.append(NSAttributedString(string: NSLocalizedString("Terms and Conditions", comment: ""), attributes: underlineAttribute))
         termsAndConditions.attributedText = attributedString
         termsAndConditions.textAlignment = .center
         termsAndConditions.font = UIFont.boldSystemFont(ofSize: 15)
@@ -123,14 +124,15 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         phone.attributedPlaceholder =
             NSAttributedString(string: phone.placeholder ?? "Enter a phone number",
                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]);
+        phone.semanticContentAttribute = .forceLeftToRight
         phone.flagPhoneNumberDelegate = self
         return phone
     }()
-    let emailTextField:CustomTextField = {
-        let email = CustomTextField()
+    let emailTextField:CustomTextFieldTest = {
+        let email = CustomTextFieldTest()
         email.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
         email.textIcon.tintColor = .white
-        email.customLabelPlaceHolder.text = "email"
+        email.customLabelPlaceHolder.text = NSLocalizedString("Email Address", comment: "")
         email.addTarget(self, action: #selector(handleValidateEmailChange), for: .editingChanged)
         return email
     }()
@@ -138,7 +140,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     let createAccountButton:UIButton = {
         let createAccount = UIButton()
         createAccount.backgroundColor = .white
-        createAccount.setTitle("Create Account", for: .normal)
+        createAccount.setTitle(NSLocalizedString("Create Account", comment: "") , for: .normal)
         createAccount.setTitleColor(.black, for: .normal)
         createAccount.layer.cornerRadius = 20
         createAccount.titleLabel?.font = UIFont.systemFont(ofSize: 19)
@@ -182,7 +184,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     
     lazy var alreadyHaveAnAccount:UILabel = {
         let label = UILabel()
-        label.text = "Already have an account"
+        label.text = NSLocalizedString("Already have an account", comment: "") 
         label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = .white
         label.isUserInteractionEnabled = true
@@ -238,11 +240,11 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         
         phoneNumber.addSubview(bottomSeparator)
         
-        phoneNumber.addSubview(requiredLabel)
+        self.view.addSubview(requiredLabel)
         
         bottomSeparator.anchorToView(top: nil, leading: phoneNumber.leadingAnchor, bottom: phoneNumber.bottomAnchor, trailing: phoneNumber.trailingAnchor, padding: .zero, size: .init(width: 0, height: 2))
         
-        requiredLabel.anchorToView(top: phoneNumber.bottomAnchor, leading: phoneNumber.leadingAnchor)
+        requiredLabel.anchorToView(top: phoneNumber.bottomAnchor, leading: emailTextField.leadingAnchor)
         
         termsAndConditionsStack.anchorToView(size:.init(width: 0, height: 25))
         checkButton.anchorToView(size:.init(width: 25, height: 0))
@@ -377,7 +379,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         {
             completitionHandler(false)
             userNameTextField.requiredLabel.isHidden = false
-            userNameTextField.requiredLabel.text = "required"
+            userNameTextField.requiredLabel.text = NSLocalizedString("Required field", comment: "")
         }
         else
         {
@@ -391,7 +393,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                     if !isValidUsernameFunction(input: username)
                     {
                         completitionHandler(false)
-                        userNameTextField.requiredLabel.text = "Username Only can have small english letter,number and must be "
+                        userNameTextField.requiredLabel.text = NSLocalizedString("User Name Only can have small english letter,number", comment: "")
                     }
                     else
                     {
@@ -401,7 +403,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                             {
                                 if self.ignoreExistanceValidationAfterClicking == false
                                 {
-                                    self.userNameTextField.requiredLabel.text = "username found"
+                                    self.userNameTextField.requiredLabel.text = NSLocalizedString("Username found", comment: "") 
                                     completitionHandler(false)
                                 }
                                 
@@ -418,7 +420,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             }
             else
             {
-                userNameTextField.requiredLabel.text = "Must be at least 5 chars long"
+                userNameTextField.requiredLabel.text = NSLocalizedString("Must be at least 5 characters and up", comment: "")
             }
         }
     }
@@ -475,12 +477,12 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         if password.count == 0
         {
             passwordTextField.requiredLabel.isHidden = false
-            passwordTextField.requiredLabel.text = "required"
+            passwordTextField.requiredLabel.text = NSLocalizedString("Required field", comment: "")
         }
         else if password.count > 0 && password.count < 6
         {
-            passwordTextField.requiredLabel.text = "Password mut be 6 charachters and up"
-            passwordStregnthLabel.text = "Weak"
+            passwordTextField.requiredLabel.text = NSLocalizedString("Password must be 6 charachters and up", comment: "") 
+            passwordStregnthLabel.text = NSLocalizedString("Weak", comment: "")
             passwordPercentageBackground.backgroundColor = .red
         }
         else if password.count >= 6
@@ -488,18 +490,18 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             if password.rangeOfCharacter(from: numbersCharset) == nil
             {
                 passwordTextField.requiredLabel.isHidden = false
-                passwordTextField.requiredLabel.text = "Password should contain at least one Number"
+                passwordTextField.requiredLabel.text = NSLocalizedString("Password should contain at least one Number", comment: "")//"Password should contain at least one Number"
                 return false
             }
             else if password.rangeOfCharacter(from: alphabeticalSet) == nil
             {
                 passwordTextField.requiredLabel.isHidden = false
-                passwordTextField.requiredLabel.text = "Password should contain at least one small charachter"
+                passwordTextField.requiredLabel.text = NSLocalizedString("Password should containt at least one small charachter", comment: "")
                 return false
             }
             else
             {
-                passwordStregnthLabel.text = "Medium"
+                passwordStregnthLabel.text = NSLocalizedString("Medium", comment: "")
                 passwordTextField.requiredLabel.text = ""
             }
             if password.count <= 12
@@ -508,7 +510,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             }
             else if password.count > 12 && password.count < 18
             {
-                passwordStregnthLabel.text = "Strong"
+                passwordStregnthLabel.text = NSLocalizedString("Strong", comment: "")
                 passwordPercentageBackground.backgroundColor = .green
             }
             else if password.count >= 18
@@ -525,7 +527,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         if emailTextField.text == ""
         {
             emailTextField.requiredLabel.isHidden = false
-            emailTextField.requiredLabel.text = "required"
+            emailTextField.requiredLabel.text = NSLocalizedString("Required field", comment: "")// "required"
         }
         else
         {
@@ -538,7 +540,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             else
             {
                 emailTextField.requiredLabel.isHidden = false
-                emailTextField.requiredLabel.text = "input error"
+                emailTextField.requiredLabel.text = NSLocalizedString("Input Error", comment: "") 
             }
         }
         return false
@@ -574,6 +576,17 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
             validateUserNameOnChange()
             handleValidateEmailChange()
             handlePasswordTextChange()
+            if !isValidPhoneNumber
+            {
+                if phoneNumber.text == ""
+                {
+                    requiredLabel.text = NSLocalizedString("Required field", comment: "")
+                }
+                else
+                {
+                    requiredLabel.text = NSLocalizedString("Enter a valid phone number", comment: "")
+                }
+            }
             validateUserName { (validUser) in
                 if !validUser
                 {
@@ -606,11 +619,11 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
                                 completitionHandler(false)
                                 if self.phoneNumber.text == ""
                                 {
-                                    self.requiredLabel.text = "required"
+                                    self.requiredLabel.text = NSLocalizedString("Required field", comment: "")
                                 }
                                 else
                                 {
-                                    self.requiredLabel.text = "Must enter a valid phone number"
+                                    self.requiredLabel.text = NSLocalizedString("Enter a valid phone number", comment: "")
                                 }
                             }
                         }

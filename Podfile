@@ -16,7 +16,8 @@ target 'Triller' do
   pod 'Firebase/Database' 
   pod 'Firebase/Messaging' 
   pod 'Firebase/RemoteConfig'
-  pod 'Firebase/Storage' 
+  pod 'Firebase/Storage'  
+  pod 'MOLH'
 end
 
 

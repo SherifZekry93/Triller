@@ -1,0 +1,36 @@
+/* 
+  Localizable.strings
+  Triller
+
+  Created by Sherif  Wagih on 11/19/18.
+  Copyright © 2018 Sherif  Wagih. All rights reserved.
+*/
+
+"Login" = "Login";
+"Signup" = "Signup";
+"OR" = "OR";
+"Arabic" = "العربية";
+"Username/Email/Mobile" = "Username/Email/Mobile";
+"Password" = "Password";
+"Forgot Password?"  = "Forgot Password?";
+"Username" = "Username";
+"Email Address" = "Email Address";
+"I accept" = "I accept";
+"Terms and Conditions" = "Terms and Conditioins";
+"Create Account" = "Create Account";
+"Already have an account" = "Already have an account";
+"Must be at least 5 characters and up" = "Must be at least 5 characters and up";
+"Required field" = "Required field";
+"Enter a valid phone number" = "Enter a valid phone number";
+"User Name Only can have small english letter,number" = "User Name Only can have small english letter,number";
+"Input Error" = "Input Error";
+"Username found" = "Username found";
+"Medium" = "Medium";
+"Strong" = "Strong";
+"Password must be 6 charachters and up" = "Password must be 6 charachters and up";
+"Password should containt at least one small charachter" = "Password should containt at least one small charachter";
+"Password should contain at least one Number" = "Password should contain at least one Number";
+"Add Your Picture" = "Add Your Picture" ;
+"Status" = "Status";
+"Full Name" = "Full Name";
+"Camera" = "Camera";

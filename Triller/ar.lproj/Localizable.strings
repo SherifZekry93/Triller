@@ -1,0 +1,36 @@
+/* 
+  Localizable.strings
+  Triller
+
+  Created by Sherif  Wagih on 11/19/18.
+  Copyright © 2018 Sherif  Wagih. All rights reserved.
+*/
+"Login" = "تسجيل الدخول";
+"Signup" = "اشتراك";
+"OR" = "او";
+"Arabic" = "English";
+"Password" = "كلمة المرور";
+"Username/Email/Mobile" = "اسم المستخدم/الايميل/الموبايل";
+"Forgot Password?"  = "نسيت كلمة المرور؟";
+"Username" = "اسم المستخدم";
+"Email Address" = "البريد الالكتروني";
+"I accept" = "اوافق علي";
+"Terms and Conditions" = "الشروط و الاحكام";
+"Create Account" = "سجل لدينا";
+"Already have an account" = "لديك حساب مسبقا";
+"Must be at least 5 characters and up" = "اسم المستخدم يجب آن يكون خمس حروف فآكثر";
+"Required field" = "الحقل اجباري";
+"Enter a valid phone number" = "ادخل رقم هاتف صحيح";
+"User Name Only can have small english letter,number" = "اسم المستخدم يجب ان يحتوي علي احرف انجليزية صغيرة و ارقام";
+"Input Error" = "خطآ في الادخال";
+"Username found" = "الاسم موجود";
+"Weak" = "ضعيفة";
+"Medium" = "متوسطة";
+"Strong" = "قوية";
+"Password must be 6 charachters and up" = "الباسوورد يجب آن يكون ٦ حروف آو آكثر";
+"Password should containt at least one small charachter"  = "كلمة المرور يجب آن تحتوي علي حرف واحد علي الاقل";
+"Password should contain at least one Number" = "الباسوورد يجب آن يحتوي علي رقم واحد علي الاقل" ;
+"Add Your Picture" = "آضف صورتك";
+"Status" = "الحالة";
+"Full Name" = "الاسم بالكامل";
+"Camera" = "الكاميرا";

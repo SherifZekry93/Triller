@@ -109,6 +109,38 @@ class FirebaseService
     class func fetchFollowingPosts(uid:String,completitionHandler:@escaping ([AudioPost]) -> ())
     {
         var allAudioPosts = [AudioPost]()
+        let ref = Database.database().reference().child("AudioPosts")
+        ref.observe(.value, with: { (snap) in
+            allAudioPosts.removeAll()
+            if snap.value is NSNull
+            {
+                completitionHandler(allAudioPosts)
+            }
+            else
+            {
+                if let dictionaries = snap.value as? [String:Any]
+                {
+                    dictionaries.forEach({ (key,value) in
+                        if let dictionary = value as? [String:Any]
+                        {
+                            guard let uid = dictionary["uid"] as? String else {return}
+                            self.fetchUserByuid(uid: uid, completitionHandler: { (user) in
+                                let post = AudioPost(user: user, dictionary: dictionary)
+                                post.audioKey = key
+                                allAudioPosts.append(post)
+                                if allAudioPosts.count == dictionaries.count
+                                {
+                                    completitionHandler(allAudioPosts)
+                                }
+                            })
+                        }
+                    })
+                }
+            }
+        }) { (err) in
+            
+        }
+        /*var allAudioPosts = [AudioPost]()
         let ref = Database.database().reference().child("following").child(uid)
         ref.keepSynced(true)
         DispatchQueue.global(qos: .userInitiated).async {
@@ -149,7 +181,7 @@ class FirebaseService
             }) { (err) in
                 print(err)
             }
-        }
+        }*/
     }
     class func fetchPostusinguid(user:User,completitionHandler:@escaping ([AudioPost]) -> ())
     {
