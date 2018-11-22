@@ -21,7 +21,7 @@ class ProfileHeaderCell: BaseCell{
         didSet{
             guard let posts = posts else {return}
             let trillsattributedText = NSMutableAttributedString(string: "\(posts.count)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
-            trillsattributedText.append(NSAttributedString(string: "Trills", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+            trillsattributedText.append(NSAttributedString(string: NSLocalizedString("Trills", comment: "") , attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
             let trillsparagraphStyle = NSMutableParagraphStyle()
             trillsparagraphStyle.lineSpacing = 4
             trillsattributedText.addAttribute(.paragraphStyle, value: trillsparagraphStyle, range: NSMakeRange(0, trillsattributedText.length))
@@ -115,7 +115,7 @@ class ProfileHeaderCell: BaseCell{
     lazy var speakerLabel:UILabel = {
         let label = UILabel()
         let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
-        attributedText.append(NSAttributedString(string: "Speaker", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+        attributedText.append(NSAttributedString(string: NSLocalizedString("Speaker", comment: "") , attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
@@ -132,7 +132,7 @@ class ProfileHeaderCell: BaseCell{
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleViewListeners)))
         let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
-        attributedText.append(NSAttributedString(string: "Listeners", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+        attributedText.append(NSAttributedString(string: NSLocalizedString("Listeners", comment: "") , attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
@@ -179,12 +179,13 @@ class ProfileHeaderCell: BaseCell{
         let button = UIButton()
         let image = UIImage()
         button.setImage(#imageLiteral(resourceName: "ic_action_play"), for: .normal)
-        button.setTitle("Play All", for: .normal)
+        button.setTitle(NSLocalizedString("Play All", comment: ""), for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -65, bottom: 0, right: 0)
         button.addTarget(self, action: #selector(playAllSounds), for: .touchUpInside)
+        button.semanticContentAttribute = .forceLeftToRight
         return button
     }()
     lazy var bottomStack:UIStackView = {
@@ -356,7 +357,7 @@ class ProfileHeaderCell: BaseCell{
         let ref = Database.database().reference().child("followers").child(currentID)
         ref.observe(.value, with: { (snapshot: DataSnapshot) in
             let attributedText = NSMutableAttributedString(string: "\(snapshot.childrenCount)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
-            attributedText.append(NSAttributedString(string: "Listeners", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+            attributedText.append(NSAttributedString(string: NSLocalizedString("Listeners", comment: "") , attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
             
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 4
@@ -374,7 +375,7 @@ class ProfileHeaderCell: BaseCell{
             let ref = Database.database().reference().child("following").child(currentID)
             ref.observe(.value, with: { (snap) in
                 let attributedText = NSMutableAttributedString(string: "\(snap.childrenCount)\n", attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 21),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
-                attributedText.append(NSAttributedString(string: "Speaker", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+                attributedText.append(NSAttributedString(string: NSLocalizedString("Speaker", comment: ""), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.lineSpacing = 4
                 attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))

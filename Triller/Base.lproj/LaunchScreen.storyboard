@@ -23,9 +23,9 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XrT-6b-L6H" secondAttribute="bottom" id="8Bp-rg-2ZE"/>
+                            <constraint firstAttribute="bottom" secondItem="XrT-6b-L6H" secondAttribute="bottom" id="8Bp-rg-2ZE"/>
                             <constraint firstItem="XrT-6b-L6H" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="J0f-9M-qkN"/>
-                            <constraint firstItem="XrT-6b-L6H" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="LY4-Pp-dRX"/>
+                            <constraint firstItem="XrT-6b-L6H" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="LY4-Pp-dRX"/>
                             <constraint firstAttribute="trailing" secondItem="XrT-6b-L6H" secondAttribute="trailing" id="dYy-I4-9YH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

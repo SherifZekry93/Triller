@@ -107,7 +107,7 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
         self.definesPresentationContext = true
-        searchController.searchBar.placeholder = "Search for Friends"
+        searchController.searchBar.placeholder = NSLocalizedString("Search for Friends", comment: "")
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -168,12 +168,12 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         menuView.addSubview(horizontalGrayLine)
         horizontalGrayLine.anchorToView(leading: menuView.leadingAnchor, bottom: menuView.bottomAnchor, trailing: menuView.trailingAnchor, size: .init(width: 0, height: 1))
         let searchForFriendsButton = UIButton()
-        searchForFriendsButton.setTitle("TOP", for: .normal)
+        searchForFriendsButton.setTitle(NSLocalizedString("TOP", comment: ""), for: .normal)
         searchForFriendsButton.setTitleColor(.black, for: .normal)
         searchForFriendsButton.tag = 0
         searchForFriendsButton.addTarget(self, action: #selector(scrollToIndex), for: .touchUpInside)
         let searchForHashTagButton = UIButton()
-        searchForHashTagButton.setTitle("HASH TAGS", for: .normal)
+        searchForHashTagButton.setTitle(NSLocalizedString("HASH TAGS", comment: "") , for: .normal)
         searchForHashTagButton.setTitleColor(.black, for: .normal)
         searchForHashTagButton.tag = 1
         searchForHashTagButton.addTarget(self, action: #selector(scrollToIndex), for: .touchUpInside)
@@ -209,13 +209,13 @@ class SearchController: UICollectionViewController,UICollectionViewDelegateFlowL
         {
             searchForTopUsers = true
             searchForHashTags = false
-            searchController.searchBar.placeholder = "Search for Friends"
+            searchController.searchBar.placeholder = NSLocalizedString("Search for Friends", comment: "") 
         }
         else if sender.tag == 1
         {
             searchForHashTags = true
             searchForTopUsers = false
-            searchController.searchBar.placeholder = "Search for HashTag"
+            searchController.searchBar.placeholder = NSLocalizedString("Search for HashTag", comment: "") 
         }
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

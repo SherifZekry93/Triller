@@ -158,16 +158,20 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     {
         if !isComment
         {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ProfilePostCell
-        cell.delegate = self
-        let post = posts[indexPath.item]
-        if let user = user
-        {
-            post.user = user
-        }
-        cell.post = post
-        cell.homeController = self
-        return cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ProfilePostCell
+            cell.delegate = self
+            let post = posts[indexPath.item]
+            if let user = user
+            {
+                post.user = user
+            }
+            cell.post = post
+            cell.homeController = self
+            cell.firstTimePlayer = false
+            cell.recordSlider.value = 0
+            cell.recordSlider.isEnabled = false
+            cell.recordSlider.thumbTintColor = .gray
+            return cell
         }
         else
         {
@@ -183,13 +187,13 @@ class MainProfileController: UICollectionViewController,UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if !isComment
         {
-        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 220)
-        let dummyCell = ProfilePostCell(frame: frame)
-        dummyCell.post = posts[indexPath.item]
-        dummyCell.layoutIfNeeded()
-        let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
-        let height = estimatedsize.height
-        return CGSize(width: view.frame.width, height: height)
+            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 220)
+            let dummyCell = ProfilePostCell(frame: frame)
+            dummyCell.post = posts[indexPath.item]
+            dummyCell.layoutIfNeeded()
+            let estimatedsize = dummyCell.systemLayoutSizeFitting(CGSize(width: frame.width, height: 1000))
+            let height = estimatedsize.height
+            return CGSize(width: view.frame.width, height: height)
         }
         else
         {

@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import ProgressHUD
 import SDWebImage
+import MOLH
 class EditProfileViewController: UIViewController
 {
     var imageWasChanged = false
@@ -25,13 +26,15 @@ class EditProfileViewController: UIViewController
         image.clipsToBounds = true
         return image
     }()
+    
     let changeProfileLabel:UILabel = {
         let label = UILabel()
-        label.text = "Change Profile Picture"
+        label.text = NSLocalizedString("Change Profile Picture", comment: "")
         label.textAlignment = .center
         label.isUserInteractionEnabled = true
         return label
     }()
+    
     lazy var imageContainerStack:UIStackView = {
         let stack = UIStackView(arrangedSubviews: [profilePicture,changeProfileLabel])
         stack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openPhotoSelector)))
@@ -44,7 +47,7 @@ class EditProfileViewController: UIViewController
     
     let fullNameText:CustomTextField = {
         let text = CustomTextField()
-        text.customLabelPlaceHolder.text = "Full Name"
+        text.customLabelPlaceHolder.text = NSLocalizedString("Full Name", comment: "")
         text.isEditProfile = true
         text.customLabelPlaceHolder.textColor = .red
         text.bottomSeparator.backgroundColor = .red
@@ -54,14 +57,14 @@ class EditProfileViewController: UIViewController
     let statusText:CustomTextField = {
         let status = CustomTextField()
         status.text = "Happpy"
-        status.customLabelPlaceHolder.text = "Status"
+        status.customLabelPlaceHolder.text = NSLocalizedString("Status", comment: "")
         status.isEditProfile = true
         return status
     }()
     
     let passwordTextField:CustomTextField = {
         let password = CustomTextField()
-        password.customLabelPlaceHolder.text = "Password"
+        password.customLabelPlaceHolder.text = NSLocalizedString("Password", comment: "")
         password.isSecureTextEntry = true
         password.isEditProfile = true
         password.addTarget(self, action: #selector(handlePasswordTextChange), for: .editingChanged)
@@ -80,7 +83,7 @@ class EditProfileViewController: UIViewController
     
     let PrivateInformationLabel:UILabel = {
         let label = UILabel()
-        label.text = "PRIVATE INFORMATION"
+        label.text = NSLocalizedString("PRIVATE INFORMATION", comment: "") 
         label.textAlignment = .center
         return label
     }()
@@ -102,7 +105,7 @@ class EditProfileViewController: UIViewController
     
     let emailTextField:CustomTextField = {
         let text = CustomTextField()
-        text.customLabelPlaceHolder.text = "Email"
+        text.customLabelPlaceHolder.text = NSLocalizedString("Email Address", comment: "") //"Email"
         text.isEnabled = false
         text.text = "some-mail@mail.com"
         text.isEditProfile = true
@@ -111,7 +114,7 @@ class EditProfileViewController: UIViewController
     
     let phoneTextField:CustomTextField = {
         let text = CustomTextField()
-        text.customLabelPlaceHolder.text = "Phone Number"
+        text.customLabelPlaceHolder.text = NSLocalizedString("Phone Number", comment: "")
         text.isEnabled = false
         text.text = "Phone..."
         text.isEditProfile = true
@@ -120,18 +123,18 @@ class EditProfileViewController: UIViewController
     
     lazy var genderTextField:CustomTextField = {
         let text = CustomTextField()
-        text.customLabelPlaceHolder.text = "Gender"
+        text.customLabelPlaceHolder.text = NSLocalizedString("Gender", comment: "")
         text.isEnabled = false
-        text.text = "Male"
+        text.text = NSLocalizedString("Male", comment: "")
         text.isEditProfile = true
         return text
     }()
     
     let languageTextField:CustomTextField = {
         let text = CustomTextField()
-        text.customLabelPlaceHolder.text = "Language"
+        text.customLabelPlaceHolder.text = NSLocalizedString("Language", comment: "")
         text.isEnabled = false
-        text.text = "English"
+        text.text = NSLocalizedString("English", comment: "") //""
         text.isEditProfile = true
         return text
     }()
@@ -183,7 +186,7 @@ class EditProfileViewController: UIViewController
             statusText.text = user.status
             emailTextField.text = user.email
             phoneTextField.text = "0" + user.phone
-            genderTextField.text = user.private_data.gender
+            genderTextField.text = NSLocalizedString(user.private_data.gender, comment: "")
             print(user.picture_path)
             if let actualPath = URL(string: user.picture_path)
             {
@@ -200,29 +203,29 @@ class EditProfileViewController: UIViewController
                 self.profilePicture.image = #imageLiteral(resourceName: "profile-imag")
             }
             //profilePicture.sd_setImage(with: actualPath, completed: nil)
-            guard let currentAppLanguage = NSLocale.current.languageCode else {return}
-            if user.private_data.language == ""
-            {
+            let currentAppLanguage = MOLHLanguage.currentAppleLanguage()//NSLocale.current.languageCode else {return}
+          //  if user.private_data.language == ""
+           // {
                 if currentAppLanguage == "en"
                 {
-                    languageTextField.text = "English"
+                    languageTextField.text = NSLocalizedString("English", comment: "")
                 }
                 else if currentAppLanguage == "ar"
                 {
-                    languageTextField.text = "Arabic"
+                    languageTextField.text = NSLocalizedString("Arabic", comment: "")
                 }
-            }
-            else
-            {
-                if user.private_data.language == "en"
+            //}
+           // else
+            //{
+                /*if user.private_data.language == "en"
                 {
-                    languageTextField.text = "English"
+                    languageTextField.text = NSLocalizedString("English", comment: "") //"English"
                 }
                 else if user.private_data.language == "ar"
                 {
-                    languageTextField.text = "Arabic"
-                }
-            }
+                    languageTextField.text = NSLocalizedString("Arabic", comment: "")
+                }*/
+            //}
         }
     }
     override func viewDidLoad()
@@ -281,12 +284,12 @@ class EditProfileViewController: UIViewController
         let alert = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
         
         
-        let maleAction = UIAlertAction(title: "Male", style: .default) { (action) in
-            self.genderTextField.text = "Male"
+        let maleAction = UIAlertAction(title: NSLocalizedString("Male", comment: ""), style: .default) { (action) in
+            self.genderTextField.text = NSLocalizedString("Male", comment: "")
         }
         
-        let femaleAction = UIAlertAction(title: "Female", style: .default) { (action) in
-            self.genderTextField.text = "Female"
+        let femaleAction = UIAlertAction(title: NSLocalizedString("Female", comment: "") , style: .default) { (action) in
+            self.genderTextField.text = NSLocalizedString("Female", comment: "")
         }
         
         alert.addAction(maleAction)
@@ -302,15 +305,23 @@ class EditProfileViewController: UIViewController
     {
         dismiss(animated: true, completion: nil)
     }
+    func changeCurrentLanguage()
+    {
+        MOLH.setLanguageTo(MOLHLanguage.currentAppleLanguage() == "en" ? "ar" : "en")
+        MOLH.reset(transition: .transitionFlipFromRight)
+        handleConfirmEdit()
+    }
     @objc func showLanguageSelection()
     {
         let alert = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
         
-        let maleAction = UIAlertAction(title: "English", style: .default) { (action) in
-            self.languageTextField.text = "English"
+        let maleAction = UIAlertAction(title: NSLocalizedString("English", comment: "") , style: .default) { (action) in
+            self.changeCurrentLanguage()
+            self.languageTextField.text = NSLocalizedString("English", comment: "")
         }
-        let femaleAction = UIAlertAction(title: "Arabic", style: .default) { (action) in
-            self.languageTextField.text = "Arabic"
+        let femaleAction = UIAlertAction(title: NSLocalizedString("Arabic", comment: "") , style: .default) { (action) in
+            self.changeCurrentLanguage()
+            self.languageTextField.text = NSLocalizedString("Arabic", comment: "")
         }
         alert.addAction(maleAction)
         alert.addAction(femaleAction)
@@ -365,7 +376,15 @@ class EditProfileViewController: UIViewController
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         guard let currentAppLanguage = NSLocale.current.languageCode else {return}
         guard let user = self.user else {return}
-        let gender = self.genderTextField.text ?? ""
+        var gender = self.genderTextField.text ?? ""
+        if gender == "انثي"
+        {
+            gender = "Female"
+        }
+        else if gender == "ذكر"
+        {
+            gender = "Male"
+        }
         let fullName = self.fullNameText.text ?? ""
         let status = self.statusText.text ?? ""
         let privateData = ["birth_date":user.private_data.birth_date.millisecondsSince1970,"gender":gender,"language":currentAppLanguage,"phone_number":user.private_data.phone_number,"register_date":user.private_data.register_date.millisecondsSince1970] as [String : Any]

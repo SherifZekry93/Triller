@@ -10,6 +10,7 @@ import AVKit
 import MediaPlayer
 import Firebase
 import ProgressHUD
+import MOLH
 class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegateFlowLayout,tappedProfileOrNameLabelOrCommentsDelegateOrPlay
 {
     func viewProfile(gesture:UITapGestureRecognizer)
@@ -177,9 +178,11 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         }
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 12
     }
+    
     func setupCollectionView()
     {
         collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellID)
@@ -193,7 +196,16 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = .white
         let leftBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "logo-empty").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: nil)
-        leftBarButton.imageInsets = UIEdgeInsets(top: 0, left: -40, bottom: 0, right: 0)
+        if MOLHLanguage.currentAppleLanguage() == "en"
+        {
+            leftBarButton.imageInsets = UIEdgeInsets(top: 0, left: -40, bottom: 0, right: 0)
+
+        }
+        else
+        {
+            leftBarButton.imageInsets = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
+
+        }
         navigationItem.leftBarButtonItem  = leftBarButton
         let rightbarImage = #imageLiteral(resourceName: "nav_more_icon").withRenderingMode(.alwaysTemplate)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image:rightbarImage, style: .plain, target: self, action:#selector(handleShowEditProfile))
@@ -221,15 +233,17 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
         
         alert.view.frame = CGRect(x: alert.view.frame.origin.x, y: self.view.frame.height / 2, width: alert.view.frame.width, height: alert.view.frame.height);
         
-        let editAction = UIAlertAction(title: "Edit Profile", style: .default) { (action) in
+        let editAction = UIAlertAction(title: NSLocalizedString("Edit Profile", comment: "") , style: .default) { (action) in
             let editProfileController = EditProfileViewController()
             
             self.navigationController?.pushViewController(editProfileController, animated: true)
         }
-        let signOutAction = UIAlertAction(title: "Signout", style: .default) { (action) in
-            let signOutAlert = UIAlertController(title: nil, message: "Are you sure you want to Logout?", preferredStyle: UIAlertController.Style.alert)
+        let signOutAction = UIAlertAction(title: NSLocalizedString("Signout", comment: ""), style: .default) { (action) in
+            let signOutAlert = UIAlertController(title: nil, message: NSLocalizedString("Are you sure you want to Logout?", comment: "") , preferredStyle: UIAlertController.Style.alert)
             
-            signOutAlert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (Action) in
+            signOutAlert.addAction(UIAlertAction(title:
+                NSLocalizedString("Yes", comment: "")
+                , style: .destructive, handler: { (Action) in
                 do
                 {
                     try Auth.auth().signOut()
@@ -241,7 +255,7 @@ class MainHomeFeedController: UICollectionViewController,UICollectionViewDelegat
                     
                 }
             }))
-            signOutAlert.addAction(UIAlertAction(title: "No", style: .destructive, handler: { (alert) in
+            signOutAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .destructive, handler: { (alert) in
                 self.dismiss(animated: true, completion: nil)
             }))
             self.present(signOutAlert, animated: true, completion: nil)

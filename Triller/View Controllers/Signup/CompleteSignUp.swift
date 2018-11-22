@@ -29,6 +29,8 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
         image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openPhotoSelector)))
         image.layer.cornerRadius = 60
         image.clipsToBounds = true
+        image.layer.borderColor = UIColor.white.cgColor
+        image.layer.borderWidth = 2
         return image
     }()
     
@@ -60,6 +62,7 @@ class CompleteSignUp: UIViewController,UIImagePickerControllerDelegate,UINavigat
     
     let statusText:CustomTextField = {
         let status = CustomTextField()
+        status.textIcon.image = UIImage(named: "icons8-edit-file-50")
         status.customLabelPlaceHolder.text = NSLocalizedString("Status", comment: "")
         status.rightView = nil
         return status

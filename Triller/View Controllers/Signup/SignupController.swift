@@ -58,7 +58,6 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     
     let userNameTextField:CustomTextFieldTest = {
         let userName = CustomTextFieldTest()
-        userName.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
         userName.textIcon.tintColor = .white
         userName.customLabelPlaceHolder.text = NSLocalizedString("Username", comment: "");
         userName.addTarget(self, action: #selector(validateUserNameOnChange), for: .editingChanged)
@@ -66,6 +65,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         userName.requiredLabel.font = UIFont.systemFont(ofSize: 13)
         userName.requiredLabel.numberOfLines = -1
         userName.rightView?.isHidden = true
+        userName.textFieldIcon.image = UIImage(named: "account")
         return userName
     }()
     //weak medium strong very strong
@@ -75,6 +75,7 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
         password.addTarget(self, action: #selector(handlePasswordTextChange), for: .editingChanged)
         password.isSecureTextEntry = true
         password.rightViewContainer.isHidden = false
+        password.textFieldIcon.image = UIImage(named: "icons8-lock-48")
         return password
     }()
     let bottomSeparator:UIView = {
@@ -130,7 +131,8 @@ class SignupController: UIViewController,FPNTextFieldDelegate,UITextFieldDelegat
     }()
     let emailTextField:CustomTextFieldTest = {
         let email = CustomTextFieldTest()
-        email.textIcon.image = #imageLiteral(resourceName: "love").withRenderingMode(.alwaysTemplate)
+        email.textFieldIcon.image =  #imageLiteral(resourceName: "icons8-new-post-filled-50").withRenderingMode(.alwaysTemplate)
+        // email.textIcon.image = #imageLiteral(resourceName: "icons8-new-post-filled-50").withRenderingMode(.alwaysTemplate)
         email.textIcon.tintColor = .white
         email.customLabelPlaceHolder.text = NSLocalizedString("Email Address", comment: "")
         email.addTarget(self, action: #selector(handleValidateEmailChange), for: .editingChanged)

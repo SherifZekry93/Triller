@@ -163,9 +163,11 @@ class CommentsController: UICollectionViewController,UICollectionViewDelegateFlo
         let height = estimatedsize.height
         return CGSize(width: view.frame.width, height: height)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellName.Cell.rawValue, for: indexPath) as! CommentCell
         cell.post = comments[indexPath.item]

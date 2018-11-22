@@ -17,8 +17,9 @@ class NotificationHeaderCell: UICollectionViewCell {
     
     let noNotificationLabel:UILabel = {
         let label = UILabel()
-        label.text = "You have no notification yet"
+        label.text = NSLocalizedString("You have no notification yet", comment: "")
         label.textAlignment = .center
+        label.numberOfLines = -1;
         return label
     }()
     lazy var stackView:UIStackView = {
@@ -44,5 +45,4 @@ class NotificationHeaderCell: UICollectionViewCell {
         stackView.anchorToView(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor,padding: .init(top: 20, left: 0, bottom: 0, right: 0))
         noNotificationImage.anchorToView(size: .init(width: 0, height: 200))
     }
-    
 }

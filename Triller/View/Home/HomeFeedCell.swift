@@ -37,8 +37,12 @@ class HomeFeedCell: UICollectionViewCell {
                 profileImage.sd_setImage(with: url, completed: nil)
                 //profileImage.kf.setImage(with: url, placeholder: image)
             }
+            else
+            {
+                profileImage.image = #imageLiteral(resourceName: "profile-imag")
+            }
             //set username and date
-            userName.text = post?.user?.full_name
+            userName.text = post?.user?.full_name == "" ? "Trill User" : post?.user?.full_name
             let duration = post?.audioDuration ?? 0
             let formattedTime = String(format: "%02d", Int(duration  / 1000))
             self.timeLabel.text = "00:00 / 00:\(formattedTime)"
@@ -115,6 +119,7 @@ class HomeFeedCell: UICollectionViewCell {
         slider.addTarget(self, action: #selector(handleVideoTimeSeekSlider), for: .valueChanged)
         slider.isEnabled = false
         slider.thumbTintColor = .gray
+        slider.semanticContentAttribute = .forceLeftToRight
         return slider
     }()
     
@@ -167,6 +172,7 @@ class HomeFeedCell: UICollectionViewCell {
     lazy var bottomStack:UIStackView = {
         let stack = UIStackView(arrangedSubviews: [playButton,recordSlider,timeLabel])
         stack.spacing = 4
+        stack.semanticContentAttribute = .forceLeftToRight
         return stack
     }()
     lazy var likesStack:UIStackView = {
@@ -254,6 +260,11 @@ class HomeFeedCell: UICollectionViewCell {
             likeButton.anchorToView( size: .init(width: 40, height: isComment ? 0 : 40))
             commentButton.anchorToView(size: .init(width: 40, height: isComment ? 0 : 40))
         }
+        //setup Spinner View
+        /*spinnerView = SpinnerView()
+        spinnerView?.alpha = 1
+        insertSubview(spinnerView!, belowSubview: playButton)
+        spinnerView?.anchorToView(top: playButton.topAnchor, leading: playButton.leadingAnchor, bottom: playButton.bottomAnchor, trailing: playButton.trailingAnchor)*/
     }
     
     func setupHeaderViews()
@@ -362,11 +373,12 @@ class HomeFeedCell: UICollectionViewCell {
             }
             else
             {
-                ProgressHUD.showError("Failed to load sound")
+                ProgressHUD.showError(NSLocalizedString("Failed to load sound", comment: "") )
+                self.spinnerView?.alpha = 0
             }
         }
     }
-    //var spinnerView:SpinnerView?
+    var spinnerView:SpinnerView?
     //MARK:- Player Observers
     fileprivate func playerObservers()
     {
@@ -376,6 +388,7 @@ class HomeFeedCell: UICollectionViewCell {
             [weak self] in
             self?.playButton.setImage(#imageLiteral(resourceName: "ic_action_pause"), for: .normal)
             ProgressHUD.dismiss()
+            self?.spinnerView?.alpha = 0
         }
         let interval = CMTimeMake(value: 1, timescale: 2)
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) {(time) in
@@ -462,8 +475,8 @@ class HomeFeedCell: UICollectionViewCell {
         /* let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
          self.homeFeedController?.showToast(message: "Coming Soon!!")
          }*/
-        let reportAction = UIAlertAction(title: "Report", style: .default) { (action) in
-            self.homeFeedController?.showToast(message: "We received your report!")
+        let reportAction = UIAlertAction(title: NSLocalizedString("Report", comment: "") , style: .default) { (action) in
+            self.homeFeedController?.showToast(message: NSLocalizedString("We received your report!", comment: ""))
         }
         //alert.addAction(shareAction)
         alert.addAction(reportAction)
@@ -480,7 +493,7 @@ class HomeFeedCell: UICollectionViewCell {
         alert.view.frame = CGRect(x: alert.view.frame.origin.x, y:
             self.homeFeedController?.view.frame.height ?? 0 / 2, width: alert.view.frame.width, height: alert.view.frame.height);
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .default) { (action) in
+        let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .default) { (action) in
             let deleteAlert = UIAlertController(title: nil, message: "Are you sure you want to delete this?", preferredStyle: UIAlertController.Style.alert)
             
             deleteAlert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (Action) in
@@ -515,10 +528,10 @@ class HomeFeedCell: UICollectionViewCell {
             
             self.homeFeedController?.present(deleteAlert, animated: true, completion: nil)
         }
-        let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
-        }
+       /* let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
+        }*/
         alert.addAction(deleteAction)
-        alert.addAction(shareAction)
+       // alert.addAction(shareAction)
         self.homeFeedController?.present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.sheetBackgroundTapped)))
@@ -531,17 +544,24 @@ class HomeFeedCell: UICollectionViewCell {
     {
         
     }
+    
     @objc func viewUserProfile(gesture:UITapGestureRecognizer)
     {
         delegate?.viewProfile(gesture:gesture)
     }
+    
     @objc func viewComments(gesture:UITapGestureRecognizer)
     {
         delegate?.viewComments(gesture: gesture)
     }
+    
     override func prepareForReuse()
     {
         super.prepareForReuse()
+        firstTimePlayer = false
+        recordSlider.value = 0
+        recordSlider.isEnabled = false
+        recordSlider.thumbTintColor = .gray
     }
     func setupLikesCount()
     {

@@ -32,6 +32,7 @@ class LoginController: UIViewController
         scv.bounces = false
         return scv
     }()
+    
     lazy var forgotPasswordLabel:UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Forgot Password?", comment: "")
@@ -42,9 +43,10 @@ class LoginController: UIViewController
         label.isUserInteractionEnabled = true
         return label
     }()
+    
     lazy var languageLabel:UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Arabic", comment: "") 
+        label.text = MOLHLanguage.currentAppleLanguage() == "ar" ? "English" : "العربية"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18)
@@ -55,6 +57,7 @@ class LoginController: UIViewController
     
     let userNameTextField:CustomTextFieldTest = {
         let userName = CustomTextFieldTest()
+        userName.textFieldIcon.image = UIImage(named: "account")
         userName.textIcon.tintColor = .white
         userName.customLabelPlaceHolder.text = NSLocalizedString("Username/Email/Mobile", comment: "")
         userName.requiredLabel.text = NSLocalizedString("Required field", comment: "")
@@ -63,7 +66,7 @@ class LoginController: UIViewController
     
     let passwordTextField:CustomTextFieldTest = {
         let password = CustomTextFieldTest()
-        password.textFieldIcon.image = UIImage(named: "comment")?.withRenderingMode(.alwaysTemplate)
+        password.textFieldIcon.image = UIImage(named: "icons8-lock-48")
         password.isSecureTextEntry = true
         password.customLabelPlaceHolder.text = NSLocalizedString("Password", comment: "")
         //password.textAlignment = .center
