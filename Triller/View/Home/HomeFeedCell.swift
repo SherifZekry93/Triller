@@ -262,9 +262,9 @@ class HomeFeedCell: UICollectionViewCell {
         }
         //setup Spinner View
         /*spinnerView = SpinnerView()
-        spinnerView?.alpha = 1
-        insertSubview(spinnerView!, belowSubview: playButton)
-        spinnerView?.anchorToView(top: playButton.topAnchor, leading: playButton.leadingAnchor, bottom: playButton.bottomAnchor, trailing: playButton.trailingAnchor)*/
+         spinnerView?.alpha = 1
+         insertSubview(spinnerView!, belowSubview: playButton)
+         spinnerView?.anchorToView(top: playButton.topAnchor, leading: playButton.leadingAnchor, bottom: playButton.bottomAnchor, trailing: playButton.trailingAnchor)*/
     }
     
     func setupHeaderViews()
@@ -528,10 +528,10 @@ class HomeFeedCell: UICollectionViewCell {
             
             self.homeFeedController?.present(deleteAlert, animated: true, completion: nil)
         }
-       /* let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
-        }*/
+        /* let shareAction = UIAlertAction(title: "Share", style: .default) { (action) in
+         }*/
         alert.addAction(deleteAction)
-       // alert.addAction(shareAction)
+        // alert.addAction(shareAction)
         self.homeFeedController?.present(alert, animated: true){
             alert.view.superview?.subviews.first?.isUserInteractionEnabled = true
             alert.view.superview?.subviews.first?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.sheetBackgroundTapped)))
@@ -567,14 +567,14 @@ class HomeFeedCell: UICollectionViewCell {
     {
         guard let postId = post?.audioKey else {return}
         let ref = Database.database().reference().child("Likes").child(postId)
-       
-            ref.observe(.value, with: { (snapshot: DataSnapshot) in
-                if self.post?.audioKey == postId
-                {
-                    let numberOfLikes = snapshot.childrenCount
-                    self.likesLabel.text = "\(numberOfLikes)"
-                }
-            })
+        
+        ref.observe(.value, with: { (snapshot: DataSnapshot) in
+            if self.post?.audioKey == postId
+            {
+                let numberOfLikes = snapshot.childrenCount
+                self.likesLabel.text = "\(numberOfLikes)"
+            }
+        })
         
     }
     func setupCommentsCount()
@@ -604,6 +604,11 @@ class HomeFeedCell: UICollectionViewCell {
                         ProgressHUD.showError("Err Liking Post")
                         return
                     }
+                    //send Notification
+                    if self.post?.audioKey == post.audioKey
+                    {
+                        self.sendLikeNotification(type:"1")
+                    }
                 }
             }
         }
@@ -619,10 +624,41 @@ class HomeFeedCell: UICollectionViewCell {
                         ProgressHUD.showError("something went wrong")
                         return
                     }
+                    //sending Dislike
+                    if self.post?.audioKey == post.audioKey
+                    {
+                        self.removeLikeNotification()
+                    }
                 }
             }
         }
     }
+    func sendLikeNotification(type:String)
+    {
+        guard let postID = post?.audioKey else {return}
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        guard let userID = post?.user?.uid,userID != currentID else {return}
+        let values = ["creationDate" : Date().timeIntervalSince1970, "fromUser" : currentID,"hashID":"","to":userID,"type":type,"postID":postID] as [String : Any]
+        let ref = Database.database().reference().child("notification").childByAutoId()
+        if postID == post?.audioKey
+        {
+            ref.updateChildValues(values)
+            { (err, ref) in
+                if err != nil
+                {
+                    print(err?.localizedDescription)
+                    return
+                }
+                print("posted notificatoion")
+            }
+        }
+    }
+    
+    func removeLikeNotification()
+    {
+        
+    }
+    
     func setupHasLiked()
     {
         guard let post = self.post else {return}
@@ -645,21 +681,9 @@ class HomeFeedCell: UICollectionViewCell {
             }
         }
     }
-    func updateNotification(type:String)
-    {
-        guard let currentID = Auth.auth().currentUser?.uid else {return}
-        guard let userID = post?.user?.uid,userID != currentID else {return}
-        let values = ["creationDate" : Date().timeIntervalSince1970, "fromUser" : currentID,"hashID":"","to":userID,type:type] as [String : Any]
-        let ref = Database.database().reference().child("notification").childByAutoId()
-        ref.updateChildValues(values)
-        { (err, ref) in
-            if err != nil
-            {
-                print("hello")
-                return
-            }
-            print("posted notificatoion")
-        }
-    }
+    /* func updateNotification(type:String)
+     {
+     
+     }*/
     
 }

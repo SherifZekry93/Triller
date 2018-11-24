@@ -9,13 +9,11 @@ target 'Triller' do
   pod 'FlagPhoneNumber'
   pod 'ProgressHUD'
   pod 'SDWebImage'
-  pod 'XLPagerTabStrip'
   pod 'IQAudioRecorderController'
   pod 'Firebase/Core' 
   pod 'Firebase/Auth' 
   pod 'Firebase/Database' 
   pod 'Firebase/Messaging' 
-  pod 'Firebase/RemoteConfig'
   pod 'Firebase/Storage'  
   pod 'MOLH'
 end

@@ -16,6 +16,7 @@ class MyNotification
     let to:String
     let type:String
     let user:User
+    let postID:String?
     init(user:User,dictionary:[String:Any],id:String)
     {
         let date = dictionary["creationDate"] as? Double ?? 0
@@ -26,6 +27,7 @@ class MyNotification
         self.type = dictionary["type"] as?  String ?? ""
         self.user = user
         self.notificationID = id
+        self.postID = dictionary["postID"] as? String ?? ""
     }
     
 }

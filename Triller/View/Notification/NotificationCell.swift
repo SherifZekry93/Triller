@@ -16,7 +16,7 @@ class NotificationCell: UICollectionViewCell
         didSet{
             guard let notification = notification else {return}
             let attributedText = NSMutableAttributedString(string: notification.user.user_name, attributes: [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 17)])
-            attributedText.append(NSAttributedString(string: "\n\(notification.creationDate)", attributes: [NSAttributedString.Key.foregroundColor:UIColor.lightGray,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14)]))
+            attributedText.append(NSAttributedString(string: "\n\(notification.creationDate.timeAgoDisplay())", attributes: [NSAttributedString.Key.foregroundColor:UIColor.lightGray,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14)]))
             notificationContentDateLabel.attributedText = attributedText
             
             if let url = URL(string: notification.user.picture_path)

@@ -57,46 +57,26 @@ class FirebaseService
         let ref = Database.database().reference().child("notification")
         let query = ref.queryOrdered(byChild: "to").queryEqual(toValue: uid)
         query.keepSynced(true)
-        query.observe(.value,with:{snapshot in
-            if snapshot.value is NSNull {
-                completitionHandler(nil)
-            }
-            else
+        query.observe(.childAdded, with: { (snap) in
+            if let dictionary = snap.value as?  [String:Any]
             {
-                query.observe(.childAdded, with: { (snap) in
-                    if let dictionary = snap.value as? [String:Any]
-                    {
-                        let fromID = dictionary["fromUser"] as? String ?? ""
-                        self.fetchUserByuid(uid: fromID, completitionHandler: { (user) in
-                            let notification = MyNotification(user: user, dictionary: dictionary,id:snap.key)
-                            allNotifications.append(notification)
-                            completitionHandler(allNotifications)
-                        })
-                    }
-                    else
-                    {
-                        completitionHandler(nil)
-                    }
-                }) { (err) in
-                    print(err)
-                }
-                query.observe(.childRemoved, with: { (snap) in
-                    allNotifications = allNotifications.filter({ (notification) -> Bool in
-                        return notification.notificationID != snap.key
-                    })
+                guard let uid = dictionary["fromUser"] as? String else {return}
+                fetchUserByuid(uid: uid , completitionHandler: { (user) in
+                    let notification = MyNotification(user: user, dictionary: dictionary, id: snap.key)
+                    allNotifications.append(notification)
                     completitionHandler(allNotifications)
-                }) { (err) in
-                }
-                
+                })
             }
-        })
-    }
+        }) { (err) in
+            
+        }
+           }
     class func fetchUserByuid(uid:String,completitionHandler:@escaping (User) -> ())
     {
         let ref = Database.database().reference().child("Users").child(uid)
         ref.keepSynced(true)
         ref.observe(.value, with: { (snap) in
-            print(snap)
+         //   print(snap)
             if let dictionary = snap.value as? [String:Any]
             {
                 let user = User(dictionary: dictionary)

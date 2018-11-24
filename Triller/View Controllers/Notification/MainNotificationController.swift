@@ -19,6 +19,7 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
         setupNavigationController()
         if let currentuid = Auth.auth().currentUser?.uid
         {
+            print(currentuid)
             loadNotificationByuid(uid:currentuid)
         }
     }
@@ -27,7 +28,9 @@ class MainNotificationController:UICollectionViewController, UICollectionViewDel
          FirebaseService.getNotificationByuid(uid: uid) { (allNotifications) in
             if let notifications = allNotifications
             {
-                self.notifications = notifications
+                self.notifications = notifications.sorted(by: { (notification1, notificiation2) -> Bool in
+                    return notification1.creationDate.compare(notificiation2.creationDate) == .orderedDescending
+                })
             }
             self.loadedData = true
             self.collectionView.reloadData()
